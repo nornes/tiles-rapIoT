@@ -43,8 +43,8 @@ angular.module('tilesApi', ['ui.router', 'tilesApi.controllers', 'tilesApi.servi
 				}]
 			}
 		})
-		.state('appRecipes', {
-			url: '/appRecipes/{userId}',
+		.state('apps', {
+			url: '/apps/{userId}',
 			templateUrl: '/templates/appRecipes.html',
 			controller: 'AppRecipeCtrl',
 			resolve: {
