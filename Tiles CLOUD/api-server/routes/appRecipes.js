@@ -5,13 +5,12 @@ var AppRecipe = mongoose.model('AppRecipe');
 
 router.post('/:userId', function(req, res, next) {
     var userId = req.params.userId;
-    var code = req.body.code;
     var name = req.body.name;
 
-    if (typeof code !== 'undefined' && typeof name !== 'undefined') {
+    if (typeof name !== 'undefined') {
         AppRecipe.create({
             name: name,
-            code: code,
+            code: '',
             user: userId
         }, function(err, appRecipe) {
             if (err) return next(err);
