@@ -11,7 +11,7 @@ var AppRecipeSchema = new mongoose.Schema({
 
 AppRecipeSchema.methods.activate = function(callback) {
     var code = this.code;
-    var args = [code];
+    var args = [this._id];
     var options = {};
 
     var cp = child_process.fork('vm_exec', args, options);
