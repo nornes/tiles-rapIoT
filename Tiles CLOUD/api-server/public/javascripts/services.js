@@ -109,6 +109,13 @@ angular.module('tilesApi.services', [])
 		});
 	}
 
+	o.getCode = function(userId, appRecipe, callback) {
+  		return $http.get('/appRecipes/' + userId + '/' + appRecipe._id + '/code').then(function(res){
+  			callback(res);
+  			return res.data;
+  		});
+	}
+
 	return o;
 }])
 

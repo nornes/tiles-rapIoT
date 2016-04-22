@@ -49,8 +49,10 @@ angular.module('tilesApi.controllers', [])
 
 	$scope.showAppRecipe = function(appRecipe){
 		setAsSelected(appRecipe);
-		var code = appRecipe.code || '';
-		editor.setValue(code);
+		appRecipes.getCode(userId, appRecipe, function(res){
+			var code = res.data;
+			editor.setValue(code);
+		});
 	}
 
 	$scope.createAppRecipe = function(){

@@ -1,22 +1,19 @@
 const vm = require('vm');
+const appRepository = require('./appcode-repository.js');
 const TilesClient = require('../../Tiles\ CLIENTS/js/tiles-client.js');
 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/tiles-api');
-require('./models/AppRecipes');
-const AppRecipe = mongoose.model('AppRecipe');
+var appId = process.argv[2];
+var userId = process.argv[3];
 
-var id = process.argv[2];
+appRepository.read(appId, userId, function(err, data) {
+	if (err) throw err;
 
-AppRecipe.findById(id, function(err, appRecipe) {
-	if (err) console.log('Could not find app recipe with ID: ' + id);
-	else {
-		var code = appRecipe.code;
-		var options = {};
-		const sandbox = {
-			TilesClient: TilesClient
-		};
-		var script = new vm.Script(code, options);
-		script.runInNewContext(sandbox);
-	}
+	var code = data;
+	var options = {};
+	var sandbox = {
+		TilesClient: TilesClient
+	};
+
+	var script = new vm.Script(code, options);
+	script.runInNewContext(sandbox);
 });

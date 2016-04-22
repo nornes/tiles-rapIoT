@@ -4,14 +4,12 @@ var appProcesses = [];
 
 var AppRecipeSchema = new mongoose.Schema({
     name: String,
-    code: String,
     active: Boolean,
     user: {type: String, ref: 'User'}
 });
 
 AppRecipeSchema.methods.activate = function(callback) {
-    var code = this.code;
-    var args = [this._id];
+    var args = [this._id, this.user];
     var options = {};
 
     var cp = child_process.fork('vm_exec', args, options);

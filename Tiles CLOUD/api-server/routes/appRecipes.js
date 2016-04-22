@@ -2,18 +2,20 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var AppRecipe = mongoose.model('AppRecipe');
+var appRepository = require('../appcode-repository.js');
 
 router.post('/:userId', function(req, res, next) {
     var userId = req.params.userId;
     var name = req.body.name;
+    var code = '';
 
     if (typeof name !== 'undefined') {
         AppRecipe.create({
             name: name,
-            code: '',
             user: userId
         }, function(err, appRecipe) {
             if (err) return next(err);
+            appRepository.create(appRecipe._id, userId, code);
             return res.json(appRecipe);
         })
     } else {
@@ -34,17 +36,12 @@ router.get('/:userId', function(req, res, next) {
 
 router.put('/:userId/:appId', function(req, res, next) {
     var appId = req.params.appId;
+    var userId = req.params.userId;
     var code = req.body.code;
 
     if (typeof code !== 'undefined') {
-        AppRecipe.findByIdAndUpdate(appId, {
-            code: code
-        }, {
-            new: true
-        }, function(err, appRecipe) {
-            if (err) return next(err);
-            return res.json(appRecipe);
-        });
+        appRepository.update(appId, userId, code);
+        return res.status(200).end();
     } else {
         return res.status(400).end();
     }
@@ -57,6 +54,16 @@ router.get('/:userId/:appId', function(req, res, next) {
         if (err) return next(err);
         return res.json(appRecipe);
     });
+});
+
+router.get('/:userId/:appId/code', function(req, res, next) {
+    var appId = req.params.appId;
+    var userId = req.params.userId;
+
+    appRepository.read(appId, userId, function(err, data) {
+        if (err) throw err;
+        res.json(data);
+    })
 });
 
 router.delete('/:userId/:appId', function(req, res, next) {
