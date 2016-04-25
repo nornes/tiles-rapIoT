@@ -1,0 +1,35 @@
+<div class="page-header">
+				<h1>
+					{{user._id}}&nbsp;
+					<a href="/apps/#/{{user._id}}"><button class="btn btn-default">Manage apps</button></a>
+				</h1>
+			</div>
+			<h3>Tiles</h3>
+			<div ng-hide="tiles.length">No Tiles registered for this user.</div>
+			<table ng-show="tiles.length" class="table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Active</th>
+						<th>State</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="tile in tiles">
+						<td><a href="#/users/{{user._id}}/{{tile._id}}">{{tile._id}}</td>
+						<td>{{tile.name}}</td>
+						<td>{{tile.active}}</td>
+						<td>{{tile.state}}</td>
+						<td><button type="button" class="btn btn-default" ng-click="removeTile(tile)"><span class="glyphicon glyphicon-trash"></span></button</td>
+					</tr>
+				</tbody>
+			</table>
+			<form ng-submit="addTile()" style="margin-top:30px;">
+				<h4>Register a new Tile</h4>
+				<div class="form-group">
+					<input type="text" placeholder="Tile Device ID" ng-model="tileDeviceId">
+				</div>
+				<button type="submit" class="btn btn-primary">Post</button>
+			</form>

@@ -4,9 +4,13 @@ angular.module('tilesApi', ['ui.router', 'tilesApi.controllers', 'tilesApi.servi
 
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 	$stateProvider
-		.state('users', {
+		.state('main', {
+			url: '',
+			templateUrl: '/templates/main.html'
+		})
+		.state('main.users', {
 			url: '/users',
-			templateUrl: '/users.html',
+			templateUrl: '/templates/main.users.html',
 			controller: 'UsersCtrl',
 			resolve: {
 				userPromise: ['users', function(users){
@@ -14,9 +18,9 @@ angular.module('tilesApi', ['ui.router', 'tilesApi.controllers', 'tilesApi.servi
 				}]
 			}
 		})
-		.state('user', {
+		.state('main.user', {
 			url: '/users/{id}',
-			templateUrl: '/user.html',
+			templateUrl: '/templates/main.user.html',
 			controller: 'UserCtrl',
 			resolve: {
 				user: ['$stateParams', 'users', function($stateParams, users) {
@@ -24,9 +28,9 @@ angular.module('tilesApi', ['ui.router', 'tilesApi.controllers', 'tilesApi.servi
 				}]
 			}
 		})
-		.state('tiles', {
+		.state('main.tile', {
 			url: '/users/{userId}/{tileId}',
-			templateUrl: '/tile.html',
+			templateUrl: '/templates/main.tile.html',
 			controller: 'TileCtrl',
 			resolve: {
 				userId: ['$stateParams', function($stateParams) {
@@ -40,19 +44,6 @@ angular.module('tilesApi', ['ui.router', 'tilesApi.controllers', 'tilesApi.servi
 				}],
 				registeredWebhooksPromise: ['$stateParams', 'webhooks', function($stateParams, webhooks) {
   					return webhooks.getRegistered($stateParams.userId, $stateParams.tileId);
-				}]
-			}
-		})
-		.state('apps', {
-			url: '/apps/{userId}',
-			templateUrl: '/templates/appRecipes.html',
-			controller: 'AppRecipeCtrl',
-			resolve: {
-				userId: ['$stateParams', function($stateParams) {
-  					return $stateParams.userId;
-				}],
-				storedAppRecipesPromise: ['$stateParams', 'appRecipes', function($stateParams, appRecipes) {
-  					return appRecipes.getAll($stateParams.userId);
 				}]
 			}
 		});

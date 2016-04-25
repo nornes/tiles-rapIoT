@@ -5,8 +5,16 @@ var Tile = mongoose.model('Tile')
 var User = mongoose.model('User')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/main/', function(req, res, next) {
   res.render('index', { appVersion: req.app.get('appVersion'), buildDate: req.app.get('buildDate') });
+});
+
+router.get('/apps/', function(req, res, next) {
+  res.render('ide');
+});
+
+router.get('/', function(req, res, next) {
+  res.redirect('/main/#/users');
 });
 
 router.get('/tiles', function(req, res, next) {
