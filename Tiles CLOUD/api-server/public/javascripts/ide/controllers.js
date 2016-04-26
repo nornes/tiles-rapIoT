@@ -43,4 +43,14 @@ angular.module('tilesIde.controllers', [])
 	$scope.activateApp = function(appRecipe, activate){
 		appRecipes.setActive(userId, appRecipe, activate);
 	}
+
+	$scope.controlSidebarOpen = false;
+
+	$scope.toggleControlSidebar = function(){
+		$scope.controlSidebarOpen = !$scope.controlSidebarOpen;
+	}
+
+	$scope.openControlSidebar = function(){
+		$scope.controlSidebarOpen = true;
+	}
 }]);
