@@ -1,27 +1,61 @@
-<div class="page-header">
-	<h1>{{user}}</h1>
-</div>
-<div class="col-lg-3">
-	<h3>App Recipes</h3>
-	<ul class="nav nav-pills nav-stacked">
-		<li role="presentation" ng-class="appRecipe.selected ? 'active' : ''" ng-repeat="appRecipe in appRecipes"><a ng-click="showAppRecipe(appRecipe)"><span class="glyphicon {{appRecipe.active ? 'glyphicon-transfer' : 'glyphicon-off'}}"></span> {{appRecipe.name}} {{appRecipe.active ? '(active)' : '(inactive)'}}</a></li>
-	</ul>
-	<form ng-submit="createAppRecipe()" style="margin-top:30px;">
-		<h3>Create new</h3>
-		<div class="form-group" style="display: inline"><input type="text" placeholder="Name" ng-model="newAppRecipeName"></div>
-		<button type="submit" class="btn btn-primary">Create</button>
+<div class="wrapper">
+<!-- Main header -->
+<header class="main-header">
+	<!-- Logo -->
+    <a class="logo">
+    	<!-- mini logo for sidebar mini 50x50 pixels -->
+    	<span class="logo-mini"><b>Tiles</b></span>
+      	<!-- logo for regular state and mobile devices -->
+      	<span class="logo-lg"><b>Tiles</b>Toolkit</span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      	<!-- Sidebar toggle button-->
+      	<a class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        	<span class="sr-only">Toggle navigation</span>
+      	</a>
+      	<!-- Navbar Right Menu -->
+      	<div class="navbar-custom-menu">
+        	<ul class="nav navbar-nav">
+          	<!-- Control Sidebar Toggle Button -->
+          	<li><a data-toggle="control-sidebar"><i class="fa fa-gears"></i></a></li>
+        	</ul>
+      	</div>
+    </nav>
+</header>
+<!-- Left sidebar -->
+<aside class="main-sidebar">
+	<section class="sidebar">
+	<ul class="sidebar-menu">
+		<li class="header">APP RECIPES</li>
+		<li ng-class="appRecipe.selected ? 'active' : ''" ng-repeat="appRecipe in appRecipes"><a ng-click="showAppRecipe(appRecipe)"><i class="glyphicon {{appRecipe.active ? 'glyphicon-transfer' : 'glyphicon-off'}}"></i><span>{{appRecipe.name}} {{appRecipe.active ? '(active)' : '(inactive)'}}</span></a></li>
+		<li class="header">CREATE NEW</li>
+	<form ng-submit="createAppRecipe()" style="margin-top:30px;" class="sidebar-form">
+	<div class="input-group" style="display: inline">
+		<input type="text" class="form-control" placeholder="Name" ng-model="newAppRecipeName">
+	</div>
+	<button type="submit" class="btn btn-primary btn-block sidemenu-btn">Create</button>
 	</form>
-</div>
-<div class="col-lg-9" ng-show="selectedAppRecipe">
-	<div class="editor-header-row">
-		<h3 id="editor-header-title" class="inline-header">{{selectedAppRecipe.name}}</h3>
-		<div class="float-right" style="margin-top: 12px;">
-			<button type="button" class="btn btn-default" ng-click="activateApp(selectedAppRecipe, true)">Activate</button>
-			<button type="button" class="btn btn-default" ng-click="activateApp(selectedAppRecipe, false)">Deactivate</button>
-			<button type="button" class="btn btn-default" ng-click="saveAppRecipe(selectedAppRecipe)">Save</button>
+	</ul>
+	</section>
+</aside>
+<!-- Main content -->
+<div class="content-wrapper">
+	<section class="content">
+	<div ng-show="selectedAppRecipe">
+		<div class="editor-header-row">
+			<h3 id="editor-header-title" class="inline-header">{{selectedAppRecipe.name}}</h3>
+			<div class="float-right" style="margin-top: 12px;">
+				<button type="button" class="btn btn-default" ng-click="activateApp(selectedAppRecipe, true)">Activate</button>
+				<button type="button" class="btn btn-default" ng-click="activateApp(selectedAppRecipe, false)">Deactivate</button>
+				<button type="button" class="btn btn-default" ng-click="saveAppRecipe(selectedAppRecipe)">Save</button>
+			</div>
+		</div>
+		<div class="editor-container">
+			<div id="editor"></div>
 		</div>
 	</div>
-	<div class="editor-container">
-		<div id="editor"></div>
-	</div>
+	</section>
+</div>
 </div>
