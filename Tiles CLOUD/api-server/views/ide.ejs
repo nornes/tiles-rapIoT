@@ -43,6 +43,12 @@
     </style>
 </head>
 <body class="skin-blue sidebar-mini">
-	<ui-view></ui-view>
+	<div class="wrapper">
+        <div ui-view="header"></div>
+        <div ui-view="main-sidebar"></div>
+        <div ui-view="content"></div>
+        <div ui-view="footer"></div>
+        <div ui-view="control-sidebar"></div>
+    </div>
 </body>
 </html>

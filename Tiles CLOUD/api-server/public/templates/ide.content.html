@@ -1,0 +1,18 @@
+<!-- Main content -->
+<div class="content-wrapper" style="min-height: 870px;">
+	<section class="content">
+	<div ng-show="msb.selectedAppRecipe">
+		<div class="editor-header-row">
+			<h3 id="editor-header-title" class="inline-header">{{msb.selectedAppRecipe.name}}</h3>
+			<div class="float-right" style="margin-top: 12px;">
+				<button type="button" class="btn btn-default" ng-click="activateApp(msb.selectedAppRecipe, true)">Activate</button>
+				<button type="button" class="btn btn-default" ng-click="activateApp(msb.selectedAppRecipe, false)">Deactivate</button>
+				<button type="button" class="btn btn-default" ng-click="saveAppRecipe(msb.selectedAppRecipe)">Save</button>
+			</div>
+		</div>
+		<div class="editor-container">
+			<div id="editor"></div>
+		</div>
+	</div>
+	</section>
+</div>

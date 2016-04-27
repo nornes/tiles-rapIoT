@@ -66,4 +66,38 @@ angular.module('tilesIde.services', [])
 	}
 
 	return o;
-}]);
+}])
+
+.factory('content', function(){
+	var o = {};
+	o.editor = null;
+
+	o.setEditor = function(editor){
+		o.editor = editor;
+	}
+	return o;
+})
+
+.factory('mainSidebar', function(){
+	var o = {};
+
+	o.selectedAppRecipe = null;
+
+	return o;
+})
+
+.factory('controlSidebar', function(){
+	var o = {};
+	
+	o.isOpen = false;
+
+	o.toggle = function(){
+		o.isOpen = !o.isOpen;
+	}
+
+	o.open = function(){
+		o.isOpen = true;
+	}
+
+	return o;
+});

@@ -4,10 +4,8 @@ angular.module('tilesIde', ['ui.router', 'tilesIde.controllers', 'tilesIde.servi
 
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 	$stateProvider
-		.state('apps', {
+		.state('ide', {
 			url: '/{userId}',
-			templateUrl: '/templates/appRecipes.html',
-			controller: 'AppRecipeCtrl',
 			resolve: {
 				userId: ['$stateParams', function($stateParams) {
   					return $stateParams.userId;
@@ -15,6 +13,28 @@ angular.module('tilesIde', ['ui.router', 'tilesIde.controllers', 'tilesIde.servi
 				storedAppRecipesPromise: ['$stateParams', 'appRecipes', function($stateParams, appRecipes) {
   					return appRecipes.getAll($stateParams.userId);
 				}]
-			}
+			},
+			views: {
+        'header': {
+          templateUrl: '/templates/ide.header.html',
+          controller: 'HeaderCtrl'
+  			},
+  			'main-sidebar': {
+    			templateUrl: '/templates/ide.main-sidebar.html',
+          controller: 'MainSidebarCtrl'
+  			},
+  			'content': {
+    			templateUrl: '/templates/ide.content.html',
+          controller: 'ContentCtrl'
+  			},
+  			'footer': {
+    			templateUrl: '/templates/ide.footer.html',
+          controller: 'FooterCtrl'
+  			},
+  			'control-sidebar': {
+    			templateUrl: '/templates/ide.control-sidebar.html',
+          controller: 'ControlSidebarCtrl'
+  			}
+  		}
 		});
 }]);
