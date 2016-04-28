@@ -9,13 +9,15 @@ var tag = '[TILES Client]';
 
 var defaults = {
   host: 'test.mosquitto.org',
-  port: typeof window === 'undefined' ? 1883 : 8080 // If running in a browser -> Use standard WebSocket port
+  port: typeof window === 'undefined' ? 1883 : 8080, // If running in a browser -> Use standard WebSocket port
+  group: 'global'
 }
 
-function TilesClient(username, host, port) {
+function TilesClient(username, group, host, port) {
   this.mqttClient = null;
   this.isConnected = false;
   this.username = username;
+  this.group = group || defaults.group;
   this.host = host || defaults.host;
   this.port = port || defaults.port;
   this.tiles = {};
@@ -28,7 +30,7 @@ TilesClient.prototype.setServerConnectionStatus = function(msg, isConnected) {
   this.isConnected = isConnected;
 }
 
-TilesClient.prototype.connect = function(username) {
+TilesClient.prototype.connect = function() {
   this.mqttClient = mqtt.connect({host: this.host, port: this.port});
   this.setServerConnectionStatus('Connecting...', false);
 
@@ -36,9 +38,9 @@ TilesClient.prototype.connect = function(username) {
 
   this.mqttClient.on('connect', function() {
     that.setServerConnectionStatus('Successfully connected to server', true);
-    that.mqttClient.subscribe('tiles/evt/' + that.username + '/+');
-    that.mqttClient.subscribe('tiles/evt/' + that.username + '/+/active');
-    that.mqttClient.subscribe('tiles/evt/' + that.username + '/+/name');
+    that.mqttClient.subscribe('tiles/evt/' + that.username + '/' + that.group + '/+');
+    that.mqttClient.subscribe('tiles/evt/' + that.username + '/' + that.group + '/+/active');
+    that.mqttClient.subscribe('tiles/evt/' + that.username + '/' + that.group + '/+/name');
     that.emit('connect');
   });
 
@@ -60,11 +62,11 @@ TilesClient.prototype.connect = function(username) {
 
   this.mqttClient.on('message', function(topic, message) {
     var splitTopic = topic.split('/');
-    var tileId = splitTopic[3];
-    if (splitTopic[4] === 'active'){
+    var tileId = splitTopic[4];
+    if (splitTopic[5] === 'active'){
       var tileChange = (message.toString() === 'true') ? 'tileRegistered' : 'tileUnregistered';
       that.emit(tileChange, tileId);
-    } else if (splitTopic[4] === 'name'){
+    } else if (splitTopic[5] === 'name'){
       that.tiles[message.toString()] = tileId;
     } else {
       try {
@@ -94,7 +96,7 @@ TilesClient.prototype.send = function(tileId, propertyName) {
   }
 
   if (this.isConnected){
-    this.mqttClient.publish('tiles/cmd/' + this.username + '/' + tileId, JSON.stringify(msg));
+    this.mqttClient.publish('tiles/cmd/' + this.username + '/' + this.group + '/' + tileId, JSON.stringify(msg));
   } else {
     console.log(tag, 'Client is not connected!');
   }
