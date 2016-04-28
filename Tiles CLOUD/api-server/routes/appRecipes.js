@@ -3,11 +3,12 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var AppRecipe = mongoose.model('AppRecipe');
 var appRepository = require('../appcode-repository.js');
+var templateBuilder = require('../appcode-template-builder.js');
 
 router.post('/:userId', function(req, res, next) {
     var userId = req.params.userId;
     var name = req.body.name;
-    var code = '';
+    var code = templateBuilder.build(userId, req.body.template);
 
     if (typeof name !== 'undefined') {
         AppRecipe.create({

@@ -26,8 +26,8 @@ angular.module('tilesIde.services', [])
   		});
 	}
 
-	o.create = function(userId, name) {
-  		return $http.post('/appRecipes/' + userId, '{"name": "' + name + '"}').then(function(res){
+	o.create = function(userId, appRecipe) {
+  		return $http.post('/appRecipes/' + userId, JSON.stringify(appRecipe)).then(function(res){
     		o.appRecipes.push(res.data);
   		});
 	}

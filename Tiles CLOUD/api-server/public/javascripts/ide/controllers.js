@@ -73,7 +73,7 @@ angular.module('tilesIde.controllers', [])
 		$('#createAppModal').modal('hide');
 
 		// Create app
-		appRecipes.create(userId, $scope.newAppRecipe.name);
+		appRecipes.create(userId, $scope.newAppRecipe);
 
 		// Reset form by cloning 'defaults' object
 		$scope.newAppRecipe = JSON.parse(JSON.stringify(defaults));
