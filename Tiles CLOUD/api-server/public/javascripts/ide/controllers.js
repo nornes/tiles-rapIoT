@@ -51,9 +51,9 @@ angular.module('tilesIde.controllers', [])
 .controller('CreateAppModalCtrl', ['$scope', 'userId', 'appRecipes', function($scope, userId, appRecipes){
 	var defaults = {
 		name: '',
-		programminglanguage: 'JavaScript',
-		template: 'Standard',
-		customTemplate: {
+		programmingLanguage: 'JavaScript',
+		templateName: 'Standard',
+		template: {
 			connectToServer: true,
 			setTargetGroup: true,
 			evtConnectedToServer: true,
@@ -68,9 +68,46 @@ angular.module('tilesIde.controllers', [])
 
 	$scope.createAppRecipe = function(){
 		if (!$scope.newAppRecipe.name || $scope.newAppRecipe.name === '') return;
+
+		// Hide modal
+		$('#createAppModal').modal('hide');
+
+		// Create app
 		appRecipes.create(userId, $scope.newAppRecipe.name);
 
 		// Reset form by cloning 'defaults' object
 		$scope.newAppRecipe = JSON.parse(JSON.stringify(defaults));
+	}
+
+	$scope.templateSelectionChanged = function(){
+		// Uncheck all sections initially
+		$scope.newAppRecipe.template.connectToServer = false;
+		$scope.newAppRecipe.template.evtMsgReceived = false;
+		$scope.newAppRecipe.template.setTargetGroup = false;
+		$scope.newAppRecipe.template.evtConnectedToServer = false;
+		$scope.newAppRecipe.template.evtDeviceConnected = false;
+		$scope.newAppRecipe.template.evtDeviceDisconnected = false;
+
+		// Check sections to be included
+		switch ($scope.newAppRecipe.templateName) {
+			case 'Custom':
+			case 'Standard':
+				$scope.newAppRecipe.template.connectToServer = true;
+				$scope.newAppRecipe.template.evtMsgReceived = true;
+				$scope.newAppRecipe.template.setTargetGroup = true;
+				$scope.newAppRecipe.template.evtConnectedToServer = true;
+				$scope.newAppRecipe.template.evtDeviceConnected = true;
+				$scope.newAppRecipe.template.evtDeviceDisconnected = true;
+				break;
+			case 'Minimal':
+				$scope.newAppRecipe.template.connectToServer = true;
+				$scope.newAppRecipe.template.evtMsgReceived = true;
+				break;
+		} 
+	}
+
+	$scope.templateSectionsChanged = function(){
+		// Set template name to custom if a template section checkbox is modified by user
+		$scope.newAppRecipe.templateName = 'Custom';
 	}
 }]);
