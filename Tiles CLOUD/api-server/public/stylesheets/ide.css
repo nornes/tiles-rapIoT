@@ -1,0 +1,25 @@
+#editor {
+    width: 100%;
+    height: 100%;
+}
+.editor-container {
+    height: 780px;
+}
+.inline-header {
+    display: inline-block;
+}
+.float-right {
+    float: right;
+}
+.sidemenu-btn {
+    background: #3C8DBC !important;
+    color: #fff !important;
+}
+.sidemenu-btn:hover {
+    background: #367fa9 !important;
+}
+.sidebar-menu>li>.sidemenu-btn>.fa,
+.sidebar-menu>li>.sidemenu-btn>.glyphicon,
+.sidebar-menu>li>.sidemenu-btn>.ion {
+    margin-left: -10px;
+}
