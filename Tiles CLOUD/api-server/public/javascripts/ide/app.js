@@ -34,7 +34,11 @@ angular.module('tilesIde', ['ui.router', 'tilesIde.controllers', 'tilesIde.servi
   			'control-sidebar': {
     			templateUrl: '/templates/ide.control-sidebar.html',
           controller: 'ControlSidebarCtrl'
-  			}
+  			},
+        'create-app-modal': {
+          templateUrl: '/templates/ide.create-app-modal.html',
+          controller: 'CreateAppModalCtrl'
+        }
   		}
 		});
 }]);

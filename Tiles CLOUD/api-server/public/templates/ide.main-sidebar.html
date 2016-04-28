@@ -4,13 +4,9 @@
 	<ul class="sidebar-menu">
 		<li class="header">APP RECIPES</li>
 		<li ng-class="appRecipe.selected ? 'active' : ''" ng-repeat="appRecipe in appRecipes"><a ng-click="showAppRecipe(appRecipe)"><i class="glyphicon {{appRecipe.active ? 'glyphicon-transfer' : 'glyphicon-off'}}"></i><span>{{appRecipe.name}} {{appRecipe.active ? '(active)' : '(inactive)'}}</span></a></li>
-		<li class="header">CREATE NEW</li>
-	<form ng-submit="createAppRecipe()" class="sidebar-form">
-	<div class="input-group" style="display: inline">
-		<input type="text" class="form-control" placeholder="Name" ng-model="newAppRecipeName">
-	</div>
-	<button type="submit" class="btn btn-primary btn-block sidemenu-btn">Create</button>
-	</form>
+		<li class="header">ACTIONS</li>
+		<!-- Button trigger modal -->
+		<li><a type="button" class="btn btn-primary btn-block sidemenu-btn" data-toggle="modal" data-target="#createAppModal"><i class="fa fa-plus"></i><span>Create new app</span></a></li>
 	</ul>
 	</section>
 </aside>

@@ -22,6 +22,9 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.3/js/app.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
     <style type="text/css" media="screen">
         #editor { 
             width: 100%;
@@ -40,6 +43,12 @@
             background: #3C8DBC !important;
             color: #fff !important;
         }
+        .sidemenu-btn:hover {
+            background: #367fa9 !important;
+        }
+        .sidebar-menu>li>.sidemenu-btn>.fa, .sidebar-menu>li>.sidemenu-btn>.glyphicon, .sidebar-menu>li>.sidemenu-btn>.ion {
+            margin-left: -10px;
+        }
     </style>
 </head>
 <body class="skin-blue sidebar-mini">
@@ -49,6 +58,7 @@
         <div ui-view="content"></div>
         <div ui-view="footer"></div>
         <div ui-view="control-sidebar"></div>
+        <div ui-view="create-app-modal"></div>
     </div>
 </body>
 </html>

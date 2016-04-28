@@ -38,12 +38,6 @@ angular.module('tilesIde.controllers', [])
 			content.editor.setValue(code);
 		});
 	}
-
-	$scope.createAppRecipe = function(){
-		if (!$scope.newAppRecipeName || $scope.newAppRecipeName === '') return;
-		appRecipes.create(userId, $scope.newAppRecipeName);
-		$scope.newAppRecipeName = '';
-	}
 }])
 .controller('ControlSidebarCtrl', ['$scope', 'controlSidebar', function($scope, controlSidebar){
 	$scope.controlSidebar = controlSidebar;
@@ -53,4 +47,30 @@ angular.module('tilesIde.controllers', [])
 }])
 .controller('FooterCtrl', ['$scope', function($scope){
 
+}])
+.controller('CreateAppModalCtrl', ['$scope', 'userId', 'appRecipes', function($scope, userId, appRecipes){
+	var defaults = {
+		name: '',
+		programminglanguage: 'JavaScript',
+		template: 'Standard',
+		customTemplate: {
+			connectToServer: true,
+			setTargetGroup: true,
+			evtConnectedToServer: true,
+			evtMsgReceived: true,
+			evtDeviceConnected: true,
+			evtDeviceDisconnected: true
+		}
+	}
+
+	// Clone the 'defaults' object to provide a mutable object for the view
+	$scope.newAppRecipe = JSON.parse(JSON.stringify(defaults));
+
+	$scope.createAppRecipe = function(){
+		if (!$scope.newAppRecipe.name || $scope.newAppRecipe.name === '') return;
+		appRecipes.create(userId, $scope.newAppRecipe.name);
+
+		// Reset form by cloning 'defaults' object
+		$scope.newAppRecipe = JSON.parse(JSON.stringify(defaults));
+	}
 }]);
