@@ -5,7 +5,7 @@
  */
 var TilesClient = require('../../');
 
-var client = new TilesClient('TestUser', 'localhost', 1883).connect();
+var client = new TilesClient('TestUser', null, 'localhost', 1883).connect();
 
 client.on('receive', function(tileId, event){
 	console.log('Event received from ' + tileId + ': ' + JSON.stringify(event));

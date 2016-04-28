@@ -3,7 +3,7 @@
 */
 var TilesClient = require('../../');
 
-var client = new TilesClient('Simone','localhost','1883').connect();
+var client = new TilesClient('Simone', null, 'localhost', 1883).connect();
 
 client.on('connect', function(){
 	console.log('Connected!');
