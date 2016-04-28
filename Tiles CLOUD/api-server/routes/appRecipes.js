@@ -8,7 +8,7 @@ var templateBuilder = require('../appcode-template-builder.js');
 router.post('/:userId', function(req, res, next) {
     var userId = req.params.userId;
     var name = req.body.name;
-    var code = templateBuilder.build(userId, req.body.template);
+    var code = req.body.template ? templateBuilder.build(userId, req.body.template) : '';
 
     if (typeof name !== 'undefined') {
         AppRecipe.create({
@@ -62,8 +62,12 @@ router.get('/:userId/:appId/code', function(req, res, next) {
     var userId = req.params.userId;
 
     appRepository.read(appId, userId, function(err, data) {
-        if (err) throw err;
-        res.json(data);
+        if (err) {
+            console.log(err);
+            res.status(404).end();
+        } else {
+            res.json(data);
+        }
     })
 });
 
