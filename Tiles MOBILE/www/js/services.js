@@ -32,9 +32,10 @@ angular.module('tiles.services', [])
 	var publishOpts = {retain: true};
 	var serverConnectionTimeout = 10000; // 10 seconds
 
-	function getDeviceSpecificTopic(deviceId, isEvent){
+	function getDeviceSpecificTopic(device, isEvent){
         var type = isEvent ? 'evt' : 'cmd';
-        return 'tiles/' + type + '/' + tilesApi.username + '/' + deviceId;
+        var group = device.group || 'global';
+        return 'tiles/' + type + '/' + tilesApi.username + '/' + group + '/' + device.id;
     }
 
 	o.connect = function(host, port){
@@ -62,7 +63,7 @@ angular.module('tiles.services', [])
 	        try {
 	            var command = JSON.parse(message);
 	            if (command) {
-	            	var deviceId = topic.split('/')[3];
+	            	var deviceId = topic.split('/')[4];
 	            	$rootScope.$broadcast('command', deviceId, command);
 	            	$rootScope.$apply();
 	            }
@@ -113,22 +114,22 @@ angular.module('tiles.services', [])
 
 	o.registerDevice = function(device){
 		if (client) {
-            client.publish(getDeviceSpecificTopic(device.id, true) + '/active', 'true', publishOpts);
-            client.publish(getDeviceSpecificTopic(device.id, true) + '/name', device.name, publishOpts);
-            client.subscribe(getDeviceSpecificTopic(device.id, false));
+            client.publish(getDeviceSpecificTopic(device, true) + '/active', 'true', publishOpts);
+            client.publish(getDeviceSpecificTopic(device, true) + '/name', device.name, publishOpts);
+            client.subscribe(getDeviceSpecificTopic(device, false));
             console.log('Registered device: ' + device.name + ' (' + device.id + ')');
         }
 	}
 
 	o.unregisterDevice = function(device){
 		if (client) {
-            client.publish(getDeviceSpecificTopic(device.id, true) + '/active', 'false', publishOpts);
-            client.unsubscribe(getDeviceSpecificTopic(device.id, false));
+            client.publish(getDeviceSpecificTopic(device, true) + '/active', 'false', publishOpts);
+            client.unsubscribe(getDeviceSpecificTopic(device, false));
         }
 	}
 
-	o.sendEvent = function(deviceId, event){
-		if (client) client.publish(getDeviceSpecificTopic(deviceId, true), JSON.stringify(event), publishOpts);
+	o.sendEvent = function(device, event){
+		if (client) client.publish(getDeviceSpecificTopic(device, true), JSON.stringify(event), publishOpts);
 	}
 
 	o.endConnection = function(deviceId, event){

@@ -132,7 +132,8 @@ angular.module('tiles.controllers', [])
                     $scope.$apply();
                 }*/
                 console.log('JSON Message to be sent: ' + JSON.stringify(message));
-                mqttClient.sendEvent(device.id, message);
+
+                mqttClient.sendEvent(device, message);
             }
             
         }
@@ -211,6 +212,17 @@ angular.module('tiles.controllers', [])
 
         $scope.$broadcast('scroll.refreshComplete');
     };
+
+    $scope.setGroup = function(device, group){
+        // Unregister device from previous group
+        mqttClient.unregisterDevice(device);
+
+        // Update device's group
+        device.group = group;
+
+        // Register device to new group
+        mqttClient.registerDevice(device);
+    }
 
     $scope.connect = function(device) {
         ble.connect(device.id,
