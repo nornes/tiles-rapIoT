@@ -107,13 +107,19 @@ angular.module('tilesIde.services', [])
 	var o = {};
 	
 	o.isOpen = false;
+	o.selectedTabIndex = 0;
 
 	o.toggle = function(){
 		o.isOpen = !o.isOpen;
 	}
 
-	o.open = function(){
+	o.open = function(tabIndex){
 		o.isOpen = true;
+		if (tabIndex !== undefined) o.selectTab(tabIndex);
+	}
+
+	o.selectTab = function(tabIndex){
+		o.selectedTabIndex	= tabIndex;
 	}
 
 	return o;

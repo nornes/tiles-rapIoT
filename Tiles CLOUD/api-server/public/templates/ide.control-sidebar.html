@@ -1,27 +1,41 @@
 <!-- Right sidebar -->
 <aside class="control-sidebar control-sidebar-dark {{controlSidebar.isOpen ? 'control-sidebar-open' : ''}}">
-	<!-- Content of the sidebar goes here -->
 	<ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-  		<li class="active"><a data-toggle="tab" aria-expanded="true"><i class="fa fa-th"></i></a></li>
-  		<li class=""><a data-toggle="tab" aria-expanded="false"><i class="fa fa-book"></i></a></li>
-  		<li class=""><a data-toggle="tab" aria-expanded="false"><i class="fa fa-gears"></i></a></li>
+  		<li class="{{controlSidebar.selectedTabIndex == 0 ? 'active' : ''}}" ng-click="controlSidebar.selectTab(0)"><a data-toggle="tab"><i class="fa fa-th"></i></a></li>
+  		<li class="{{controlSidebar.selectedTabIndex == 1 ? 'active' : ''}}" ng-click="controlSidebar.selectTab(1)"><a data-toggle="tab"><i class="fa fa-book"></i></a></li>
+  		<li class="{{controlSidebar.selectedTabIndex == 2 ? 'active' : ''}}" ng-click="controlSidebar.selectTab(2)"><a data-toggle="tab"><i class="fa fa-gears"></i></a></li>
 	</ul>
 	<div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane active" id="control-sidebar-my-tiles-tab">
-        <h3 class="control-sidebar-heading">My Tiles</h3>
-        <ul class="control-sidebar-menu">
-          <li ng-repeat="tile in tiles">
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-cube bg-light-blue"></i>
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">{{tile.name}}</h4>
-                <p>{{tile._id}}</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </div>
+		<!-- My Tiles Tab  -->
+		<div class="tab-pane {{controlSidebar.selectedTabIndex == 0 ? 'active' : ''}}" id="control-sidebar-my-tiles-tab">
+        	<h3 class="control-sidebar-heading">My Tiles</h3>
+        	<ul class="control-sidebar-menu">
+          		<li ng-repeat="tile in tiles">
+            		<a href="javascript:void(0)">
+              			<i class="menu-icon fa fa-cube bg-light-blue"></i>
+              			<div class="menu-info">
+                			<h4 class="control-sidebar-subheading">{{tile.name}}</h4>
+                			<p>{{tile._id}}</p>
+              			</div>
+            		</a>
+          		</li>
+        	</ul>
+      	</div>
+
+    	<!-- Documentation tab -->
+      	<div class="tab-pane {{controlSidebar.selectedTabIndex == 1 ? 'active' : ''}}" id="control-sidebar-documentation-tab">
+        	<h3 class="control-sidebar-heading">Documentation</h3>
+        	<ul class="control-sidebar-menu">
+        	</ul>
+      	</div>
+
+      	<!-- Settings tab -->
+      	<div class="tab-pane {{controlSidebar.selectedTabIndex == 2 ? 'active' : ''}}" id="control-sidebar-settings-tab">
+        	<h3 class="control-sidebar-heading">Settings</h3>
+        	<ul class="control-sidebar-menu">
+        	</ul>
+      	</div>
+
     </div>
 </aside>
 <div class="control-sidebar-bg"></div>
