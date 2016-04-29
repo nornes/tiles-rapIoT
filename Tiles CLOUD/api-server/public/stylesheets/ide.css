@@ -31,4 +31,7 @@ body.sidebar-collapse .sidebar-menu>li>a>span {
     text-overflow: ellipsis;
     overflow: hidden;
 }
-
+.control-sidebar-bg, .control-sidebar {
+    width: 320px;
+    right: -320px;
+}

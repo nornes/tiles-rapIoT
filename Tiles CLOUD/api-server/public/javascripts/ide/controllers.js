@@ -42,7 +42,8 @@ angular.module('tilesIde.controllers', [])
 .controller('ControlSidebarCtrl', ['$scope', 'controlSidebar', function($scope, controlSidebar){
 	$scope.controlSidebar = controlSidebar;
 }])
-.controller('HeaderCtrl', ['$scope', 'controlSidebar', function($scope, controlSidebar){
+.controller('HeaderCtrl', ['$scope', 'userId', 'controlSidebar', function($scope, userId, controlSidebar){
+	$scope.userId = userId;
 	$scope.controlSidebar = controlSidebar;
 }])
 .controller('FooterCtrl', ['$scope', function($scope){

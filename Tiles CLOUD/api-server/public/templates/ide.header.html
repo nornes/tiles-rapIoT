@@ -17,8 +17,9 @@
       	<!-- Navbar Right Menu -->
       	<div class="navbar-custom-menu">
         	<ul class="nav navbar-nav">
-          	<!-- Control Sidebar Toggle Button -->
-          	<li><a role="button" ng-click="controlSidebar.toggle()"><i class="fa fa-gears"></i></a></li>
+          	<li class="user user-menu"><a href="/main/#/users/{{userId}}" target="_blank"><i class="fa fa-user"></i><span>{{userId}}</span></a></li>
+            <!-- Control Sidebar Toggle Button -->
+          	<li><a role="button" ng-click="controlSidebar.toggle()"><i class="fa {{controlSidebar.isOpen ? 'fa-caret-right' : 'fa-caret-left'}}"></i><span>&nbsp;</span></a></li>
         	</ul>
       	</div>
     </nav>
