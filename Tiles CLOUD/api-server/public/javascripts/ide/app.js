@@ -12,7 +12,10 @@ angular.module('tilesIde', ['ui.router', 'tilesIde.controllers', 'tilesIde.servi
 				}],
 				storedAppRecipesPromise: ['$stateParams', 'appRecipes', function($stateParams, appRecipes) {
   					return appRecipes.getAll($stateParams.userId);
-				}]
+				}],
+        storedTilesPromise: ['$stateParams', 'tiles', function($stateParams, tiles) {
+            return tiles.getAll($stateParams.userId);
+        }]
 			},
 			views: {
         'header': {

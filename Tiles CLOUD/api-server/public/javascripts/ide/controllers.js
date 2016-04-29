@@ -39,8 +39,9 @@ angular.module('tilesIde.controllers', [])
 		});
 	}
 }])
-.controller('ControlSidebarCtrl', ['$scope', 'controlSidebar', function($scope, controlSidebar){
+.controller('ControlSidebarCtrl', ['$scope', 'controlSidebar', 'tiles', function($scope, controlSidebar, tiles){
 	$scope.controlSidebar = controlSidebar;
+	$scope.tiles = tiles.tiles;
 }])
 .controller('HeaderCtrl', ['$scope', 'userId', 'controlSidebar', function($scope, userId, controlSidebar){
 	$scope.userId = userId;

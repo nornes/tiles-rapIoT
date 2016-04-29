@@ -71,6 +71,20 @@ angular.module('tilesIde.services', [])
 	return o;
 }])
 
+.factory('tiles', ['$http', function($http){
+	var o = {
+		tiles: []
+	};
+	
+	o.getAll = function(userId) {
+  		return $http.get('/users/' + userId).then(function(res){
+  			angular.copy(res.data.tiles, o.tiles);
+  		});
+	}
+
+	return o;
+}])
+
 .factory('content', function(){
 	var o = {};
 	o.editor = null;
