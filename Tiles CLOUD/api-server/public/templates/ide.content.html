@@ -5,6 +5,10 @@
 		<div class="editor-header-row">
 			<h3 id="editor-header-title" class="inline-header">{{msb.selectedAppRecipe.name}}</h3>
 			<div class="float-right" style="margin-top: 12px;">
+				<div style="display: inline-flex; vertical-align: middle;">
+	      			<label for="group" style="margin-top: 6px;">Group:</label>&nbsp;
+	      			<input type="text" name="group" class="form-control" placeholder="Group" ng-model="msb.selectedAppRecipe.group">
+	    		</div>
 				<button type="button" class="btn btn-default" ng-click="activateApp(msb.selectedAppRecipe, true)">Activate</button>
 				<button type="button" class="btn btn-default" ng-click="activateApp(msb.selectedAppRecipe, false)">Deactivate</button>
 				<button type="button" class="btn btn-default" ng-click="saveAppRecipe(msb.selectedAppRecipe)">Save</button>

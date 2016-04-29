@@ -9,7 +9,7 @@ angular.module('tilesIde.controllers', [])
     editor.setShowPrintMargin(false);
     content.setEditor(editor);
 
-    $scope.msb  = mainSidebar;
+    $scope.msb = mainSidebar;
 
 	$scope.saveAppRecipe = function(appRecipe){
 		appRecipe.code = content.editor.getValue();

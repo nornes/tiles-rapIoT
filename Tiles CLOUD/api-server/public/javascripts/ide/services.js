@@ -19,7 +19,6 @@ angular.module('tilesIde.services', [])
     	.replace(/[\t]/g, '\\t');
 	};
 
-
 	o.getAll = function(userId) {
   		return $http.get('/appRecipes/' + userId).then(function(res){
   			angular.copy(res.data, o.appRecipes);
@@ -39,7 +38,11 @@ angular.module('tilesIde.services', [])
 	}
 
 	o.save = function(userId, appRecipe) {
-		return $http.put('/appRecipes/' + userId + '/' + appRecipe._id, '{"code": "' + escape(appRecipe.code) + '"}').then(function(res){
+		var data = {
+			code: appRecipe.code,
+			group: appRecipe.group
+		}
+		return $http.put('/appRecipes/' + userId + '/' + appRecipe._id, JSON.stringify(data)).then(function(res){
 			console.log('Saved successfully! Data: ' + JSON.stringify(res.data));
 		});
 	}
