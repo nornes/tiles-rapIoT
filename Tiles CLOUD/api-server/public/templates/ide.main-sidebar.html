@@ -6,7 +6,10 @@
 		<li ng-class="appRecipe.selected ? 'active' : ''" ng-repeat="appRecipe in appRecipes"><a ng-click="showAppRecipe(appRecipe)"><i class="glyphicon {{appRecipe.active ? 'glyphicon-transfer' : 'glyphicon-off'}}"></i><span>{{appRecipe.name}} {{appRecipe.active ? '(active)' : '(inactive)'}}</span></a></li>
 		<li class="header">ACTIONS</li>
 		<!-- Button trigger modal -->
-		<li><a type="button" class="btn btn-primary btn-block sidemenu-btn" data-toggle="modal" data-target="#createAppModal"><i class="fa fa-plus"></i><span>Create new app</span></a></li>
+		<li><a type="button" class="btn btn-primary btn-block sidemenu-btn" data-toggle="modal" data-target="#createAppModal"><i class="fa fa-plus"></i>&nbsp;<span>Create new app</span></a></li>
+		<li><a type="button" class="btn btn-primary btn-block sidemenu-btn" ng-click="controlSidebar.open(0)"><i class="fa fa-th"></i>&nbsp;<span>My Tiles</span></a></li>
+		<li><a type="button" class="btn btn-primary btn-block sidemenu-btn" ng-click="controlSidebar.open(1)"><i class="fa fa-book"></i>&nbsp;<span>Documentation</span></a></li>
+		<li><a type="button" class="btn btn-primary btn-block sidemenu-btn" ng-click="controlSidebar.open(2)"><i class="fa fa-gears"></i>&nbsp;<span>Settings</span></a></li>
 	</ul>
 	</section>
 </aside>

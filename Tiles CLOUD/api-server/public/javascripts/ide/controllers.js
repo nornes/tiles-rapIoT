@@ -20,8 +20,9 @@ angular.module('tilesIde.controllers', [])
 		appRecipes.setActive(userId, appRecipe, activate);
 	}
 }])
-.controller('MainSidebarCtrl', ['$scope', 'userId', 'appRecipes', 'mainSidebar', 'content', function($scope, userId, appRecipes, mainSidebar, content){
+.controller('MainSidebarCtrl', ['$scope', 'userId', 'appRecipes', 'mainSidebar', 'content', 'controlSidebar', function($scope, userId, appRecipes, mainSidebar, content, controlSidebar){
 	$scope.appRecipes = appRecipes.appRecipes;
+	$scope.controlSidebar = controlSidebar;
 
 	function setAsSelected(appRecipe){
 		for (var i=0; i<$scope.appRecipes.length; i++){

@@ -14,9 +14,13 @@
 .sidemenu-btn {
     background: #3c8dbc !important;
     color: #ffffff !important;
+    text-align: left;
 }
 .sidemenu-btn:hover {
     background: #367fa9 !important;
+}
+body.sidebar-collapse .sidemenu-btn {
+    text-align: center;
 }
 .sidebar-menu>li>.sidemenu-btn>.fa,
 .sidebar-menu>li>.sidemenu-btn>.glyphicon,
