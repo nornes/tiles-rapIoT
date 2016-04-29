@@ -9,14 +9,17 @@ router.post('/:userId', function(req, res, next) {
     var userId = req.params.userId;
     var name = req.body.name;
     var code = req.body.template ? templateBuilder.build(userId, req.body.template) : '';
+    var config = req.body.config || {};
+    var group = req.body.group;
 
     if (typeof name !== 'undefined') {
         AppRecipe.create({
             name: name,
-            user: userId
+            user: userId,
+            group: group
         }, function(err, appRecipe) {
             if (err) return next(err);
-            appRepository.create(appRecipe._id, userId, code);
+            appRepository.create(appRecipe._id, userId, code, config);
             return res.json(appRecipe);
         })
     } else {
@@ -39,10 +42,18 @@ router.put('/:userId/:appId', function(req, res, next) {
     var appId = req.params.appId;
     var userId = req.params.userId;
     var code = req.body.code;
+    var group = req.body.group;
 
     if (typeof code !== 'undefined') {
         appRepository.update(appId, userId, code);
-        return res.status(200).end();
+        if (typeof group !== 'undefined') {
+            AppRecipe.findByIdAndUpdate(appId, {group : group}, {new: true}, function(err, appRecipe){
+                if (err) return next(err);
+                return res.json(appRecipe);
+            });
+        } else {
+            return res.status(200).end();
+        }
     } else {
         return res.status(400).end();
     }
@@ -100,6 +111,19 @@ router.put('/:userId/:appId/active', function(req, res, next) {
                 });
             }
         });
+    } else {
+        return res.status(400).end();
+    }
+});
+
+router.put('/:userId/:appId/config', function(req, res, next) {
+    var appId = req.params.appId;
+    var userId = req.params.userId;
+    var config = req.body;
+
+    if (typeof config !== 'undefined') {
+        appRepository.update(appId, userId, null, config);
+        return res.status(200).end();
     } else {
         return res.status(400).end();
     }
