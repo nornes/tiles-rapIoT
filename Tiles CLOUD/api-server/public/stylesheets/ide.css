@@ -39,3 +39,7 @@ body.sidebar-collapse .sidebar-menu>li>a>span {
     width: 320px;
     right: -320px;
 }
+.delete-btn {
+    margin-bottom: 8px;
+    margin-left: 10px;
+}

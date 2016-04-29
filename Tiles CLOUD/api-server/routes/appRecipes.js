@@ -84,10 +84,14 @@ router.get('/:userId/:appId/code', function(req, res, next) {
 
 router.delete('/:userId/:appId', function(req, res, next) {
     var appId = req.params.appId;
+    var userId = req.params.userId;
 
     AppRecipe.findByIdAndRemove(appId, function(err) {
         if (err) return next(err);
-        return res.status(204).end();
+        appRepository.delete(appId, userId, function(err){
+            if (err) return next(err);
+            return res.status(204).end();
+        });
     });
 });
 

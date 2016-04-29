@@ -19,6 +19,11 @@ angular.module('tilesIde.controllers', [])
 	$scope.activateApp = function(appRecipe, activate){
 		appRecipes.setActive(userId, appRecipe, activate);
 	}
+
+	$scope.deleteAppRecipe = function(appRecipe){
+		appRecipes.delete(userId, appRecipe);
+		$scope.msb.selectedAppRecipe = null;
+	}
 }])
 .controller('MainSidebarCtrl', ['$scope', 'userId', 'appRecipes', 'mainSidebar', 'content', 'controlSidebar', function($scope, userId, appRecipes, mainSidebar, content, controlSidebar){
 	$scope.appRecipes = appRecipes.appRecipes;

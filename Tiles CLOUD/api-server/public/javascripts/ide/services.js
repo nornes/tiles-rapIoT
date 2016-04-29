@@ -49,7 +49,7 @@ angular.module('tilesIde.services', [])
 
 	o.delete = function(userId, appRecipe) {
 		return $http.delete('/appRecipes/' + userId + '/' + appRecipe._id).then(function(res){
-			var index = o.appRecipes.indexOf(appRecipes);
+			var index = o.appRecipes.indexOf(appRecipe);
 			o.appRecipes.splice(index, 1);
 		});
 	}

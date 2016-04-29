@@ -4,6 +4,7 @@
 	<div ng-show="msb.selectedAppRecipe">
 		<div class="editor-header-row">
 			<h3 id="editor-header-title" class="inline-header">{{msb.selectedAppRecipe.name}}</h3>
+			<button type="button" ng-click="deleteAppRecipe(msb.selectedAppRecipe)" class="btn btn-danger btn-sm delete-btn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> Delete</button>
 			<div class="float-right" style="margin-top: 12px;">
 				<div style="display: inline-flex; vertical-align: middle;">
 	      			<label for="group" style="margin-top: 6px;">Group:</label>&nbsp;

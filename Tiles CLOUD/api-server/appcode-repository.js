@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
+var rimraf = require('rimraf');
 
 function getAppPath(appId, userId) {
 	return __dirname + '/apps/' + userId + '/' + appId;
@@ -41,3 +42,9 @@ exports.getConfigModule = function(appId, userId) {
     var configFile = getAppPath(appId, userId) + '/config.json';
     return require(configFile);
 };
+
+exports.delete = function(appId, userId, callback) {
+    var path = getAppPath(appId, userId);
+    var options = {};
+    rimraf(path, options, callback);
+}
