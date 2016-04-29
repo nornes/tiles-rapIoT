@@ -52,14 +52,14 @@ client.on('receive', function(tileId, event){
 ## API
 
 ### Create client
-Create a client by providing your username and connecting the default Tiles Cloud server.
+Create a client by providing your username and connecting to the default Tiles Cloud server. The `group` parameter is optional and enables targeting a subgroup of your devices. If this parameter is omitted, the client is able to communicate with any Tiles device in the user's "global channel", i.e. Tiles without a specified group.
 ```javascript
-var tilesClient = new TilesClient([username]).connect();
+var tilesClient = new TilesClient([username], [group]).connect();
 ```
 
-*OPTIONAL:* create a client by providing your username and connecting to a custo Tiles Cloud server.
+*OPTIONAL:* Create a client by providing your username and connecting to a custom Tiles Cloud server.
 ```javascript
-var tilesClient = new TilesClient([username], [server_address], [port]).connect();
+var tilesClient = new TilesClient([username], [group], [server_address], [port]).connect();
 ```
 
 ### Send a command to one tile
