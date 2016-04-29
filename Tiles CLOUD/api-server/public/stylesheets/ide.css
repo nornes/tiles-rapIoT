@@ -43,3 +43,22 @@ body.sidebar-collapse .sidebar-menu>li>a>span {
     margin-bottom: 8px;
     margin-left: 10px;
 }
+.sidebar-menu>li.sidemenu-info {
+    text-align: center;
+    padding: 20px;
+    color: #ecf0f5;
+}
+body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
+    display: none;
+}
+.sidebar-menu>li>.sidemenu-info-header {
+    font-size: large;
+}
+.sidebar-menu>li>.sidemenu-info-msg {
+    white-space: normal;
+    margin-top: 10px;
+}
+.pointer-cursor {
+    cursor: pointer;
+}
+
