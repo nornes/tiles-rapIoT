@@ -30,6 +30,7 @@
                 <label>Include following sections:</label>
                 <div class="checkbox" style="margin-top: 0px;"><label><input type="checkbox" disabled="" ng-model="newAppRecipe.template.connectToServer">Connect to server (required)</label></div>
                 <div class="checkbox"><label><input type="checkbox" ng-model="newAppRecipe.template.setTargetGroup" ng-change="templateSectionsChanged()">Set target group</label></div>
+                <input type="text" name="group" class="form-control" placeholder="Group" ng-model="newAppRecipe.group" ng-show="newAppRecipe.template.setTargetGroup">
               </div>
               <div class="col-lg-6">
                 <span>Events:</span>
