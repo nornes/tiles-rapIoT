@@ -29,6 +29,13 @@ angular.module('tilesIde.controllers', [])
 	$scope.appRecipes = appRecipes.appRecipes;
 	$scope.controlSidebar = controlSidebar;
 
+	$scope.$on('$viewContentLoaded', function() {
+		$('#appRecipeList').slimScroll({
+			height: '700px',
+			color: '#ecf0f5'
+		});
+	});
+
 	function setAsSelected(appRecipe){
 		for (var i=0; i<$scope.appRecipes.length; i++){
 			$scope.appRecipes[i].selected = false;
