@@ -3,9 +3,7 @@
 /* Controllers */
 
 angular.module('tiles.controllers', [])
-
-.controller('TilesCtrl', ['$scope', '$ionicPopup', 'mqttClient', 'tilesApi', function($scope, $ionicPopup, mqttClient, tilesApi) {
-    
+.controller('MainCtrl', ['$scope', '$ionicPopup', 'mqttClient', 'tilesApi', function($scope, $ionicPopup, mqttClient, tilesApi) {
     $scope.appVersion = '';
 
     document.addEventListener('deviceready', function () {
@@ -13,18 +11,24 @@ angular.module('tiles.controllers', [])
             $scope.appVersion = 'Version ' + version;
         });
     }, false);
-    
+
     $scope.connectedToServer = false;
-    $scope.serverConnectStatusMsg = 'Click to connect to server';
-    
+    $scope.serverConnectStatusMsg = 'Connect to server';
+
     $scope.mqttConnectionData = {
         username: tilesApi.username,
         host: tilesApi.host.address,
         port: tilesApi.host.mqttPort
+    };
+
+    function setServerConnectionStatus(msg, connected) {
+        console.log(msg);
+        $scope.serverConnectStatusMsg = msg;
+        $scope.connectedToServer = connected;
     }
 
     // Called when a command is received from the broker
-    $scope.$on('command', function(event, deviceId, command){
+    $scope.$on('command', function(event, deviceId, command) {
         for (var i = 0; i < $scope.devices.length; i++) {
             var device = $scope.devices[i];
             if (device.id == deviceId) {
@@ -70,7 +74,7 @@ angular.module('tiles.controllers', [])
                     tilesApi.setHostMqttPort($scope.mqttConnectionData.port);
                     
                     // Connect to MQTT server/broker
-                    mqttClient.connect($scope.mqttConnectionData.host, $scope.mqttConnectionData.port).then(function(){
+                    mqttClient.connect($scope.mqttConnectionData.host, $scope.mqttConnectionData.port).then(function() {
                         cordova.plugins.backgroundMode.enable();
                         setServerConnectionStatus('Connected to ' + tilesApi.host.address + ':' + tilesApi.host.mqttPort, true);
                         for (var i = 0; i < $scope.devices.length; i++) {
@@ -87,21 +91,11 @@ angular.module('tiles.controllers', [])
             }]
         });
     };
-
-    function getDeviceSpecificTopic(deviceId, isEvent){
-        var type = isEvent ? 'evt' : 'cmd';
-        return 'tiles/' + type + '/' + tilesApi.username + '/' + deviceId;
-    }
-
-    function setServerConnectionStatus(msg, connected){
-        console.log(msg);
-        $scope.serverConnectStatusMsg = msg;
-        $scope.connectedToServer = connected;
-    }
-
+}])
+.controller('TilesCtrl', ['$scope', 'mqttClient', 'tilesApi', function($scope, mqttClient, tilesApi) {
     $scope.devices = [
-        /*{'name': 'TI SensorTag','id': '01:23:45:67:89:AB', 'rssi': -79, 'advertising': null},
-        {'name': 'Some OtherDevice', 'id': 'A1:B2:5C:87:2D:36', 'rssi': -52, 'advertising': null}*/
+        {'name': 'TI SensorTag','id': '01:23:45:67:89:AB', 'rssi': -79, 'advertising': null},
+        {'name': 'Some OtherDevice', 'id': 'A1:B2:5C:87:2D:36', 'rssi': -52, 'advertising': null}
     ];
 
     var rfduino = {
@@ -109,6 +103,77 @@ angular.module('tiles.controllers', [])
         receiveCharacteristic: '2221',
         sendCharacteristic: '2222',
         disconnectCharacteristic: '2223'
+    };
+
+    var isNewDevice = function(discoveredDevice) {
+        for (var i = 0; i < $scope.devices.length; i++) {
+            if ($scope.devices[i].id == discoveredDevice.id) return false;
+        }
+        return true;
+    };
+
+    var isTilesDevice = function(discoveredDevice) {
+        return discoveredDevice.name != null && discoveredDevice.name.substring(0, 4) === 'TILE';
+    };
+
+    $scope.doRefresh = function() {
+        // Scan for devices if Bluetooth is enabled.
+        // Otherwise, prompt the user to enable Bluetooth.
+        ble.isEnabled(
+            function() {
+                console.log("Bluetooth is enabled");
+                ble.scan([], 5, app.onDiscoverDevice, app.onError); // Scan for devices
+            },
+            function() {
+                console.log("Bluetooth is NOT enabled");
+                ble.enable(function() {
+                    console.log("Bluetooth has been enabled");
+                    ble.scan([], 5, app.onDiscoverDevice, app.onError); // Scan for devices
+                }, function() {
+                    console.log("Bluetooth is still NOT enabled");
+                });
+            }
+        );
+
+        $scope.$broadcast('scroll.refreshComplete');
+    };
+
+    $scope.setGroup = function(device, group) {
+        // Unregister device from previous group
+        mqttClient.unregisterDevice(device);
+
+        // Update device's group
+        device.group = group;
+
+        // Register device to new group
+        mqttClient.registerDevice(device);
+    };
+
+    $scope.connect = function(device) {
+        ble.connect(device.id,
+            function() {
+                device.ledOn = false;
+                device.connected = true;
+                var receiver = new DataReceiver(device);
+                ble.startNotification(device.id, rfduino.serviceUUID, rfduino.receiveCharacteristic, receiver.onData, app.onError);
+                $scope.$apply();
+                mqttClient.registerDevice(device);
+            },
+            function() {
+                alert('Failure!')
+            });
+    };
+
+    $scope.disconnect = function(device) {
+        ble.disconnect(device.id,
+            function() {
+                device.connected = false;
+                $scope.$apply();
+                mqttClient.unregisterDevice(device);
+            },
+            function() {
+                alert('Failure!')
+            });
     };
 
     var arrayBufferToString = function(buf) {
@@ -137,18 +202,7 @@ angular.module('tiles.controllers', [])
             }
             
         }
-    }
-
-    var isNewDevice = function(discoveredDevice) {
-        for (var i = 0; i < $scope.devices.length; i++) {
-            if ($scope.devices[i].id == discoveredDevice.id) return false;
-        }
-        return true;
-    }
-
-    var isTilesDevice = function(discoveredDevice) {
-        return discoveredDevice.name != null && discoveredDevice.name.substring(0, 4) === 'TILE';
-    }
+    };
 
     var app = {
         onDiscoverDevice: function(device) {
@@ -191,71 +245,7 @@ angular.module('tiles.controllers', [])
 
         ble.writeWithoutResponse(device.id, rfduino.serviceUUID, rfduino.sendCharacteristic, data.buffer, success, failure);
     };
-
-    $scope.doRefresh = function() {
-        // Scan for devices if Bluetooth is enabled.
-        // Otherwise, prompt the user to enable Bluetooth.
-        ble.isEnabled(
-            function() {
-                console.log("Bluetooth is enabled");
-                ble.scan([], 5, app.onDiscoverDevice, app.onError); // Scan for devices
-            },
-            function() {
-                console.log("Bluetooth is NOT enabled");
-                ble.enable(function() {
-                    console.log("Bluetooth has been enabled");
-                }, function() {
-                    console.log("Bluetooth is still NOT enabled");
-                });
-            }
-        );
-
-        $scope.$broadcast('scroll.refreshComplete');
-    };
-
-    $scope.setGroup = function(device, group){
-        // Unregister device from previous group
-        mqttClient.unregisterDevice(device);
-
-        // Update device's group
-        device.group = group;
-
-        // Register device to new group
-        mqttClient.registerDevice(device);
-    }
-
-    $scope.connect = function(device) {
-        ble.connect(device.id,
-            function() {
-                device.ledOn = false;
-                device.connected = true;
-                tilesApi.loadEventMappings(device.id);
-                var receiver = new DataReceiver(device);
-                ble.startNotification(device.id, rfduino.serviceUUID, rfduino.receiveCharacteristic, receiver.onData, app.onError);
-                $scope.$apply();
-                mqttClient.registerDevice(device);
-            },
-            function() {
-                alert('Failure!')
-            });
-    };
-
-    $scope.disconnect = function(device) {
-        ble.disconnect(device.id,
-            function() {
-                device.connected = false;
-                $scope.$apply();
-                mqttClient.unregisterDevice(device);
-            },
-            function() {
-                alert('Failure!')
-            });
-    };
-
-    $scope.fetchEventMappings = function(device) {
-        tilesApi.fetchEventMappings(device.id, function(fetchedEventMappings){
-            alert(JSON.stringify(fetchedEventMappings));
-        });
-    }
-
+}])
+.controller('AppsCtrl', ['$scope', function($scope){
+    
 }]);

@@ -1,0 +1,44 @@
+<ion-side-menus>
+    
+    <!-- Left menu -->
+    <ion-side-menu side="left">
+    	<ul class="list">
+    		<li class="item" style="text-align:center;border:0px;">{{appVersion}}</li>
+		</ul>
+	</ion-side-menu>
+
+    <!-- Main content -->
+    <ion-side-menu-content>
+    	
+    	<!-- Navigation Bar -->
+		<ion-nav-bar align-title="center" class="bar-positive">
+			
+			<ion-nav-buttons side="left">
+		 		<!-- Toggle left side menu -->
+		 		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+			</ion-nav-buttons>
+			
+			<ion-nav-buttons side="right">
+		   		<button class="button" ng-class="connectedToServer ? 'bar-balanced' : 'bar-stable'" ng-click="showConnectMQTTPopup()">{{serverConnectStatusMsg}}</button>
+			</ion-nav-buttons>
+
+		</ion-nav-bar>
+		
+		<!-- Tabs -->
+		<ion-tabs class="tabs-striped tabs-icon-top tabs-background-positive tabs-color-light">
+			
+			<!-- Tiles Tab -->
+		  	<ion-tab title="Tiles" icon="ion-cube" href="#/tab/tiles">
+		    	<ion-nav-view name="tab-tiles"></ion-nav-view>
+		  	</ion-tab>
+
+		  	<!-- Apps Tab -->
+		  	<ion-tab title="Apps" icon="ion-code" href="#/tab/apps">
+		    	<ion-nav-view name="tab-apps"></ion-nav-view>
+		  	</ion-tab>
+
+		</ion-tabs>
+
+	</ion-side-menu-content>
+
+</ion-side-menus>
