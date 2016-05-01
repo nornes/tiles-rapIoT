@@ -2,3 +2,6 @@
 	bottom: 49px;
 	border-bottom-width: 2px;
 }
+.full-width {
+	width: 100%;
+}

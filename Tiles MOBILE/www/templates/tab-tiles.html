@@ -15,12 +15,15 @@
               <ion-item ng-repeat="device in devices">
               <div class="row row-center">
                 <div class="col col-75">
-                  <b>{{device.name}}</b><br>RSSI:{{device.rssi}}<br>{{device.id}}
+                  <b>{{device.name}}</b><br>
+                  <span class="item-text-wrap">{{device.id}}</span><br>
+                  <span class="item-text-wrap">RSSI:{{device.rssi}}</span><br>
+                  <span class="item-text-wrap">Group: {{device.group || '-'}}</span>
                 </div>
                 <div class="col">
-                  <button class="button button-small button-positive" style="float: right;" ng-click="connect(device)" ng-hide="device.connected">Connect</button>
-                  <button id="disconnectButton" class="button button-small" style="float: right;" ng-click="disconnect(device)" ng-show="device.connected">Disconnect</button>
-                  <button id="fetchEventMappingsButton" class="button button-small icon ion-code-download" style="float: right;" ng-click="fetchEventMappings(device)" ng-show="device.connected"></button>
+                  <button class="button button-small button-positive full-width" style="float: right;" ng-click="connect(device)" ng-hide="device.connected">Connect</button>
+                  <button id="disconnectButton" class="button button-small full-width" style="float: right;" ng-click="disconnect(device)" ng-show="device.connected">Disconnect</button>
+                  <button class="button button-small full-width" style="float: right; margin-top: 5px;" ng-click="showSetGroupPopup(device)" ng-show="device.connected">Set Group</button>
                 </div>
                 </div>
                 <div class="list" ng-show="device.connected">

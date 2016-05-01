@@ -92,10 +92,11 @@ angular.module('tiles.controllers', [])
         });
     };
 }])
-.controller('TilesCtrl', ['$scope', 'mqttClient', 'tilesApi', function($scope, mqttClient, tilesApi) {
+.controller('TilesCtrl', ['$scope', '$ionicPopup', 'mqttClient', 'tilesApi', function($scope, $ionicPopup, mqttClient, tilesApi) {
     $scope.devices = [
         /*{'name': 'TI SensorTag','id': '01:23:45:67:89:AB', 'rssi': -79, 'advertising': null},
-        {'name': 'Some OtherDevice', 'id': 'A1:B2:5C:87:2D:36', 'rssi': -52, 'advertising': null}*/
+        {'name': 'Some OtherDevice', 'id': 'A1:B2:5C:87:2D:36', 'rssi': -52, 'advertising': null , 'connected': true},
+        {'name': 'TILES Test Device', 'id': 'A1B2-5C87-2D36-4E57-9GH7-8KL0', 'rssi': -52, 'advertising': null, 'group': 'MyGroup1', 'connected': false}*/
     ];
 
     var rfduino = {
@@ -136,6 +137,27 @@ angular.module('tiles.controllers', [])
         );
 
         $scope.$broadcast('scroll.refreshComplete');
+    };
+
+    $scope.showSetGroupPopup = function(device) {
+        $scope.temp = {
+            group: device.group || ''
+        }
+        var setGroupPopup = $ionicPopup.show({
+            template: 'Group:<input type="text" ng-model="temp.group">',
+            title: 'Group',
+            subTitle: 'Enter group name for selected Tile.<br>Leave the field blank for the global channel.',
+            scope: $scope,
+            buttons: [{
+                text: 'Cancel'
+            }, {
+                text: '<b>Save</b>',
+                type: 'button-positive',
+                onTap: function(e) {
+                    $scope.setGroup(device, $scope.temp.group);
+                }
+            }]
+        });
     };
 
     $scope.setGroup = function(device, group) {
