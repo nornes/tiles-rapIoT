@@ -94,8 +94,8 @@ angular.module('tiles.controllers', [])
 }])
 .controller('TilesCtrl', ['$scope', 'mqttClient', 'tilesApi', function($scope, mqttClient, tilesApi) {
     $scope.devices = [
-        {'name': 'TI SensorTag','id': '01:23:45:67:89:AB', 'rssi': -79, 'advertising': null},
-        {'name': 'Some OtherDevice', 'id': 'A1:B2:5C:87:2D:36', 'rssi': -52, 'advertising': null}
+        /*{'name': 'TI SensorTag','id': '01:23:45:67:89:AB', 'rssi': -79, 'advertising': null},
+        {'name': 'Some OtherDevice', 'id': 'A1:B2:5C:87:2D:36', 'rssi': -52, 'advertising': null}*/
     ];
 
     var rfduino = {
