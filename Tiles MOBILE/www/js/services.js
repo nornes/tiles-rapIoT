@@ -146,7 +146,8 @@ angular.module('tiles.services', [])
 			address: $localstorage.get('hostAddress', 'cloud.tilestoolkit.io'),
 			mqttPort: $localstorage.get('mqttPort', 8080),
 			apiPort: 3000
-		}
+		},
+		apps: []
 	};
 
 	o.getEventStringAsObject = function(evtString) {
@@ -225,6 +226,33 @@ angular.module('tiles.services', [])
 		  }, function(err) {
 		    console.error('Error', JSON.stringify(err));
 		  });
+	}
+
+	o.fetchAppRecipes = function(successCb, failureCb) {
+		var url = 'http://' + o.host.address + ':' + o.host.apiPort + '/appRecipes/' + o.username;
+		
+		return $http.get(url).then(function(resp) {
+		    var fetchedAppRecipes = resp.data;
+		    o.apps = fetchedAppRecipes;
+		    if (successCb) successCb(fetchedAppRecipes);
+		}, function(err) {
+		    console.error('Error', JSON.stringify(err));
+		    if (failureCb) failureCb(err);
+		});	
+	}
+
+	o.activateApp = function(app, active, successCb, failureCb) {
+		var url = 'http://' + o.host.address + ':' + o.host.apiPort + '/appRecipes/' + o.username + '/' + app._id + '/active';
+		var data = {
+			active: active
+		};
+
+		return $http.put(url, data).then(function(resp) {
+		    if (successCb) successCb(resp.data);
+		}, function(err) {
+		    console.error('Error', JSON.stringify(err));
+		    if (failureCb) failureCb(err);
+		});
 	}
 
 	return o;

@@ -268,6 +268,23 @@ angular.module('tiles.controllers', [])
         ble.writeWithoutResponse(device.id, rfduino.serviceUUID, rfduino.sendCharacteristic, data.buffer, success, failure);
     };
 }])
-.controller('AppsCtrl', ['$scope', function($scope){
-    
+.controller('AppsCtrl', ['$scope', 'tilesApi', function($scope, tilesApi){
+    //tilesApi.apps = [{"name": "App1", "active":false, "group": "MyGroup1"}];
+    $scope.tilesApi = tilesApi;
+    $scope.doRefresh = function() {
+        tilesApi.fetchAppRecipes()
+        .finally(function() {
+            // Stop the ion-refresher from spinning
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+
+    $scope.setActive = function(app){
+        var active = app.active;
+        tilesApi.activateApp(app, active, function(){
+        }, function(){
+            // Reset active state if an error occurs
+            app.active = !active;
+        });
+    };
 }]);

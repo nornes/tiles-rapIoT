@@ -1,5 +1,27 @@
 <ion-view>
-  <ion-content>
-  Apps
+  <div class="bar bar-footer bar-positive">
+    <h1 class="title">
+      <ng-pluralize count="tilesApi.apps.length" when="{&apos;0&apos;: &apos;No apps&apos;,
+        &apos;1&apos;: &apos;1 app ({{(tilesApi.apps|filter:{active:true}).length}} active)&apos;,
+        &apos;other&apos;: &apos;{} apps ({{(tilesApi.apps|filter:{active:true}).length}} active)&apos;}">
+      </ng-pluralize>
+    </h1>
+    <button class="button button-positive" ng-click="doRefresh()">Refresh</button>
+  </div>
+  <ion-content class="has-footer">
+  	<ion-refresher on-refresh="doRefresh()"></ion-refresher>
+  	<ion-list>
+  		<ion-item ng-repeat="app in tilesApi.apps">
+  		<div class="row">
+			<div class="col col-50">
+				<h2>{{app.name}}</h2>
+				<p>Group: {{app.group || '-'}}</p>
+    		</div>
+    		<div class="col col-50">
+    		<ion-toggle ng-model="app.active" ng-click="setActive(app)" toggle-class="toggle-calm">{{app.active ? 'Active' : 'Inactive'}}</ion-toggle>
+    		</div>
+    		</div>
+  		</ion-item>
+	</ion-list>
   </ion-content>
 </ion-view>
