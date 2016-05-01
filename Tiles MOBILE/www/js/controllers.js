@@ -29,15 +29,13 @@ angular.module('tiles.controllers', [])
 
     // Called when a command is received from the broker
     $scope.$on('command', function(event, deviceId, command) {
-        for (var i = 0; i < $scope.devices.length; i++) {
-            var device = $scope.devices[i];
-            if (device.id == deviceId) {
-                device.ledOn = (command.name === 'led' && command.properties[0] === 'on');
-                console.log('Device led on: '+device.ledOn);
-                $scope.$apply();
-                var commandString = tilesApi.getCommandObjectAsString(command);
-                $scope.sendData(device, commandString);
-            }
+        var device = tilesApi.tiles[deviceId];
+        if (device) {
+            device.ledOn = (command.name === 'led' && command.properties[0] === 'on');
+            console.log('Device led on: '+device.ledOn);
+            $scope.$apply();
+            var commandString = tilesApi.getCommandObjectAsString(command);
+            $scope.sendData(device, commandString);
         }
     });
 
@@ -77,10 +75,11 @@ angular.module('tiles.controllers', [])
                     mqttClient.connect($scope.mqttConnectionData.host, $scope.mqttConnectionData.port).then(function() {
                         cordova.plugins.backgroundMode.enable();
                         setServerConnectionStatus('Connected to ' + tilesApi.host.address + ':' + tilesApi.host.mqttPort, true);
-                        for (var i = 0; i < $scope.devices.length; i++) {
-                            var device = $scope.devices[i];
-                            if (device.connected) {
-                                mqttClient.registerDevice(device);
+                        for (var device in tilesApi.tiles) {
+                            if (tilesApi.tiles.hasOwnProperty(device)) {
+                                if (device.connected) {
+                                    mqttClient.registerDevice(device);
+                                }
                             }
                         }
                     }, function() {
@@ -92,7 +91,7 @@ angular.module('tiles.controllers', [])
         });
     };
 }])
-.controller('TilesCtrl', ['$scope', '$ionicPopup', 'mqttClient', 'tilesApi', function($scope, $ionicPopup, mqttClient, tilesApi) {
+.controller('TilesCtrl', ['$scope', '$ionicPopup', 'mqttClient', 'tilesApi', 'group', function($scope, $ionicPopup, mqttClient, tilesApi, group) {
     $scope.devices = [
         /*{'name': 'TI SensorTag','id': '01:23:45:67:89:AB', 'rssi': -79, 'advertising': null},
         {'name': 'Some OtherDevice', 'id': 'A1:B2:5C:87:2D:36', 'rssi': -52, 'advertising': null , 'connected': true},
@@ -107,10 +106,7 @@ angular.module('tiles.controllers', [])
     };
 
     var isNewDevice = function(discoveredDevice) {
-        for (var i = 0; i < $scope.devices.length; i++) {
-            if ($scope.devices[i].id == discoveredDevice.id) return false;
-        }
-        return true;
+        return tilesApi.tiles[discoveredDevice.id] == null;
     };
 
     var isTilesDevice = function(discoveredDevice) {
@@ -154,21 +150,10 @@ angular.module('tiles.controllers', [])
                 text: '<b>Save</b>',
                 type: 'button-positive',
                 onTap: function(e) {
-                    $scope.setGroup(device, $scope.temp.group);
+                    group.setGroup(device, $scope.temp.group);
                 }
             }]
         });
-    };
-
-    $scope.setGroup = function(device, group) {
-        // Unregister device from previous group
-        mqttClient.unregisterDevice(device);
-
-        // Update device's group
-        device.group = group;
-
-        // Register device to new group
-        mqttClient.registerDevice(device);
     };
 
     $scope.connect = function(device) {
@@ -231,6 +216,7 @@ angular.module('tiles.controllers', [])
             console.log('Device discovered: '+device);
             device.connected = false;
             if (isTilesDevice(device) && isNewDevice(device)) {
+                tilesApi.addTile(device);
                 $scope.devices.push(device);
             }
         },

@@ -15,10 +15,10 @@
               <ion-item ng-repeat="device in devices">
               <div class="row row-center">
                 <div class="col col-75">
-                  <b>{{device.name}}</b><br>
-                  <span class="item-text-wrap">{{device.id}}</span><br>
-                  <span class="item-text-wrap">RSSI:{{device.rssi}}</span><br>
-                  <span class="item-text-wrap">Group: {{device.group || '-'}}</span>
+                  <h2>{{device.name}}</h2>
+                  <p class="item-text-wrap">{{device.id}}</p>
+                  <p class="item-text-wrap">RSSI:{{device.rssi}}</p>
+                  <p class="item-text-wrap">Group: {{device.group || '-'}}</p>
                 </div>
                 <div class="col">
                   <button class="button button-small button-positive full-width" style="float: right;" ng-click="connect(device)" ng-hide="device.connected">Connect</button>

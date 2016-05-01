@@ -139,6 +139,23 @@ angular.module('tiles.services', [])
 	return o;
 }])
 
+.factory('group', ['$localstorage', 'mqttClient', function($localstorage, mqttClient) {
+	var o = {};
+	o.setGroup = function(device, group) {
+        // Unregister device from previous group
+        mqttClient.unregisterDevice(device);
+
+        // Update device's group
+        device.group = group;
+
+        // Register device to new group
+        mqttClient.registerDevice(device);
+
+        $localstorage.set('group_' + device.id, group);
+    };
+    return o;
+}])
+
 .factory('tilesApi', ['$http', '$localstorage', function($http, $localstorage){
 	var o = {
 		username: $localstorage.get('username', 'TestUser'),
@@ -147,8 +164,14 @@ angular.module('tiles.services', [])
 			mqttPort: $localstorage.get('mqttPort', 8080),
 			apiPort: 3000
 		},
-		apps: []
+		apps: [],
+		tiles: {}
 	};
+
+	o.addTile = function(device) {
+		device.group = $localstorage.get('group_' + device.id, null);
+		o.tiles[device.id] = device;
+	}
 
 	o.getEventStringAsObject = function(evtString) {
 		var params = evtString.split(',');
