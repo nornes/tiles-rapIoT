@@ -17,7 +17,10 @@ appRepository.read(appId, userId, function(err, data) {
 	var options = {};
 	var sandbox = {
 		TilesClient: TilesClient,
-		appConfig: config
+		appConfig: config,
+		console: console,
+		setInterval: setInterval,
+		setTimeout: setTimeout
 	};
 
 	console.log('Sandbox: ' + util.inspect(sandbox));

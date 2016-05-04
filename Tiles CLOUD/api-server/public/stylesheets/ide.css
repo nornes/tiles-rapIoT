@@ -3,7 +3,7 @@
     height: 100%;
 }
 .editor-container {
-    height: 780px;
+    height: 580px;
 }
 .inline-header {
     display: inline-block;
@@ -61,4 +61,21 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 .pointer-cursor {
     cursor: pointer;
 }
-
+#console {
+    background-color: #222d32;
+    height: 200px;
+    color: #fff;
+    font-family: monospace;
+    font-size: 15px;
+    text-align: left;
+    position: static;
+    overflow-y: auto;
+    padding: 5px;
+    white-space: pre;
+}
+#console .error {
+    color: #dd4b39;
+}
+#console .info {
+    color: #9bdd39;
+}

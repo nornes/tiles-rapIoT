@@ -42,6 +42,8 @@ angular.module('tilesIde.controllers', [])
 		}
 		appRecipe.selected = true;
 		mainSidebar.selectedAppRecipe = appRecipe;
+		clearAppConsole();
+		initAppConsoleSocket(appRecipe._id);
 	}
 
 	$scope.showAppRecipe = function(appRecipe){
