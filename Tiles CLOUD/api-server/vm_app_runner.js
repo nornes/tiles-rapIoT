@@ -23,7 +23,7 @@ appRepository.read(appId, userId, function(err, data) {
 		setTimeout: setTimeout
 	};
 
-	console.log('Sandbox: ' + util.inspect(sandbox));
+	//console.log('Sandbox: ' + util.inspect(sandbox));
 
 	var script = new vm.Script(code, options);
 	script.runInNewContext(sandbox);

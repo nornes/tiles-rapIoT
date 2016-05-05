@@ -43,10 +43,11 @@ angular.module('tilesIde.controllers', [])
 		appRecipe.selected = true;
 		mainSidebar.selectedAppRecipe = appRecipe;
 		clearAppConsole();
-		initAppConsoleSocket(appRecipe._id);
+		setAppConsoleSocketRoom(appRecipe._id);
 	}
 
 	$scope.showAppRecipe = function(appRecipe){
+		if (appRecipe.selected) return;
 		setAsSelected(appRecipe);
 		appRecipes.getCode(userId, appRecipe, function(res){
 			var code = res.data;

@@ -1,4 +1,26 @@
-var socket;
+var socket = io('http://localhost:3001');
+var socketConnected = false;
+
+socket.on('connect', function () {
+	console.log('Connected to WS server');
+	socketConnected = true;
+});
+
+socket.on('stdout_data', function(d) {
+	addConsoleEntry(d);
+});
+  
+socket.on('stderr_data', function(d) {
+	addConsoleEntry(d, false, true);
+});
+
+socket.on('app_status', function(d) {
+	if (d === 'started') {
+		addConsoleEntry('[APP STARTED]\n', true);
+	} else if (d === 'closed') {
+		addConsoleEntry('[APP EXITED]\n', true);
+	}
+});
 
 function addConsoleEntry(d, isInfo, isError) {
 	var styleClass = 'log';
@@ -16,28 +38,14 @@ function clearAppConsole() {
 	$('#console').empty();
 }
 
-function initAppConsoleSocket(appId) {
-	// Disconnect client from previous namespace
-	if (socket) socket.disconnect();
+function setAppConsoleSocketRoom(appId, callback) {
+	if (socketConnected) {
+		socket.emit('room', appId);
+	} else {
+		socket.on('connect', function() {
+   			socket.emit('room', appId);
+		});
+	}
 
-	socket = io('http://localhost:3001/' + appId);
-
-	socket.on('stdout_data', function(d){
-    	console.log(appId + ' stdout: ' + d);
-    	addConsoleEntry(d);
-    });
-	  
-	socket.on('stderr_data', function(d){
-		console.log(appId + ' stderr: ' + d);
-		addConsoleEntry(d, false, true);
-	});
-
-	socket.on('app_status', function(d){
-		console.log(appId + ' ' + d);
-		if (d === 'started') {
-			addConsoleEntry('[APP STARTED]\n', true);
-		} else if (d === 'closed') {
-			addConsoleEntry('[APP EXITED]\n', true);
-		}
-	});
+	if (callback) callback();
 }
