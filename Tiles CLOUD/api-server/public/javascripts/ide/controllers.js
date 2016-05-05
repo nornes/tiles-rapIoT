@@ -54,9 +54,12 @@ angular.module('tilesIde.controllers', [])
 		});
 	}
 }])
-.controller('ControlSidebarCtrl', ['$scope', 'controlSidebar', 'tiles', function($scope, controlSidebar, tiles){
+.controller('ControlSidebarCtrl', ['$scope', 'userId', 'controlSidebar', 'tiles', function($scope, userId, controlSidebar, tiles){
 	$scope.controlSidebar = controlSidebar;
 	$scope.tiles = tiles.tiles;
+	tiles.initRealTimeUpdates(userId, function(){
+		$scope.$apply();
+	});
 }])
 .controller('HeaderCtrl', ['$scope', 'userId', 'controlSidebar', function($scope, userId, controlSidebar){
 	$scope.userId = userId;

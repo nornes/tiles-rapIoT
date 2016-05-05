@@ -79,3 +79,17 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 #console .info {
     color: #9bdd39;
 }
+.active-green {
+    color: #53b32c !important;
+}
+.active-green-bg {
+    color: #ffffff;
+    background-color: #53b32c;
+}
+.inactive-red {
+    color: #dd4b39 !important;
+}
+.inactive-red-bg {
+    color: #ffffff;
+    background-color: #dd4b39;
+}

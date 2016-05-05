@@ -73,13 +73,57 @@ angular.module('tilesIde.services', [])
 
 .factory('tiles', ['$http', function($http){
 	var o = {
-		tiles: []
+		tiles: [],
+		client: null,
+		userId: null
 	};
 	
 	o.getAll = function(userId) {
   		return $http.get('/users/' + userId).then(function(res){
   			angular.copy(res.data.tiles, o.tiles);
   		});
+	}
+
+	o.initRealTimeUpdates = function(userId, callback){
+		o.userId = userId;
+		o.client = mqtt.connect({host: 'localhost', port: 8080, keepalive: 0});
+
+		o.client.on('connect', function () {
+	  		o.client.subscribe('tiles/evt/' + o.userId + '/+/+/active');
+	  		o.client.subscribe('tiles/evt/' + o.userId + '/+/+/name');
+		});
+
+		o.client.on('message', function (topic, message) {
+	  		var msgString = message.toString();
+	  		var topicLevels = topic.split('/');
+	  		var group = topicLevels[3];
+	  		var tileId = topicLevels[4];
+
+	  		if (topicLevels[5] === 'active') {
+		  		setTile(tileId, msgString === 'true', group, null, callback);
+		  	} else if (topicLevels[5] === 'name') {
+	  			setTile(tileId, null, group, msgString, callback);
+	  		}
+  		});
+	}
+
+	function setTile(tileId, active, group, name, callback){
+		var tile;
+		for (var i = 0; i < o.tiles.length; i++) {
+    		if (o.tiles[i]._id === tileId) {
+    			tile = o.tiles[i];
+    			break;
+    		}
+		}
+		if (tile == null) {
+			tile = {_id: tileId};
+			o.tiles.push(tile);
+		}
+    	if (active != null) tile.active = active;
+		if (group != null) tile.group = group;
+		if (name != null) tile.name = name;
+
+		if (callback) callback();
 	}
 
 	return o;

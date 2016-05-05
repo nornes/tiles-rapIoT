@@ -12,10 +12,12 @@
         	<ul class="control-sidebar-menu">
           		<li ng-repeat="tile in tiles">
             		<a href="javascript:void(0)">
-              			<i class="menu-icon fa fa-cube bg-light-blue"></i>
+              			<i class="menu-icon fa fa-cube {{tile.active ? 'active-green-bg' : 'inactive-red-bg'}}"></i>
               			<div class="menu-info">
-                			<h4 class="control-sidebar-subheading">{{tile.name}}</h4>
+                			<h4 class="control-sidebar-subheading" style="display: inline;">{{tile.name}}</h4>&nbsp;
+                      <p class="{{tile.active ? 'active-green' : 'inactive-red'}}" style="display: inline;">{{tile.active ? 'Active' : 'Inactive'}}</p>
                 			<p>{{tile._id}}</p>
+                      <p>Group:&nbsp;{{tile.group ? tile.group : '-'}}</p>
               			</div>
             		</a>
           		</li>
