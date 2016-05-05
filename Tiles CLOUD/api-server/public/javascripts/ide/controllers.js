@@ -31,7 +31,7 @@ angular.module('tilesIde.controllers', [])
 
 	$scope.$on('$viewContentLoaded', function() {
 		$('#appRecipeList').slimScroll({
-			height: '700px',
+			height: '640px',
 			color: '#ecf0f5'
 		});
 	});

@@ -2,10 +2,19 @@
 <aside class="main-sidebar">
 	<section class="sidebar">
 	<ul class="sidebar-menu">
+	<form class="sidebar-form">
+        <div class="input-group">
+          <input type="text" name="q" class="form-control" placeholder="Search..." ng-model="search.name">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </span>
+        </div>
+      	</form>
 		<li class="header">APP RECIPES</li>
 	</ul>
 	<ul id="appRecipeList" class="sidebar-menu">
-		<li ng-class="appRecipe.selected ? 'active' : ''" class="apprecipe-menu-item" ng-repeat="appRecipe in appRecipes"><a ng-click="showAppRecipe(appRecipe)"><i class="glyphicon {{appRecipe.active ? 'active-green-bg glyphicon-transfer' : 'inactive-red-bg glyphicon-off'}}"></i><span style="vertical-align: top;">{{appRecipe.name}}</span></a></li>
+		<li ng-class="appRecipe.selected ? 'active' : ''" class="apprecipe-menu-item" ng-repeat="appRecipe in appRecipes|filter:search"><a ng-click="showAppRecipe(appRecipe)"><i class="glyphicon {{appRecipe.active ? 'active-green-bg glyphicon-transfer' : 'inactive-red-bg glyphicon-off'}}"></i><span style="vertical-align: top;">{{appRecipe.name}}</span></a></li>
 		<li ng-hide="appRecipes.length" class="sidemenu-info"><span class="sidemenu-info-header">No apps</span><br><div class="sidemenu-info-msg pointer-cursor" data-toggle="modal" data-target="#createAppModal">Click here to get started with your first app</div></li>
 	</ul>
 	<ul class="sidebar-menu">
