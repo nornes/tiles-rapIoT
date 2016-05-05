@@ -93,3 +93,15 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
     color: #ffffff;
     background-color: #dd4b39;
 }
+.apprecipe-menu-item {
+    line-height: 24px;
+}
+.apprecipe-menu-item>a>i {
+    line-height: 24px;
+    width: 24px !important;
+    height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    margin-left: -5px;
+    margin-right: 5px;
+}
