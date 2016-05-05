@@ -26,28 +26,28 @@ function TilesAscoltatore(settings) {
     wildcard_some: settings.wildcardSome || '*'
   });
 
-  this._matcher.add('tiles/evt/+/+/active', function(topic, message, options){
+  this._matcher.add('tiles/evt/+/+/+/active', function(topic, message, options){
     var splitTopic = topic.split('/');
     var username = splitTopic[2];
-    var deviceId = splitTopic[3];
+    var deviceId = splitTopic[4];
     var active = (arrayBufferToString(message) === 'true');
     console.log(tag + "Set active state for " + deviceId + ": " + active);
     TilesApi.setDeviceState(deviceId, username, null, active);
   });
 
-  this._matcher.add('tiles/evt/+/+/name', function(topic, message, options){
+  this._matcher.add('tiles/evt/+/+/+/name', function(topic, message, options){
     var splitTopic = topic.split('/');
     var username = splitTopic[2];
-    var deviceId = splitTopic[3];
+    var deviceId = splitTopic[4];
     var name = arrayBufferToString(message);
     console.log(tag + "Register device with ID: " + deviceId + " and name: " + name);
     TilesApi.setDeviceState(deviceId, username, null, null, name);
   });
 
-  this._matcher.add('tiles/evt/+/+', function(topic, message, options){
+  this._matcher.add('tiles/evt/+/+/+', function(topic, message, options){
     var splitTopic = topic.split('/');
     var username = splitTopic[2];
-    var deviceId = splitTopic[3];
+    var deviceId = splitTopic[4];
     var state = arrayBufferToString(message);
     console.log(tag + "Set event state for " + deviceId + ": " + state);
     TilesApi.setDeviceState(deviceId, username, state, null);
