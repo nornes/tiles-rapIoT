@@ -11,7 +11,7 @@
         	<h3 class="control-sidebar-heading">My Tiles</h3>
         	<ul class="control-sidebar-menu">
           		<li ng-repeat="tile in tiles">
-            		<a href="javascript:void(0)">
+                <a style="height: 73px;">
               			<i class="menu-icon fa fa-cube {{tile.active ? 'active-green-bg' : 'inactive-red-bg'}}"></i>
               			<div class="menu-info">
                 			<h4 class="control-sidebar-subheading" style="display: inline;">{{tile.name}}</h4>&nbsp;
@@ -19,6 +19,7 @@
                 			<p>{{tile._id}}</p>
                       <p>Group:&nbsp;{{tile.group ? tile.group : '-'}}</p>
               			</div>
+                    <span class="tile-console-link pointer-cursor" ng-click="showTileConsoleModal(tile)"><i class="glyphicon glyphicon-modal-window"></i>&nbsp;Show console</span>
             		</a>
           		</li>
         	</ul>

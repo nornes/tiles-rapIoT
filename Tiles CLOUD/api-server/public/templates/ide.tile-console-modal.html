@@ -1,0 +1,23 @@
+<div class="modal fade" id="tileConsoleModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="padding-bottom: 0;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Tile Console</h4>
+        <h5 class="modal-title" style="display: inline;">{{tileConsole.tile.name}} ({{tileConsole.tile._id}})</h5>&nbsp;
+        <p class="{{tileConsole.tile.active ? 'active-green' : 'inactive-red'}}" style="display: inline;">{{tileConsole.tile.active ? 'Active' : 'Inactive'}}</p>
+        <p>Group:&nbsp;{{tileConsole.tile.group ? tileConsole.tile.group : '-'}}</p>
+      </div>
+      <div class="modal-body" style="padding-top: 0;">
+        <label>Received events from Tile:</label>
+        <div class="console" id="tileConsole"></div>
+        <br>
+        <label>Send commands to Tile:</label>
+        <div class="input-group input-group-sm">
+          <input type="text" class="form-control">
+          <span class="input-group-btn"><button type="button" class="btn sidemenu-btn btn-flat" ng-click="tileConsole.sendCommand()">Send</button></span>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

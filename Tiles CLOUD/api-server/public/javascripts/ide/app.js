@@ -41,6 +41,10 @@ angular.module('tilesIde', ['ui.router', 'tilesIde.controllers', 'tilesIde.servi
         'create-app-modal': {
           templateUrl: '/templates/ide.create-app-modal.html',
           controller: 'CreateAppModalCtrl'
+        },
+        'tile-console-modal': {
+          templateUrl: '/templates/ide.tile-console-modal.html',
+          controller: 'TileConsoleModalCtrl'
         }
   		}
 		});

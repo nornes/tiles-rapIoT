@@ -42,7 +42,7 @@ angular.module('tilesIde.controllers', [])
 		}
 		appRecipe.selected = true;
 		mainSidebar.selectedAppRecipe = appRecipe;
-		clearAppConsole();
+		clearConsole('appConsole');
 		setAppConsoleSocketRoom(appRecipe._id);
 	}
 
@@ -55,12 +55,17 @@ angular.module('tilesIde.controllers', [])
 		});
 	}
 }])
-.controller('ControlSidebarCtrl', ['$scope', 'userId', 'controlSidebar', 'tiles', function($scope, userId, controlSidebar, tiles){
+.controller('ControlSidebarCtrl', ['$scope', 'userId', 'controlSidebar', 'tiles', 'tileConsole', function($scope, userId, controlSidebar, tiles, tileConsole){
 	$scope.controlSidebar = controlSidebar;
 	$scope.tiles = tiles.tiles;
 	tiles.initRealTimeUpdates(userId, function(){
 		$scope.$apply();
 	});
+
+	$scope.showTileConsoleModal = function(tile) {
+		tileConsole.setTile(tile);
+		$('#tileConsoleModal').modal('show');
+	}
 }])
 .controller('HeaderCtrl', ['$scope', 'userId', 'controlSidebar', function($scope, userId, controlSidebar){
 	$scope.userId = userId;
@@ -131,4 +136,16 @@ angular.module('tilesIde.controllers', [])
 		// Set template name to custom if a template section checkbox is modified by user
 		$scope.newAppRecipe.templateName = 'Custom';
 	}
+}])
+.controller('TileConsoleModalCtrl', ['$scope', 'tileConsole', function($scope, tileConsole){
+	$scope.tileConsole = tileConsole;
+
+	$scope.closeModal = function() {
+		tileConsole.detachTile();
+		$('#tileConsoleModal').modal('hide');
+	};
+
+	$scope.$watch('tileConsole.tile.group', function(newValue, oldValue) {
+        tileConsole.changeGroup(newValue, oldValue);
+    }, true);
 }]);

@@ -61,7 +61,7 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 .pointer-cursor {
     cursor: pointer;
 }
-#console {
+.console {
     background-color: #222d32;
     height: 200px;
     color: #fff;
@@ -73,10 +73,10 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
     padding: 5px;
     white-space: pre;
 }
-#console .error {
+.console .error {
     color: #dd4b39;
 }
-#console .info {
+.console .info {
     color: #9bdd39;
 }
 .active-green {
@@ -104,4 +104,13 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
     text-align: center;
     margin-left: -5px;
     margin-right: 5px;
+}
+.tile-console-link {
+    float: right;
+    color: #b8c7ce;
+    position: relative;
+    top: -34px;
+}
+.tile-console-link:hover {
+    color: #ffffff;
 }

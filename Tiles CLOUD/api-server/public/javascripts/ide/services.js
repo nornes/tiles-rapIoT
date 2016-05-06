@@ -96,6 +96,9 @@ angular.module('tilesIde.services', [])
 		o.client.on('message', function (topic, message) {
 	  		var msgString = message.toString();
 	  		var topicLevels = topic.split('/');
+	  		
+	  		if (topicLevels.length !== 6) return;
+
 	  		var group = topicLevels[3];
 	  		var tileId = topicLevels[4];
 
@@ -167,4 +170,67 @@ angular.module('tilesIde.services', [])
 	}
 
 	return o;
-});
+})
+
+.factory('tileConsole', ['tiles', function(tiles){
+	var o = {
+		tile: null,
+		subscribedTopic: null,
+		publishTopic: null
+	};
+
+	function getTopic(tile, type) {
+		var group = tile.group || 'global';
+		return 'tiles/' + type + '/' + tiles.userId + '/' + group + '/' + tile._id;
+	}
+
+	o.setTile = function(tile) {
+		o.tile = tile;
+		if (o.subscribedTopic) {
+			tiles.client.unsubscribe(o.subscribedTopic);
+		}
+
+		o.subscribedTopic = getTopic(tile, 'evt');
+		tiles.client.subscribe(o.subscribedTopic);
+
+		o.publishTopic = getTopic(tile, 'cmd');
+		
+		console.log('Subscribed to: ' + o.subscribedTopic);
+		console.log('Publish to: ' + o.publishTopic);
+
+		tiles.client.on('message', function (topic, message) {
+  			var msgString = message.toString();
+  			var topicLevels = topic.split('/');
+  		
+  			// Omit 'name' and 'active' events
+  			if (topicLevels.length !== 5) return;
+
+  			console.log('Tile console received msg: ' + msgString);
+  			addConsoleEntry('tileConsole', msgString + '\n');
+		});
+	}
+
+	o.detachTile = function() {
+		if (o.subscribedTopic) {
+			tiles.client.unsubscribe(o.subscribedTopic);
+		}
+		o.tile = null;
+		clearConsole('tileConsole');
+	}
+
+	o.sendCommand = function(cmd) {
+		console.log('Send command: ' + cmd);
+		if (o.publishTopic && o.tile) tiles.client.publish(o.publishTopic, '{"name": "led", "properties": ["blink", "red"]}');
+	}
+
+	o.changeGroup = function(newGroup, oldGroup) {
+		if (o.subscribedTopic) {
+			tiles.client.unsubscribe(o.subscribedTopic);
+			o.subscribedTopic = getTopic(o.tile, 'evt');
+			tiles.client.subscribe(o.subscribedTopic);
+			addConsoleEntry('tileConsole', 'Group changed from "' + oldGroup + '" to "' + newGroup + '"\n', true);
+		}
+	}
+
+	return o;
+}]);
