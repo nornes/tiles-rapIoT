@@ -29,10 +29,11 @@ function TilesAscoltatore(settings) {
   this._matcher.add('tiles/evt/+/+/+/active', function(topic, message, options){
     var splitTopic = topic.split('/');
     var username = splitTopic[2];
+    var group = splitTopic[3];
     var deviceId = splitTopic[4];
     var active = (arrayBufferToString(message) === 'true');
     console.log(tag + "Set active state for " + deviceId + ": " + active);
-    TilesApi.setDeviceState(deviceId, username, null, active);
+    TilesApi.setDeviceState(deviceId, username, null, active, null, group);
   });
 
   this._matcher.add('tiles/evt/+/+/+/name', function(topic, message, options){

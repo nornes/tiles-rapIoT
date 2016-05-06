@@ -11,6 +11,7 @@
 					<tr>
 						<th>ID</th>
 						<th>Name</th>
+						<th>Group</th>
 						<th>Active</th>
 						<th>State</th>
 						<th></th>
@@ -20,6 +21,7 @@
 					<tr ng-repeat="tile in tiles">
 						<td><a href="#/users/{{user._id}}/{{tile._id}}">{{tile._id}}</td>
 						<td>{{tile.name}}</td>
+						<td>{{tile.group}}</td>
 						<td>{{tile.active}}</td>
 						<td>{{tile.state}}</td>
 						<td><button type="button" class="btn btn-default" ng-click="removeTile(tile)"><span class="glyphicon glyphicon-trash"></span></button</td>

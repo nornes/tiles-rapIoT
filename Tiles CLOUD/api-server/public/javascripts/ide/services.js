@@ -196,11 +196,7 @@ angular.module('tilesIde.services', [])
 	};
 
 	o.setTile = function(tile) {
-		tiles.client.removeListener('message', listener);
 		o.tile = tile;
-		if (o.subscribedTopic) {
-			tiles.client.unsubscribe(o.subscribedTopic);
-		}
 
 		o.subscribedTopic = getTopic(tile, 'evt');
 		tiles.client.subscribe(o.subscribedTopic);

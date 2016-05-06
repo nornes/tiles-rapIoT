@@ -5,6 +5,7 @@ var TileSchema = new mongoose.Schema({
   name: String,
   active: Boolean,
   state: Object,
+  group: String,
   user: { type: String, ref: 'User' }
 });
 

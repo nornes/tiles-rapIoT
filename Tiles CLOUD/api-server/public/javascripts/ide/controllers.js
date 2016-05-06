@@ -145,6 +145,6 @@ angular.module('tilesIde.controllers', [])
 	})
 
 	$scope.$watch('tileConsole.tile.group', function(newValue, oldValue) {
-        tileConsole.changeGroup(newValue, oldValue);
+        if (typeof oldValue != 'undefined') tileConsole.changeGroup(newValue, oldValue);
     }, true);
 }]);
