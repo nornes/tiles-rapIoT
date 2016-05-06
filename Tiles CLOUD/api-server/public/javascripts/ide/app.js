@@ -45,6 +45,10 @@ angular.module('tilesIde', ['ui.router', 'tilesIde.controllers', 'tilesIde.servi
         'tile-console-modal': {
           templateUrl: '/templates/ide.tile-console-modal.html',
           controller: 'TileConsoleModalCtrl'
+        },
+        'config-editor-modal': {
+          templateUrl: '/templates/ide.config-editor-modal.html',
+          controller: 'ConfigEditorModalCtrl'
         }
   		}
 		});

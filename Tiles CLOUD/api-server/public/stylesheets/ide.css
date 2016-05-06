@@ -5,6 +5,13 @@
 .editor-container {
     height: 580px;
 }
+#config-editor {
+    width: 100%;
+    height: 100%;
+}
+.config-editor-container {
+    height: 580px;
+}
 .inline-header {
     display: inline-block;
 }

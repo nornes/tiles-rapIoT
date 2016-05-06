@@ -24,6 +24,10 @@ angular.module('tilesIde.controllers', [])
 		appRecipes.delete(userId, appRecipe);
 		$scope.msb.selectedAppRecipe = null;
 	}
+
+	$scope.openConfigEditor = function(appRecipe) {
+		$('#configEditorModal').modal('show');
+	}
 }])
 .controller('MainSidebarCtrl', ['$scope', 'userId', 'appRecipes', 'mainSidebar', 'content', 'controlSidebar', function($scope, userId, appRecipes, mainSidebar, content, controlSidebar){
 	$scope.appRecipes = appRecipes.appRecipes;
@@ -147,4 +151,10 @@ angular.module('tilesIde.controllers', [])
 	$scope.$watch('tileConsole.tile.group', function(newValue, oldValue) {
         if (typeof oldValue != 'undefined') tileConsole.changeGroup(newValue, oldValue);
     }, true);
-}]);
+}])
+.controller('ConfigEditorModalCtrl', ['$scope', function($scope){
+	var editor = ace.edit("config-editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/json");
+    editor.setShowPrintMargin(false);
+}]);;
