@@ -140,10 +140,9 @@ angular.module('tilesIde.controllers', [])
 .controller('TileConsoleModalCtrl', ['$scope', 'tileConsole', function($scope, tileConsole){
 	$scope.tileConsole = tileConsole;
 
-	$scope.closeModal = function() {
-		tileConsole.detachTile();
-		$('#tileConsoleModal').modal('hide');
-	};
+	$('#tileConsoleModal').on('hidden.bs.modal', function () {
+  		tileConsole.detachTile();
+	})
 
 	$scope.$watch('tileConsole.tile.group', function(newValue, oldValue) {
         tileConsole.changeGroup(newValue, oldValue);

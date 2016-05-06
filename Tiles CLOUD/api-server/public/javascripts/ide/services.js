@@ -184,7 +184,19 @@ angular.module('tilesIde.services', [])
 		return 'tiles/' + type + '/' + tiles.userId + '/' + group + '/' + tile._id;
 	}
 
+	var listener = function (topic, message) {
+		var msgString = message.toString();
+		var topicLevels = topic.split('/');
+	
+		// Omit 'name' and 'active' events
+		if (topicLevels.length !== 5) return;
+
+		console.log('Tile console received msg: ' + msgString);
+		addConsoleEntry('tileConsole', msgString + '\n');
+	};
+
 	o.setTile = function(tile) {
+		tiles.client.removeListener('message', listener);
 		o.tile = tile;
 		if (o.subscribedTopic) {
 			tiles.client.unsubscribe(o.subscribedTopic);
@@ -198,22 +210,14 @@ angular.module('tilesIde.services', [])
 		console.log('Subscribed to: ' + o.subscribedTopic);
 		console.log('Publish to: ' + o.publishTopic);
 
-		tiles.client.on('message', function (topic, message) {
-  			var msgString = message.toString();
-  			var topicLevels = topic.split('/');
-  		
-  			// Omit 'name' and 'active' events
-  			if (topicLevels.length !== 5) return;
-
-  			console.log('Tile console received msg: ' + msgString);
-  			addConsoleEntry('tileConsole', msgString + '\n');
-		});
+		tiles.client.on('message', listener);
 	}
 
 	o.detachTile = function() {
 		if (o.subscribedTopic) {
 			tiles.client.unsubscribe(o.subscribedTopic);
 		}
+		tiles.client.removeListener('message', listener);
 		o.tile = null;
 		clearConsole('tileConsole');
 	}
