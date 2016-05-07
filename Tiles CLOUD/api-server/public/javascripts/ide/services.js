@@ -176,7 +176,8 @@ angular.module('tilesIde.services', [])
 	var o = {
 		tile: null,
 		subscribedTopic: null,
-		publishTopic: null
+		publishTopic: null,
+		command: {}
 	};
 
 	function getTopic(tile, type) {
@@ -215,12 +216,12 @@ angular.module('tilesIde.services', [])
 		}
 		tiles.client.removeListener('message', listener);
 		o.tile = null;
+		o.command = {};
 		clearConsole('tileConsole');
 	}
 
-	o.sendCommand = function(cmd) {
-		console.log('Send command: ' + cmd);
-		if (o.publishTopic && o.tile) tiles.client.publish(o.publishTopic, '{"name": "led", "properties": ["blink", "red"]}');
+	o.sendCommand = function() {
+		if (o.publishTopic && o.tile) tiles.client.publish(o.publishTopic, JSON.stringify(o.command));
 	}
 
 	o.changeGroup = function(newGroup, oldGroup) {

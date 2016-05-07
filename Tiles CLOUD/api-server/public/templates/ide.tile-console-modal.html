@@ -13,9 +13,21 @@
         <div class="console" id="tileConsole"></div>
         <br>
         <label>Send commands to Tile:</label>
-        <div class="input-group input-group-sm">
-          <input type="text" class="form-control">
-          <span class="input-group-btn"><button type="button" class="btn sidemenu-btn btn-flat" ng-click="tileConsole.sendCommand()">Send</button></span>
+        <div class="row">
+          <div class="form-group col-xs-4">
+            <label class="control-label">Name</label>
+            <input type="text" class="form-control" placeholder="Name" ng-model="tileConsole.command.name">
+          </div>
+          <div class="form-group col-xs-8" style="margin-bottom: 0;">
+            <label class="control-label">Properties</label>
+            <input type="text" class="form-control" placeholder="Properties" ng-model="tileConsole.command.properties" ng-list>
+            <span class="help-block">A sequence of comma-separated values</span>
+          </div>
+        </div>
+        <label>JSON message:</label>
+        <div class="row">
+          <div class="col-xs-9"><pre>{{tileConsole.command | json}}</pre></div>
+          <div class="col-xs-3"><span class="input-group-btn"><button type="button" class="btn sidemenu-btn btn-flat btn-block" style="text-align: center;"  ng-click="tileConsole.sendCommand()">Send</button></span></div>
         </div>
       </div>
     </div><!-- /.modal-content -->
