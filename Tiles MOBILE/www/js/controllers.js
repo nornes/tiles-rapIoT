@@ -1,5 +1,12 @@
 'use strict';
 
+var rfduino = {
+    serviceUUID: '2220',
+    receiveCharacteristic: '2221',
+    sendCharacteristic: '2222',
+    disconnectCharacteristic: '2223'
+};
+
 /* Controllers */
 
 angular.module('tiles.controllers', [])
@@ -90,6 +97,35 @@ angular.module('tiles.controllers', [])
             }]
         });
     };
+
+    $scope.sendData = function(device, dataString) { // Send data to RFduino
+        var success = function() {
+            console.log('Data sent successfully.');
+        };
+
+        var failure = function() {
+            alert('Failed writing data to the RFduino');
+        };
+
+        /*var data = new Uint8Array(1);
+        data[0] = device.ledOn ? 0x1 : 0x0;*/
+
+        // For sending command from UI (debugging purposes)
+        if (dataString === undefined) {
+            dataString = device.ledOn ? 'led,on,red' : 'led,off';
+        }
+
+        console.log('Sending to device: ' + dataString);
+
+        // Transform string to bytes
+        var data = new Uint8Array(dataString.length);
+        for (var i = 0, l = dataString.length; i < l; i++) {
+            data[i] = dataString.charCodeAt(i);
+        }
+        console.log('Bytes: ' + data.length);
+
+        ble.writeWithoutResponse(device.id, rfduino.serviceUUID, rfduino.sendCharacteristic, data.buffer, success, failure);
+    };
 }])
 .controller('TilesCtrl', ['$scope', '$ionicPopup', 'mqttClient', 'tilesApi', 'group', function($scope, $ionicPopup, mqttClient, tilesApi, group) {
     $scope.devices = [
@@ -97,13 +133,6 @@ angular.module('tiles.controllers', [])
         {'name': 'Some OtherDevice', 'id': 'A1:B2:5C:87:2D:36', 'rssi': -52, 'advertising': null , 'connected': true},
         {'name': 'TILES Test Device', 'id': 'A1B2-5C87-2D36-4E57-9GH7-8KL0', 'rssi': -52, 'advertising': null, 'group': 'MyGroup1', 'connected': false}*/
     ];
-
-    var rfduino = {
-        serviceUUID: '2220',
-        receiveCharacteristic: '2221',
-        sendCharacteristic: '2222',
-        disconnectCharacteristic: '2223'
-    };
 
     var isNewDevice = function(discoveredDevice) {
         return tilesApi.tiles[discoveredDevice.id] == null;
@@ -223,35 +252,6 @@ angular.module('tiles.controllers', [])
         onError: function(reason) {
             alert('ERROR: ' + reason);
         }
-    };
-
-    $scope.sendData = function(device, dataString) { // Send data to RFduino
-        var success = function() {
-            console.log('Data sent successfully.');
-        };
-
-        var failure = function() {
-            alert('Failed writing data to the RFduino');
-        };
-
-        /*var data = new Uint8Array(1);
-        data[0] = device.ledOn ? 0x1 : 0x0;*/
-
-        // For sending command from UI (debugging purposes)
-        if (dataString === undefined) {
-            dataString = device.ledOn ? 'led,on,red' : 'led,off';
-        }
-
-        console.log('Sending to device: ' + dataString);
-
-        // Transform string to bytes
-        var data = new Uint8Array(dataString.length);
-        for (var i = 0, l = dataString.length; i < l; i++) {
-            data[i] = dataString.charCodeAt(i);
-        }
-        console.log('Bytes: ' + data.length);
-
-        ble.writeWithoutResponse(device.id, rfduino.serviceUUID, rfduino.sendCharacteristic, data.buffer, success, failure);
     };
 }])
 .controller('AppsCtrl', ['$scope', 'tilesApi', function($scope, tilesApi){
