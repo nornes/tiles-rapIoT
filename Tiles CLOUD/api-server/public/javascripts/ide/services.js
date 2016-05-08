@@ -225,13 +225,31 @@ angular.module('tilesIde.services', [])
 	}
 
 	o.changeGroup = function(newGroup, oldGroup) {
-		if (o.subscribedTopic) {
+		if (o.subscribedTopic && o.tile) {
 			tiles.client.unsubscribe(o.subscribedTopic);
 			o.subscribedTopic = getTopic(o.tile, 'evt');
 			tiles.client.subscribe(o.subscribedTopic);
 			addConsoleEntry('tileConsole', 'Group changed from "' + oldGroup + '" to "' + newGroup + '"\n', true);
 		}
 	}
+
+	return o;
+}])
+
+.factory('configData', ['$http', function($http) {
+	var o = {};
+
+	o.save = function(userId, appRecipe, data) {
+		return $http.put('/appRecipes/' + userId + '/' + appRecipe._id + '/config', JSON.stringify(data)).then(function(res){
+			console.log('Saved successfully! Data: ' + JSON.stringify(res.data));
+		});
+	};
+
+	o.fetch = function(userId, appRecipe, callback) {
+  		return $http.get('/appRecipes/' + userId + '/' + appRecipe._id + '/config').then(function(res){
+  			if (callback) callback(res.data);
+  		});
+	};
 
 	return o;
 }]);

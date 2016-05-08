@@ -1,0 +1,19 @@
+{
+  "name": "api-server",
+  "description": "",
+  "main": "app.js",
+  "license": "MIT",
+  "homepage": "http://tilestoolkit.io",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "JSONedit": "json-edit#^0.2.1"
+  }
+}

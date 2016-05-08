@@ -6,9 +6,22 @@
         <h4 class="modal-title">Edit configuration file</h4>
       </div>
       <div class="modal-body">
-      	<div class="config-editor-container">
-      		<div id="config-editor"></div>
-		</div>
+        <ul class="nav nav-tabs">
+          <li role="presentation" class="{{showVisualEditor ? 'active' : ''}}"><a ng-click="showVisualEditor = true">Tree Editor</a></li>
+          <li role="presentation" class="{{showVisualEditor ? '' : 'active'}}"><a ng-click="showVisualEditor = false">Text Editor</a></li>
+          <button type="button" class="btn btn-primary" ng-click="saveConfigFile()" style="float: right;">Save</button>
+        </ul>
+        <div ng-show="showVisualEditor" class="jsonView">
+          <div class="row" style="margin: 0;">
+            <div class="col-xs-12">
+              <json child="jsonData" default-collapsed="false" type="object"></json>
+            </div>
+          </div>
+        </div>
+        <div ng-hide="showVisualEditor">
+          <textarea class="form-control" style="width: 100%; min-height: 300px" ng-model="jsonString"></textarea>
+          <span class="red" ng-if="!isValidJson">JSON is invalid.</span>
+        </div>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

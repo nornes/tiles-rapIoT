@@ -3,17 +3,26 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
 
-function getAppPath(appId, userId) {
+var getAppPath = function(appId, userId) {
 	return __dirname + '/apps/' + userId + '/' + appId;
-}
+};
 
-function writeFile(path, filename, data){
+var writeFile = function(path, filename, data){
     var file = path + '/' + filename;
     fs.writeFile(file, data, function(err) {
         if (err) console.log(err);
         else console.log('File created: ' + file);
     });
-}
+};
+
+var _invalidateRequireCacheForFile = function(filePath){
+    delete require.cache[path.resolve(filePath)];
+};
+
+var requireNoCache =  function(filePath){
+    _invalidateRequireCacheForFile(filePath);
+    return require(filePath);
+};
 
 exports.create = function(appId, userId, code, config) {
     var dir = getAppPath(appId, userId);
@@ -40,7 +49,7 @@ exports.read = function(appId, userId, callback) {
 
 exports.getConfigModule = function(appId, userId) {
     var configFile = getAppPath(appId, userId) + '/config.json';
-    return require(configFile);
+    return requireNoCache(configFile);
 };
 
 exports.delete = function(appId, userId, callback) {

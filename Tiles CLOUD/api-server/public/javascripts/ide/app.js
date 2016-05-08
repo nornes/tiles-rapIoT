@@ -1,6 +1,6 @@
 /* Main module */
 
-angular.module('tilesIde', ['ui.router', 'tilesIde.controllers', 'tilesIde.services'])
+angular.module('tilesIde', ['ui.router', 'JSONedit', 'tilesIde.controllers', 'tilesIde.services'])
 
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 	$stateProvider

@@ -127,10 +127,18 @@ router.put('/:userId/:appId/config', function(req, res, next) {
 
     if (typeof config !== 'undefined') {
         appRepository.update(appId, userId, null, config);
-        return res.status(200).end();
+        return res.json(config);
     } else {
         return res.status(400).end();
     }
+});
+
+router.get('/:userId/:appId/config', function(req, res, next) {
+    var appId = req.params.appId;
+    var userId = req.params.userId;
+
+    var configModule = appRepository.getConfigModule(appId, userId);
+    res.json(configModule);
 });
 
 module.exports = router;

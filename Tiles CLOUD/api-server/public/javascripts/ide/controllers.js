@@ -152,9 +152,30 @@ angular.module('tilesIde.controllers', [])
         if (typeof oldValue != 'undefined') tileConsole.changeGroup(newValue, oldValue);
     }, true);
 }])
-.controller('ConfigEditorModalCtrl', ['$scope', function($scope){
-	var editor = ace.edit("config-editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/json");
-    editor.setShowPrintMargin(false);
+.controller('ConfigEditorModalCtrl', ['$scope', '$filter', 'configData', 'userId', 'mainSidebar', function($scope, $filter, configData, userId, mainSidebar){
+	$scope.jsonData = {};
+	$scope.showVisualEditor = true;
+
+	$('#configEditorModal').on('shown.bs.modal', function (e) {
+		configData.fetch(userId, mainSidebar.selectedAppRecipe, function(data){
+			$scope.jsonData = data || {};
+		});
+	})
+
+    $scope.$watch('jsonData', function(json) {
+        $scope.jsonString = $filter('json')(json);
+    }, true);
+
+    $scope.$watch('jsonString', function(json) {
+        try {
+            $scope.jsonData = JSON.parse(json);
+            $scope.isValidJson = true;
+        } catch(e) {
+            $scope.isValidJson = false;
+        }
+    }, true);
+
+    $scope.saveConfigFile = function() {
+		configData.save(userId, mainSidebar.selectedAppRecipe, $scope.jsonData);
+    };
 }]);;

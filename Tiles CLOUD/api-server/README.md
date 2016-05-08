@@ -2,12 +2,13 @@
 
 ## Installation
 
-1. Install [Node.js](http://nodejs.org/) and [MongoDB](https://www.mongodb.org/).
+1. Install [Node.js](http://nodejs.org/), [Bower](http://bower.io/), and [MongoDB](https://www.mongodb.org/).
 
 2. Install project dependencies
    ```sh
    cd "Tiles CLOUD/api-server"
    npm install
+   bower install
    ```
 
 ## Run
