@@ -17,16 +17,32 @@ io.sockets.on('connection', function(socket) {
 		if (prevRoom) socket.leave(prevRoom);
 		socket.join(room);
 	});
+
+    socket.on('input', function(input) {
+        var p = appProcesses[input.appId]
+        if (p) p.stdin.write(input.message);
+    });
 });
+
+var _deactivateApp = function(appRecipe, kill, save, callback) {
+    var process = appProcesses[appRecipe._id];
+    if (process) {
+        process.kill();
+        appProcesses[appRecipe._id] = null;
+    }
+    if (save) {
+        appRecipe.active = false;
+        appRecipe.save(callback);
+    }
+}
 
 appRunner.activateApp = function(appRecipe, callback) {
 	// Kill previous process if it's still running
-    var process = appProcesses[appRecipe._id];
-    if (process) process.kill();
+    _deactivateApp(appRecipe, true, true);
 
     io.to(appRecipe._id).emit('app_status', 'started');
 
-	var args = [appRecipe._id, appRecipe.user, appRecipe.group];
+    var args = [appRecipe._id, appRecipe.user, appRecipe.group];
     var options = {silent: true};
 
     var cp = child_process.fork('vm_app_runner', args, options);
@@ -34,14 +50,16 @@ appRunner.activateApp = function(appRecipe, callback) {
 
     cp.on('uncaughtException', function(err) {
         console.log('Caught exception: ' + err);
+        _deactivateApp(appRecipe, false, true);
     });
 
     cp.on('close', function(code) {
         console.log('Child process exited with code: ' + code);
         io.to(appRecipe._id).emit('app_status', 'closed');
-        appRecipe.active = false;
-        appRecipe.save();
+        _deactivateApp(appRecipe, false, true);
     });
+
+    cp.stdin.setEncoding('utf-8');
 
     cp.stdout.setEncoding('utf-8');
     cp.stdout.on('data', function(data) {
@@ -58,11 +76,7 @@ appRunner.activateApp = function(appRecipe, callback) {
 }
 
 appRunner.deactivateApp = function(appRecipe, callback) {
-	var process = appProcesses[appRecipe._id];
-    if (process) process.kill();
-
-    appRecipe.active = false;
-    appRecipe.save(callback);
+	_deactivateApp(appRecipe, true, true, callback);
 }
 
 module.exports = appRunner;

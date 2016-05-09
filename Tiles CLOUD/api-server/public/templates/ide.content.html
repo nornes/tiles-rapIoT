@@ -25,6 +25,14 @@
 			<div class="panel-heading">Console</div>
 			<div class="panel-body">
 				<div class="console" id="appConsole"></div>
+				<form ng-submit="sendConsoleInput(msb.selectedAppRecipe)">
+					<div class="console-input input-group input-group-sm">
+                		<input type="text" class="form-control" placeholder="Input" ng-model="consoleInput">
+                    	<span class="input-group-btn">
+                      		<button type="submit" class="btn send-input-btn sidemenu-btn btn-flat">Send</button>
+                    	</span>
+                	</div>
+                </form>
 			</div>
 		</div>
 	</div>

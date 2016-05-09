@@ -3,7 +3,7 @@
     height: 100%;
 }
 .editor-container {
-    height: 580px;
+    height: 540px;
 }
 #config-editor {
     width: 100%;
@@ -86,6 +86,9 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 .console .info {
     color: #9bdd39;
 }
+.console .user-input {
+    color: #e8ce10;
+}
 .active-green {
     color: #53b32c !important;
 }
@@ -120,4 +123,18 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 }
 .tile-console-link:hover {
     color: #ffffff;
+}
+.console-input>input.form-control {
+    background-color: #36474e;
+    color: #fff;
+    font-family: monospace;
+    font-size: 15px;
+    text-align: left;
+    position: static;
+    padding: 5px;
+    border-radius: 0;
+    border: 0;
+}
+.console-input .btn.send-input-btn {
+    border-radius: 0;
 }

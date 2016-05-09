@@ -11,6 +11,8 @@ angular.module('tilesIde.controllers', [])
 
     $scope.msb = mainSidebar;
 
+    $scope.consoleInput = '';
+
 	$scope.saveAppRecipe = function(appRecipe){
 		appRecipe.code = content.editor.getValue();
 		appRecipes.save(userId, appRecipe);
@@ -27,6 +29,13 @@ angular.module('tilesIde.controllers', [])
 
 	$scope.openConfigEditor = function(appRecipe) {
 		$('#configEditorModal').modal('show');
+	}
+
+	$scope.sendConsoleInput = function(appRecipe) {
+		var input = $scope.consoleInput + '\n';
+		sendConsoleInput(appRecipe._id, input);
+		addConsoleEntry('appConsole', input, 'user-input');
+		$scope.consoleInput = '';
 	}
 }])
 .controller('MainSidebarCtrl', ['$scope', 'userId', 'appRecipes', 'mainSidebar', 'content', 'controlSidebar', function($scope, userId, appRecipes, mainSidebar, content, controlSidebar){

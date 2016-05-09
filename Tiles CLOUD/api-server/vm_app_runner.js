@@ -2,6 +2,7 @@ const vm = require('vm');
 const util = require('util');
 const appRepository = require('./appcode-repository.js');
 const TilesClient = require('../../Tiles\ CLIENTS/js/tiles-client.js');
+const vmReadline = require('./vm-readline');
 
 var appId = process.argv[2];
 var userId = process.argv[3];
@@ -19,6 +20,7 @@ appRepository.read(appId, userId, function(err, data) {
 		TilesClient: TilesClient,
 		appConfig: config,
 		console: console,
+		rl: vmReadline.createInterface(process),
 		setInterval: setInterval,
 		setTimeout: setTimeout
 	};

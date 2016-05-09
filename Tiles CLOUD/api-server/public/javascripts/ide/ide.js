@@ -11,21 +11,19 @@ socket.on('stdout_data', function(d) {
 });
   
 socket.on('stderr_data', function(d) {
-	addConsoleEntry('appConsole', d, false, true);
+	addConsoleEntry('appConsole', d, 'error');
 });
 
 socket.on('app_status', function(d) {
 	if (d === 'started') {
-		addConsoleEntry('appConsole', '[APP STARTED]\n', true);
+		addConsoleEntry('appConsole', '[APP STARTED]\n', 'info');
 	} else if (d === 'closed') {
-		addConsoleEntry('appConsole', '[APP EXITED]\n', true);
+		addConsoleEntry('appConsole', '[APP EXITED]\n', 'info');
 	}
 });
 
-function addConsoleEntry(consoleId, d, isInfo, isError) {
-	var styleClass = 'log';
-	if (isInfo) styleClass = 'info';
-	else if (isError) styleClass = 'error';
+function addConsoleEntry(consoleId, d, type) {
+	var styleClass = type || 'log';
 
 	$('#' + consoleId).append('<span class="' + styleClass + '">' + d + '</span>');
 
@@ -48,4 +46,16 @@ function setAppConsoleSocketRoom(appId, callback) {
 	}
 
 	if (callback) callback();
+}
+
+function sendConsoleInput(appId, message) {
+	if (socketConnected) {
+		var data = {
+			appId: appId,
+			message: message
+		};
+		socket.emit('input', data);
+	} else {
+		console.log('Unable to send data. WebSocket is not connected.');
+	}
 }
