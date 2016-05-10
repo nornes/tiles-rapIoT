@@ -49,6 +49,10 @@ angular.module('tilesIde', ['ui.router', 'JSONedit', 'tilesIde.controllers', 'ti
         'config-editor-modal': {
           templateUrl: '/templates/ide.config-editor-modal.html',
           controller: 'ConfigEditorModalCtrl'
+        },
+        'confirm-app-delete-modal': {
+          templateUrl: '/templates/ide.confirm-app-delete-modal.html',
+          controller: 'ConfirmAppDeleteModalCtrl'
         }
   		}
 		});

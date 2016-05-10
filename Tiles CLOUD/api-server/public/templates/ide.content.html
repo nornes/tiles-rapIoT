@@ -1,10 +1,14 @@
 <!-- Main content -->
 <div class="content-wrapper" style="min-height: 870px;">
 	<section class="content">
+	<div ng-hide="msb.selectedAppRecipe" class="well" style="display: inline-block;">
+		<i class="vam glyphicon glyphicon-arrow-left" style="font-size: 32px;"></i>&nbsp;
+		<span class="vam" style="font-size: 20px;">Select an app from the sidemenu.</span>
+	</div>
 	<div ng-show="msb.selectedAppRecipe">
 		<div class="editor-header-row">
 			<h3 id="editor-header-title" class="inline-header">{{msb.selectedAppRecipe.name}}</h3>
-			<button type="button" ng-click="deleteAppRecipe(msb.selectedAppRecipe)" class="btn btn-danger btn-sm delete-btn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> Delete</button>
+			<button type="button" ng-click="showConfirmDeleteAppModal()" class="btn btn-danger btn-sm delete-btn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> Delete</button>
 			<div class="float-right" style="margin-top: 12px;">
 				<div style="display: inline-flex; vertical-align: middle;">
 	      			<label for="group" style="margin-top: 6px;">Group:</label>&nbsp;

@@ -138,3 +138,6 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 .console-input .btn.send-input-btn {
     border-radius: 0;
 }
+.vam {
+    vertical-align: middle;
+}

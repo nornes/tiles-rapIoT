@@ -22,9 +22,8 @@ angular.module('tilesIde.controllers', [])
 		appRecipes.setActive(userId, appRecipe, activate);
 	}
 
-	$scope.deleteAppRecipe = function(appRecipe){
-		appRecipes.delete(userId, appRecipe);
-		$scope.msb.selectedAppRecipe = null;
+	$scope.showConfirmDeleteAppModal = function(){
+		$('#confirmAppDeleteModal').modal('show');
 	}
 
 	$scope.openConfigEditor = function(appRecipe) {
@@ -187,4 +186,12 @@ angular.module('tilesIde.controllers', [])
     $scope.saveConfigFile = function() {
 		configData.save(userId, mainSidebar.selectedAppRecipe, $scope.jsonData);
     };
-}]);;
+}])
+.controller('ConfirmAppDeleteModalCtrl', ['$scope', 'userId', 'appRecipes', 'mainSidebar', function($scope, userId, appRecipes, mainSidebar){
+	$scope.msb = mainSidebar;
+	$scope.deleteAppRecipe = function(appRecipe){
+		appRecipes.delete(userId, appRecipe);
+		$scope.msb.selectedAppRecipe = null;
+		$('#confirmAppDeleteModal').modal('hide');
+	};
+}]);
