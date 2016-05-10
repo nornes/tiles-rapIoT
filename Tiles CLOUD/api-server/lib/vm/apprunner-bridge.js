@@ -85,7 +85,7 @@ appRunner.activateApp = function(appRecipe, callback) {
     var args = [appRecipe._id, appRecipe.user, appRecipe.group];
     var options = {silent: true};
 
-    var cp = child_process.fork('vm_app_runner', args, options);
+    var cp = child_process.fork('lib/vm/apprunner', args, options);
     appProcesses[appRecipe._id] = cp;
 
     cp.on('close', function(code) {

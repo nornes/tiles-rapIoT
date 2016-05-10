@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var appRunner = require('../vm_app_runner_bridge');
+var appRunner = require('../lib/vm/apprunner-bridge');
 
 var AppRecipeSchema = new mongoose.Schema({
     name: String,

@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var AppRecipe = mongoose.model('AppRecipe');
-var appRepository = require('../appcode-repository.js');
-var templateBuilder = require('../appcode-template-builder.js');
+var appRepository = require('../lib/appcode/repository');
+var templateBuilder = require('../lib/appcode/template-builder');
 
 router.post('/:userId', function(req, res, next) {
     var userId = req.params.userId;

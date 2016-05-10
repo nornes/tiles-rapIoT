@@ -1,8 +1,8 @@
 const vm = require('vm');
 const util = require('util');
-const appRepository = require('./appcode-repository.js');
-const TilesClient = require('../../Tiles\ CLIENTS/js/tiles-client.js');
-const vmReadline = require('./vm-readline');
+const appRepository = require('../appcode/repository.js');
+const TilesClient = require('../../../../Tiles\ CLIENTS/js/tiles-client.js');
+const vmReadline = require('./readline');
 
 var appId = process.argv[2];
 var userId = process.argv[3];

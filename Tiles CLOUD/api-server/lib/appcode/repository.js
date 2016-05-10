@@ -3,11 +3,15 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var rimraf = require('rimraf');
 
-var getAppPath = function(appId, userId) {
-	return __dirname + '/apps/' + userId + '/' + appId;
+var _getUserHome = function() {
+    return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 };
 
-var writeFile = function(path, filename, data){
+var getAppPath = function(appId, userId) {
+	return _getUserHome() + '/tilesapps/' + userId + '/' + appId;
+};
+
+var writeFile = function(path, filename, data) {
     var file = path + '/' + filename;
     fs.writeFile(file, data, function(err) {
         if (err) console.log(err);
@@ -15,11 +19,11 @@ var writeFile = function(path, filename, data){
     });
 };
 
-var _invalidateRequireCacheForFile = function(filePath){
+var _invalidateRequireCacheForFile = function(filePath) {
     delete require.cache[path.resolve(filePath)];
 };
 
-var requireNoCache =  function(filePath){
+var requireNoCache =  function(filePath) {
     _invalidateRequireCacheForFile(filePath);
     return require(filePath);
 };
