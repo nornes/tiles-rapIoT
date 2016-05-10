@@ -2,6 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var child_process = require('child_process');
+var pusage = require('pidusage');
 var appProcesses = [];
 
 var wsPort = 3001;
@@ -10,6 +11,41 @@ http.listen(wsPort, function() {
 });
 
 var appRunner = {};
+
+const PROCESS_MONITOR_INTERVAL = 5000; // milliseconds
+const MAX_TOTAL_CPU_USAGE = 90; // percentage
+var cpuLimit = MAX_TOTAL_CPU_USAGE;
+
+setInterval(function() {
+    var count = 0;
+    for (var appId in appProcesses) {
+        if (appProcesses.hasOwnProperty(appId)) {
+            var appProcess = appProcesses[appId];
+            if (appProcess) {
+                count++;
+                pusage.stat(appProcess.pid, function(appId) { 
+                    return function(err, stat) {
+                        if (err) console.log(err);
+                        else {
+                            console.log('App %s CPU usage is %s %.', appId, stat.cpu);
+                            if (stat.cpu > cpuLimit) {
+                                console.log('App %s exceeded CPU limit. Killing process.', appId);
+                                io.to(appId).emit('app_status', 'cpu_limit');
+                                _killAppProcess(appId);
+                            }
+                        }
+                    }
+                }(appId));
+            } else {
+                console.log('PID not found for app ' + appId);
+            }
+        }
+    }
+    if (count !== 0) {
+        cpuLimit = MAX_TOTAL_CPU_USAGE / count;
+        console.log('CPU limit set to: ' + cpuLimit);
+    }
+}, PROCESS_MONITOR_INTERVAL);
 
 io.sockets.on('connection', function(socket) {
 	socket.on('room', function(room) {
@@ -24,12 +60,16 @@ io.sockets.on('connection', function(socket) {
     });
 });
 
-var _deactivateApp = function(appRecipe, kill, save, callback) {
-    var process = appProcesses[appRecipe._id];
+var _killAppProcess = function(appId) {
+    var process = appProcesses[appId];
     if (process) {
         process.kill();
-        appProcesses[appRecipe._id] = null;
+        delete appProcesses[appId];
     }
+}
+
+var _deactivateApp = function(appRecipe, kill, save, callback) {
+    if (kill) _killAppProcess(appRecipe._id);
     if (save) {
         appRecipe.active = false;
         appRecipe.save(callback);
@@ -47,11 +87,6 @@ appRunner.activateApp = function(appRecipe, callback) {
 
     var cp = child_process.fork('vm_app_runner', args, options);
     appProcesses[appRecipe._id] = cp;
-
-    cp.on('uncaughtException', function(err) {
-        console.log('Caught exception: ' + err);
-        _deactivateApp(appRecipe, false, true);
-    });
 
     cp.on('close', function(code) {
         console.log('Child process exited with code: ' + code);

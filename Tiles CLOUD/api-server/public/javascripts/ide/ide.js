@@ -19,6 +19,8 @@ socket.on('app_status', function(d) {
 		addConsoleEntry('appConsole', '[APP STARTED]\n', 'info');
 	} else if (d === 'closed') {
 		addConsoleEntry('appConsole', '[APP EXITED]\n', 'info');
+	} else if (d === 'cpu_limit') {
+		addConsoleEntry('appConsole', '[CPU limit is exceeded. Killing process.]\n', 'error');
 	}
 });
 

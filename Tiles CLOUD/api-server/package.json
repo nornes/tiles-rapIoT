@@ -14,6 +14,7 @@
     "express": "~4.13.1",
     "mongoose": "^4.2.5",
     "morgan": "~1.6.1",
+    "pidusage": "^1.0.1",
     "ponte": "0.0.14",
     "qlobber": "^0.5.3",
     "request": "^2.67.0",
