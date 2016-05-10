@@ -141,3 +141,27 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 .vam {
     vertical-align: middle;
 }
+.btn-active-green {
+    color: #ffffff;
+    background-color: #53b32c;
+    border-color: #4aa724;
+}
+.btn-active-green:hover,
+.btn-active-green:active,
+.btn-active-green:focus {
+    color: #ffffff;
+    background-color: #4aa724;
+    border-color: #398439;
+}
+.btn-inactive-red {
+    color: #ffffff;
+    background-color: #dd4b39;
+    border-color: #d04a3a;
+}
+.btn-inactive-red:hover,
+.btn-inactive-red:active,
+.btn-inactive-red:focus {
+    color: #ffffff;
+    background-color: #d04a3a;
+    border-color: #ac2925;
+}
