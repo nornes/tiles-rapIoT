@@ -1,0 +1,113 @@
+<article class="markdown-body entry-content" itemprop="text"><h1><a id="user-content-tilesjs-library" aria-hidden="true"></a>TilesJS Library</h1>
+
+<p>Tiles Client Library is an event-driven API for the Tiles project written in JavaScript for Node.js and the browser. It's built on top of <a href="https://github.com/mqttjs/MQTT.js">MQTT.js</a> and Node.js' <a href="https://github.com/Gozala/events">EventEmitter</a>.</p>
+
+<h2><a id="user-content-fundamentals" aria-hidden="true"></a>Fundamentals</h2>
+
+<p>Tiles applications are based on Tiles modules exchanging <em>events</em> and <em>commands</em>, encapsulating interaction primitives, between each other and with third-party clients. </p>
+
+<p><a href="/images/events-commands.png" target="_blank"><img src="/images/events-commands.png" alt="GitHub Logo" style="max-width:100%;"></a></p>
+
+<p>An <em>event</em> describes and input primitive, like a tile being tapped, shaken or rotated. </p>
+
+<p>A <em>command</em> describes an output primitive provided by a tile module, for example vibrating, changing the LED colors or emitting a sound.</p>
+
+<p>Events and commands are characterized by <em>name</em> and <em>two optinal parameters</em> which further describe the type of interaction primitive happening.</p>
+
+<p>The list of events and commands currently implemented is available <a href="https://docs.google.com/spreadsheets/d/1b0ByrMQosh1BtK5hjAW2eLOzJf7y3-SCpFSCwuzxlRg/edit?usp=sharing">HERE</a></p>
+
+<p><a name="user-content-Example"></a></p>
+
+<h2><a id="user-content-hello-world-example" aria-hidden="true"></a>Hello World Example</h2>
+
+<p>This code showcasse how to connect to Tiles Cloud, receive an event (input primitive) from Tiles and send a command (output primitive) to one or more tiles. Whenever an event is received, the event will be printed to the console.</p>
+
+<p>In this example first we connect to Tiles Cloud as <code>TestUser</code>. Then whenever the Tile with name <code>tileID</code> is tapped once it will start blinking in red. Whenever <code>tileID</code>is tapped twice it will turn the LED off.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> TilesClient <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>tiles-client.js<span class="pl-pds">'</span></span>);
+
+<span class="pl-k">var</span> client <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">TilesClient</span>(<span class="pl-s"><span class="pl-pds">'</span>TestUser<span class="pl-pds">'</span></span>).<span class="pl-en">connect</span>();
+
+<span class="pl-smi">client</span>.<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>receive<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">tileId</span>, <span class="pl-c1">event</span>){
+    <span class="pl-en">console</span>.<span class="pl-c1">log</span>(<span class="pl-s"><span class="pl-pds">'</span>Event received from <span class="pl-pds">'</span></span> <span class="pl-k">+</span> tileId <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>: <span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-c1">JSON</span>.<span class="pl-en">stringify</span>(<span class="pl-c1">event</span>));
+    <span class="pl-k">if</span> (<span class="pl-c1">event</span>.<span class="pl-c1">name</span> <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>tap<span class="pl-pds">'</span></span> <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">event</span>.<span class="pl-smi">properties</span>[<span class="pl-c1">0</span>] <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>single<span class="pl-pds">'</span></span>){
+        <span class="pl-smi">client</span>.<span class="pl-c1">send</span>(tileId, <span class="pl-s"><span class="pl-pds">'</span>led<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>blink<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>red<span class="pl-pds">'</span></span>);
+    } <span class="pl-k">else</span> <span class="pl-k">if</span> (<span class="pl-c1">event</span>.<span class="pl-c1">name</span> <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>tap<span class="pl-pds">'</span></span> <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">event</span>.<span class="pl-smi">properties</span>[<span class="pl-c1">0</span>] <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>double<span class="pl-pds">'</span></span>){
+        <span class="pl-smi">client</span>.<span class="pl-c1">send</span>(tileId, <span class="pl-s"><span class="pl-pds">'</span>led<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>off<span class="pl-pds">'</span></span>);
+    }
+});</pre></div>
+
+<p><a name="user-content-API"></a></p>
+
+<h2><a id="user-content-api" aria-hidden="true"></a>API</h2>
+
+<h3><a id="user-content-create-client" aria-hidden="true"></a>Create client</h3>
+
+<p>Create a client by providing your username and connecting to the default Tiles Cloud server. The <code>group</code> parameter is optional and enables targeting a subgroup of your devices. If this parameter is omitted, the client is able to communicate with any Tiles device in the user's "global channel", i.e. Tiles without a specified group.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> tilesClient <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">TilesClient</span>([username], [group]).<span class="pl-en">connect</span>();</pre></div>
+
+<p><em>OPTIONAL:</em> Create a client by providing your username and connecting to a custom Tiles Cloud server.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-k">var</span> tilesClient <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">TilesClient</span>([username], [group], [server_address], [port]).<span class="pl-en">connect</span>();</pre></div>
+
+<h3><a id="user-content-send-a-command-to-one-tile" class="anchor" href="#send-a-command-to-one-tile" aria-hidden="true"></a>Send a command to one tile</h3>
+
+<p>Send a command to a Tile with a command name and up to two optional parameters.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">tilesClient</span>.<span class="pl-c1">send</span>([tileId], [commandName], [parameter1], [parameter2]);</pre></div>
+
+<h3><a id="user-content-events" aria-hidden="true"></a>Events</h3>
+
+<p>Add listeneres for events by registering callback methods.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">tilesClient</span>.<span class="pl-en">on</span>([<span class="pl-c1">event</span>], [callback]);</pre></div>
+
+<h4><a id="user-content-event-connect" aria-hidden="true"></a>Event <code>'connect'</code></h4>
+
+<p><code>function() {}</code></p>
+
+<p>Emitted on successful (re)connection to the server.</p>
+
+<h4><a id="user-content-event-receive" aria-hidden="true"></a>Event <code>'receive'</code></h4>
+
+<p><code>function(tileId, event) {}</code></p>
+
+<p>Emitted when a message sent from/to a Tile is received. (See Hello World example above)</p>
+
+<ul>
+<li><code>tileId</code> The ID of the Tile the message was sent to/from.</li>
+<li><code>event</code> An event object (Parsed JSON payload of the received packet)</li>
+<li><code>event.name</code> Name of the event received</li>
+<li><code>event.properties[0]</code> Parameter#1</li>
+<li><code>event.properties[1]</code> Parameter#2</li>
+</ul>
+
+<h4><a id="user-content-event-tileregistered" aria-hidden="true"></a>Event <code>'tileRegistered'</code></h4>
+
+<p><code>function(tileId) {}</code></p>
+
+<p>Emitted when a Tile is registered/connected.</p>
+
+<ul>
+<li><code>tileId</code> The ID of the registered Tile</li>
+</ul>
+
+<h4><a id="user-content-event-tileunregistered" aria-hidden="true"></a>Event <code>'tileUnregistered'</code></h4>
+
+<p><code>function(tileId) {}</code></p>
+
+<p>Emitted when a Tile is unregistered/disconnected.</p>
+
+<ul>
+<li><code>tileId</code> The ID of the unregistered Tile</li>
+</ul>
+
+<p><a name="user-content-GetTileByName"></a></p>
+
+<h3><a id="user-content-get-tile-by-name" aria-hidden="true"></a>Get Tile by name</h3>
+
+<p>Get the MAC Address of a Tile by looking it up by name.</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">tilesClient</span>.<span class="pl-smi">tiles</span>[<span class="pl-s"><span class="pl-pds">'</span>TILES1<span class="pl-pds">'</span></span>]</pre></div>
+</article>

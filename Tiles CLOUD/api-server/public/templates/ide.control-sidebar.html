@@ -28,10 +28,9 @@
     	<!-- Documentation tab -->
       	<div class="tab-pane {{controlSidebar.selectedTabIndex == 1 ? 'active' : ''}}" id="control-sidebar-documentation-tab">
         	<h3 class="control-sidebar-heading">Documentation</h3>
-        	<ul class="control-sidebar-menu">
-        	</ul>
+          <a><i class="fa fa-external-link"></i>&nbsp;View full documentation</a> <!-- TODO: Add URL -->
+          <div id="documentation" class="documentation" ng-include="'/templates/ide.documentation.html'" autoscroll></div>
       	</div>
-
       	<!-- Settings tab -->
       	<div class="tab-pane {{controlSidebar.selectedTabIndex == 2 ? 'active' : ''}}" id="control-sidebar-settings-tab">
         	<h3 class="control-sidebar-heading">Settings</h3>

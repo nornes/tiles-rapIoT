@@ -167,6 +167,14 @@ angular.module('tilesIde.services', [])
 
 	o.selectTab = function(tabIndex){
 		o.selectedTabIndex	= tabIndex;
+		if (tabIndex === 1){
+			setTimeout(function(){
+				$('#documentation').slimScroll({
+					height: (window.innerHeight - $('#documentation').offset().top) + 'px',
+					color: '#ecf0f5'
+				});
+			}, 1);
+		}
 	}
 
 	return o;
