@@ -194,4 +194,10 @@ angular.module('tilesIde.controllers', [])
 		$scope.msb.selectedAppRecipe = null;
 		$('#confirmAppDeleteModal').modal('hide');
 	};
+}])
+.controller('LoginCtrl', ['$scope', '$location', function($scope, $location) {
+	// Dummy login
+	$scope.login = function() {
+		$location.path('/ide/' + $scope.username);
+	};
 }]);

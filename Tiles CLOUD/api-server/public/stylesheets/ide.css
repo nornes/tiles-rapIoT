@@ -165,3 +165,6 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
     background-color: #d04a3a;
     border-color: #ac2925;
 }
+.login-logo>a {
+    color: #ffffff;
+}

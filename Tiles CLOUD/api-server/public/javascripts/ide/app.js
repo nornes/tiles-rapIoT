@@ -5,7 +5,7 @@ angular.module('tilesIde', ['ui.router', 'JSONedit', 'tilesIde.controllers', 'ti
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 	$stateProvider
 		.state('ide', {
-			url: '/{userId}',
+			url: '/ide/{userId}',
 			resolve: {
 				userId: ['$stateParams', function($stateParams) {
   					return $stateParams.userId;
@@ -55,5 +55,13 @@ angular.module('tilesIde', ['ui.router', 'JSONedit', 'tilesIde.controllers', 'ti
           controller: 'ConfirmAppDeleteModalCtrl'
         }
   		}
-		});
+		})
+  .state('login', {
+    url: '/login',  
+    templateUrl: '/templates/login.html',
+    controller: 'LoginCtrl'
+  });
+
+  $urlRouterProvider.otherwise('/login');
+
 }]);
