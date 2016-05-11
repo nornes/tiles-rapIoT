@@ -2,6 +2,23 @@
 
 angular.module('tilesIde.services', [])
 
+.factory('$localStorage', ['$window', function($window) {
+  return {
+  	set: function(key, value) {
+  		$window.localStorage[key] = value;
+    },
+    get: function(key, defaultValue) {
+    	return $window.localStorage[key] || defaultValue;
+    },
+    setObject: function(key, value) {
+    	$window.localStorage[key] = JSON.stringify(value);
+    },
+    getObject: function(key) {
+    	return JSON.parse($window.localStorage[key] || '{}');
+    }
+  }
+}])
+
 .factory('appRecipes', ['$http', function($http){
 	var o = {
 		appRecipes: []
@@ -262,7 +279,7 @@ angular.module('tilesIde.services', [])
 	return o;
 }])
 
-.factory('settings', ['content', function(content) {
+.factory('settings', ['content', '$localStorage', '$filter', function(content, $localStorage, $filter) {
 	var o = {};
 
 	o.aceThemes = [
@@ -304,17 +321,22 @@ angular.module('tilesIde.services', [])
 
 	o.currentSettings = {
 		ace: {
-			theme: o.aceThemes[24],
-			fontSize: 12
+			theme: $filter('filter')(o.aceThemes, {value: $localStorage.get('theme', 'monokai')})[0],
+			fontSize: parseInt($localStorage.get('fontSize', 12))
 		}
 	};
 
+	content.editor.setTheme('ace/theme/' + o.currentSettings.ace.theme.value);
+	document.getElementById('editor').style.fontSize = o.currentSettings.ace.fontSize + 'px';
+
 	o.themeChanged = function() {
 		content.editor.setTheme('ace/theme/' + o.currentSettings.ace.theme.value);
+		$localStorage.set('theme', o.currentSettings.ace.theme.value);
 	};
 
 	o.fontSizeChanged = function() {
 		document.getElementById('editor').style.fontSize = o.currentSettings.ace.fontSize + 'px';
+		$localStorage.set('fontSize', o.currentSettings.ace.fontSize);
 	};
 
 	return o;
