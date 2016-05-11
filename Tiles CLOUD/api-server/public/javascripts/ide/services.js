@@ -260,4 +260,62 @@ angular.module('tilesIde.services', [])
 	};
 
 	return o;
+}])
+
+.factory('settings', ['content', function(content) {
+	var o = {};
+
+	o.aceThemes = [
+		{name: 'Chrome', value: 'chrome', group: 'Bright'},
+		{name: 'Clouds', value: 'clouds', group: 'Bright'},
+		{name: 'Crimson Editor', value: 'crimson_editor', group: 'Bright'},
+		{name: 'Dawn', value: 'dawn', group: 'Bright'},
+		{name: 'Dreamweaver', value: 'dreamweaver', group: 'Bright'},
+		{name: 'Eclipse', value: 'eclipse', group: 'Bright'},
+		{name: 'GitHub', value: 'github', group: 'Bright'},
+		{name: 'IPlastic', value: 'iplastic', group: 'Bright'},
+		{name: 'Solarized Light', value: 'solarized_light', group: 'Bright'},
+		{name: 'TextMate', value: 'textmate', group: 'Bright'},
+		{name: 'Tomorrow', value: 'tomorrow', group: 'Bright'},
+		{name: 'XCode', value: 'xcode', group: 'Bright'},
+		{name: 'Kuroir', value: 'kuroir', group: 'Bright'},
+		{name: 'KatzenMilch', value: 'katzenmilch', group: 'Bright'},
+		{name: 'SQL Server', value: 'sqlserver', group: 'Bright'},
+		{name: 'Ambiance', value: 'ambiance', group: 'Dark'},
+		{name: 'Chaos', value: 'chaos', group: 'Dark'},
+		{name: 'Clouds Midnight', value: 'clouds_midnight', group: 'Dark'},
+		{name: 'Cobalt', value: 'cobalt', group: 'Dark'},
+		{name: 'Idle Fingers', value: 'idle_fingers', group: 'Dark'},
+		{name: 'krTheme', value: 'kr_theme', group: 'Dark'},
+		{name: 'Merbivore', value: 'merbivore', group: 'Dark'},
+		{name: 'Merbivore Soft', value: 'merbivore_soft', group: 'Dark'},
+		{name: 'Mono Industrial', value: 'mono_industrial', group: 'Dark'},
+		{name: 'Monokai', value: 'monokai', group: 'Dark'},
+		{name: 'Pastel on Dark', value: 'pastel_on_dark', group: 'Dark'},
+		{name: 'Solarized Dark', value: 'solarized_dark', group: 'Dark'},
+		{name: 'Terminal', value: 'terminal', group: 'Dark'},
+		{name: 'Tomorrow Night', value: 'tomorrow_night', group: 'Dark'},
+		{name: 'Tomorrow Night Blue', value: 'tomorrow_night_blue', group: 'Dark'},
+		{name: 'Tomorrow Night Bright', value: 'tomorrow_night_bright', group: 'Dark'},
+		{name: 'Tomorrow Night 80s', value: 'tomorrow_night_eighties', group: 'Dark'},
+		{name: 'Twilight', value: 'twilight', group: 'Dark'},
+		{name: 'Vibrant Ink', value: 'vibrant_ink', group: 'Dark'}
+	];
+
+	o.currentSettings = {
+		ace: {
+			theme: o.aceThemes[24],
+			fontSize: 12
+		}
+	};
+
+	o.themeChanged = function() {
+		content.editor.setTheme('ace/theme/' + o.currentSettings.ace.theme.value);
+	};
+
+	o.fontSizeChanged = function() {
+		document.getElementById('editor').style.fontSize = o.currentSettings.ace.fontSize + 'px';
+	};
+
+	return o;
 }]);

@@ -24,20 +24,24 @@
           		</li>
         	</ul>
       	</div>
-
-    	<!-- Documentation tab -->
-      	<div class="tab-pane {{controlSidebar.selectedTabIndex == 1 ? 'active' : ''}}" id="control-sidebar-documentation-tab">
-        	<h3 class="control-sidebar-heading">Documentation</h3>
-          <a><i class="fa fa-external-link"></i>&nbsp;View full documentation</a> <!-- TODO: Add URL -->
-          <div id="documentation" class="documentation" ng-include="'/templates/ide.documentation.html'" autoscroll></div>
-      	</div>
-      	<!-- Settings tab -->
-      	<div class="tab-pane {{controlSidebar.selectedTabIndex == 2 ? 'active' : ''}}" id="control-sidebar-settings-tab">
-        	<h3 class="control-sidebar-heading">Settings</h3>
-        	<ul class="control-sidebar-menu">
-        	</ul>
-      	</div>
-
-    </div>
+  	<!-- Documentation tab -->
+  	<div class="tab-pane {{controlSidebar.selectedTabIndex == 1 ? 'active' : ''}}" id="control-sidebar-documentation-tab">
+    	<h3 class="control-sidebar-heading">Documentation</h3>
+      <a><i class="fa fa-external-link"></i>&nbsp;View full documentation</a> <!-- TODO: Add URL -->
+      <div id="documentation" class="documentation" ng-include="'/templates/ide.documentation.html'" autoscroll></div>
+  	</div>
+  	<!-- Settings tab -->
+  	<div class="tab-pane {{controlSidebar.selectedTabIndex == 2 ? 'active' : ''}}" id="control-sidebar-settings-tab">
+    	<h3 class="control-sidebar-heading">Settings</h3>
+      <div class="form-group">
+        <label>Editor theme</label>
+        <select class="form-control" name="selectTheme" ng-model="settings.currentSettings.ace.theme" ng-options="theme.name group by theme.group for theme in settings.aceThemes" ng-change="settings.themeChanged()"></select>
+      </div>
+      <div class="form-group">
+        <label>Editor font size</label>
+        <input class="form-control" type="number" name="input" ng-model="settings.currentSettings.ace.fontSize" min="10" max="100" ng-change="settings.fontSizeChanged()">
+      </div>
+  	</div>
+  </div>
 </aside>
 <div class="control-sidebar-bg"></div>

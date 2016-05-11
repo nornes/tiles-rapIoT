@@ -67,7 +67,7 @@ angular.module('tilesIde.controllers', [])
 		});
 	}
 }])
-.controller('ControlSidebarCtrl', ['$scope', 'userId', 'controlSidebar', 'tiles', 'tileConsole', function($scope, userId, controlSidebar, tiles, tileConsole){
+.controller('ControlSidebarCtrl', ['$scope', 'userId', 'controlSidebar', 'tiles', 'tileConsole', 'settings', function($scope, userId, controlSidebar, tiles, tileConsole, settings){
 	$scope.controlSidebar = controlSidebar;
 	$scope.tiles = tiles.tiles;
 	tiles.initRealTimeUpdates(userId, function(){
@@ -77,7 +77,9 @@ angular.module('tilesIde.controllers', [])
 	$scope.showTileConsoleModal = function(tile) {
 		tileConsole.setTile(tile);
 		$('#tileConsoleModal').modal('show');
-	}
+	};
+
+	$scope.settings = settings;	
 }])
 .controller('HeaderCtrl', ['$scope', 'userId', 'controlSidebar', function($scope, userId, controlSidebar){
 	$scope.userId = userId;

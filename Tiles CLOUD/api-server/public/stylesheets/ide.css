@@ -168,3 +168,6 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 .login-logo>a {
     color: #ffffff;
 }
+.control-sidebar-menu>.form-group {
+    padding: 10px 15px;
+}
