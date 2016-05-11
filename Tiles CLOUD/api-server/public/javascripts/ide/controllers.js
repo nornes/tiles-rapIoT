@@ -103,10 +103,13 @@ angular.module('tilesIde.controllers', [])
 		}
 	}
 
+	$scope.submitted = false;
+
 	// Clone the 'defaults' object to provide a mutable object for the view
 	$scope.newAppRecipe = JSON.parse(JSON.stringify(defaults));
 
 	$scope.createAppRecipe = function(){
+		$scope.submitted = true;
 		if (!$scope.newAppRecipe.name || $scope.newAppRecipe.name === '') return;
 
 		// Hide modal
@@ -117,6 +120,9 @@ angular.module('tilesIde.controllers', [])
 
 		// Reset form by cloning 'defaults' object
 		$scope.newAppRecipe = JSON.parse(JSON.stringify(defaults));
+
+		$scope.submitted = false;
+		$scope.createAppForm.$setPristine();
 	}
 
 	$scope.templateSelectionChanged = function(){

@@ -6,10 +6,11 @@
         <h4 class="modal-title">Create new app</h4>
       </div>
       <div class="modal-body">
-        <form>
-            <div class="form-group">
+        <form name="createAppForm">
+            <div class="form-group {{createAppForm.appname.$error.required && (createAppForm.appname.$dirty || submitted) ? 'has-error' : ''}}">
               <label for="appname">App Name</label>
-              <input type="text" name="appname" class="form-control" placeholder="App Name" ng-model="newAppRecipe.name">
+              <input type="text" name="appname" class="form-control" placeholder="App Name" ng-model="newAppRecipe.name" required>
+              <span ng-show="createAppForm.appname.$error.required && (createAppForm.appname.$dirty || submitted)" class="help-block">App name is required.</span>
             </div>
             <div class="form-group">
               <label>Programming Language</label>
