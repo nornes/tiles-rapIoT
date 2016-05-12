@@ -80,7 +80,6 @@ angular.module('tiles.controllers', [])
                     
                     // Connect to MQTT server/broker
                     mqttClient.connect($scope.mqttConnectionData.host, $scope.mqttConnectionData.port).then(function() {
-                        cordova.plugins.backgroundMode.enable();
                         setServerConnectionStatus('Connected to ' + tilesApi.host.address + ':' + tilesApi.host.mqttPort, true);
                         for (var device in tilesApi.tiles) {
                             if (tilesApi.tiles.hasOwnProperty(device)) {
@@ -89,6 +88,7 @@ angular.module('tiles.controllers', [])
                                 }
                             }
                         }
+                        cordova.plugins.backgroundMode.enable();
                     }, function() {
                         setServerConnectionStatus('Failed to connect to server', false);
                     });

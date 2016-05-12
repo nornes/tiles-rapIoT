@@ -29,7 +29,8 @@ angular.module('tiles.services', [])
 	var o = {};
 
 	var client;
-	var publishOpts = {retain: true};
+	var statePublishOpts = {retain: true};
+	var evtPublishOpts = {retain: false};
 	var serverConnectionTimeout = 10000; // 10 seconds
 
 	function getDeviceSpecificTopic(device, isEvent){
@@ -114,8 +115,8 @@ angular.module('tiles.services', [])
 
 	o.registerDevice = function(device){
 		if (client) {
-            client.publish(getDeviceSpecificTopic(device, true) + '/active', 'true', publishOpts);
-            client.publish(getDeviceSpecificTopic(device, true) + '/name', device.name, publishOpts);
+            client.publish(getDeviceSpecificTopic(device, true) + '/active', 'true', statePublishOpts);
+            client.publish(getDeviceSpecificTopic(device, true) + '/name', device.name, statePublishOpts);
             client.subscribe(getDeviceSpecificTopic(device, false));
             console.log('Registered device: ' + device.name + ' (' + device.id + ')');
         }
@@ -123,13 +124,13 @@ angular.module('tiles.services', [])
 
 	o.unregisterDevice = function(device){
 		if (client) {
-            client.publish(getDeviceSpecificTopic(device, true) + '/active', 'false', publishOpts);
+            client.publish(getDeviceSpecificTopic(device, true) + '/active', 'false', statePublishOpts);
             client.unsubscribe(getDeviceSpecificTopic(device, false));
         }
 	}
 
 	o.sendEvent = function(device, event){
-		if (client) client.publish(getDeviceSpecificTopic(device, true), JSON.stringify(event), publishOpts);
+		if (client) client.publish(getDeviceSpecificTopic(device, true), JSON.stringify(event), evtPublishOpts);
 	}
 
 	o.endConnection = function(deviceId, event){
