@@ -7,7 +7,7 @@ exports.build = function(userId, templateSections) {
             code += ', appConfig.group';
         }
 
-        code += ').connect();';
+        code += ', \'localhost\').connect();';
 
         if (templateSections.evtConnectedToServer) {
             code += '\r\n\r\nclient.on(\'connect\', function() {\r\n    \r\n});';
