@@ -20,8 +20,11 @@
                   <p class="item-text-wrap">RSSI:{{device.rssi}}</p>
                   <p class="item-text-wrap">Group: {{device.group || '-'}}</p>
                 </div>
-                <div class="col">
-                  <button class="button button-small button-positive full-width" style="float: right;" ng-click="connect(device)" ng-hide="device.connected">Connect</button>
+                <div class="col" style="text-align: center;">
+                  <div ng-show="device.isConnecting">
+                    <ion-spinner></ion-spinner>
+                  </div>
+                  <button class="button button-small button-positive full-width" style="float: right;" ng-click="connect(device)" ng-hide="device.connected || device.isConnecting">Connect</button>
                   <button id="disconnectButton" class="button button-small full-width" style="float: right;" ng-click="disconnect(device)" ng-show="device.connected">Disconnect</button>
                   <button class="button button-small full-width" style="float: right; margin-top: 5px;" ng-click="showSetGroupPopup(device)" ng-show="device.connected">Set Group</button>
                 </div>

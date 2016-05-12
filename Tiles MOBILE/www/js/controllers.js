@@ -126,12 +126,14 @@ angular.module('tiles.controllers', [])
 
         ble.writeWithoutResponse(device.id, rfduino.serviceUUID, rfduino.sendCharacteristic, data.buffer, success, failure);
     };
+
+    $scope.showConnectMQTTPopup();
 }])
 .controller('TilesCtrl', ['$scope', '$ionicPopup', 'mqttClient', 'tilesApi', 'group', function($scope, $ionicPopup, mqttClient, tilesApi, group) {
     $scope.devices = [
         /*{'name': 'TI SensorTag','id': '01:23:45:67:89:AB', 'rssi': -79, 'advertising': null},
         {'name': 'Some OtherDevice', 'id': 'A1:B2:5C:87:2D:36', 'rssi': -52, 'advertising': null , 'connected': true},
-        {'name': 'TILES Test Device', 'id': 'A1B2-5C87-2D36-4E57-9GH7-8KL0', 'rssi': -52, 'advertising': null, 'group': 'MyGroup1', 'connected': false}*/
+        {'name': 'TILES Test Device', 'id': 'A1B2-5C87-2D36-4E57-9GH7-8KL0', 'rssi': -52, 'advertising': null, 'group': 'MyGroup1', 'connected': false, 'isConnecting': true}*/
     ];
 
     var isNewDevice = function(discoveredDevice) {
@@ -186,8 +188,10 @@ angular.module('tiles.controllers', [])
     };
 
     $scope.connect = function(device) {
+        device.isConnecting = true;
         ble.connect(device.id,
             function() {
+                device.isConnecting = false;
                 device.ledOn = false;
                 device.connected = true;
                 var receiver = new DataReceiver(device);
@@ -196,6 +200,7 @@ angular.module('tiles.controllers', [])
                 mqttClient.registerDevice(device);
             },
             function() {
+                device.isConnecting = false;
                 alert('Failure!')
             });
     };
