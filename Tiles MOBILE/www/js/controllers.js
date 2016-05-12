@@ -227,16 +227,17 @@ angular.module('tiles.controllers', [])
             console.log('Received event: ' + receivedEventAsString);
 
             var message = tilesApi.getEventStringAsObject(receivedEventAsString);
-            if (message == null) {
-                console.log('No mapping found for event: ' + receivedEventAsString + ' from ' + device.id);
-            } else {
-                if (message.properties[0] === 'touch') {
+            if (message != null) {
+                /*if (message.properties[0] === 'touch') {
                     device.buttonPressed = !device.buttonPressed; // Toggle (temporary solution until 'release' event is implemented in TD)
                     $scope.$apply();
-                } /*else if (receivedEventAsString === 'btnOFF') {
+                }*/ /*else if (receivedEventAsString === 'btnOFF') {
                     device.buttonPressed = false;
                     $scope.$apply();
                 }*/
+                device.lastEvent = message.name;
+                $scope.$apply();
+                
                 console.log('JSON Message to be sent: ' + JSON.stringify(message));
 
                 mqttClient.sendEvent(device, message);

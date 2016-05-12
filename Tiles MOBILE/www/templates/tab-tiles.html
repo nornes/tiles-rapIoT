@@ -30,9 +30,9 @@
                 </div>
                 </div>
                 <div class="list" ng-show="device.connected">
-                  <div class="item item-icon-right">Button
-                  <span class="badge badge-stable" style="right: 16px;" ng-hide="device.buttonPressed">Released</span>
-                  <span class="badge badge-balanced" style="right: 16px;" ng-show="device.buttonPressed">Pressed</span>
+                  <div class="item item-icon-right">Event
+                  <!--<span class="badge badge-stable" style="right: 16px;" ng-hide="device.buttonPressed">Released</span>-->
+                  <span class="badge badge-balanced" style="right: 16px;">{{device.lastEvent}}</span>
                   </div>
                   <ion-toggle ng-model="device.ledOn" ng-change="sendData(device)" toggle-class="toggle-calm">LED Light</ion-toggle>
                 </div>
