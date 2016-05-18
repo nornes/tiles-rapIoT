@@ -97,3 +97,27 @@ Field | Type | Value
 **active** | Boolean | true / false
 **state.type** | String | 'button_event'
 **state.event** | String | 'pressed' / 'released'
+
+<a name="Tests"></a>
+## Tests
+### E2E Tests
+End-to-end tests are located in the folder `tests/e2e`. [Protractor](http://www.protractortest.org/) is used for running the tests.
+#### Setup
+Install Protractor globally:
+```sh
+npm install -g protractor
+```
+
+This will install two command line tools, `protractor` and `webdriver-manager`. The `webdriver-manager` is a helper tool to easily get an instance of a Selenium Server running. Use it to download the necessary binaries:
+```sh
+webdriver-manager update
+```
+
+Start up a Selenium server:
+```sh
+webdriver-manager start
+```
+#### Run tests
+```sh
+protractor tests/e2e/conf.js
+```
