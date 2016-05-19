@@ -14,7 +14,7 @@ router.get('/apps/', function(req, res, next) {
 });
 
 router.get('/', function(req, res, next) {
-  res.redirect('/main/#/users');
+  res.redirect('/apps/#/login');
 });
 
 router.get('/tiles', function(req, res, next) {
