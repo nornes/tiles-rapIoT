@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var AppRecipe = mongoose.model('AppRecipe');
+var appRunnerBridge = require('../lib/vm/apprunner-bridge');
 var appRepository = require('../lib/appcode/repository');
 var templateBuilder = require('../lib/appcode/template-builder');
 
@@ -100,16 +101,15 @@ router.put('/:userId/:appId/active', function(req, res, next) {
     var active = req.body.active;
 
     if (typeof active !== 'undefined') {
-        console.log('Active: ' + active + ' type: ' + (typeof active));
         AppRecipe.findById(appId, function(err, appRecipe) {
             if (err) return next(err);
             if (active) {
-                appRecipe.activate(function(err, appRecipe) {
+                appRunnerBridge.activateApp(appRecipe, function(err, appRecipe) {
                     if (err) return next(err);
                     return res.json(appRecipe);
                 });
             } else {
-                appRecipe.deactivate(function(err, appRecipe) {
+                appRunnerBridge.deactivateApp(appRecipe, function(err, appRecipe) {
                     if (err) return next(err);
                     return res.json(appRecipe);
                 });
