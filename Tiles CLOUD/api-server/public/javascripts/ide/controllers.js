@@ -2,7 +2,7 @@
 
 angular.module('tilesIde.controllers', [])
 
-.controller('ContentCtrl', ['$scope', 'userId', 'appRecipes', 'content', 'mainSidebar', function($scope, userId, appRecipes, content, mainSidebar){
+.controller('ContentCtrl', ['$scope', 'userId', 'appRecipes', 'content', 'mainSidebar', 'controlSidebar', function($scope, userId, appRecipes, content, mainSidebar, controlSidebar){
 	var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
@@ -10,6 +10,7 @@ angular.module('tilesIde.controllers', [])
     content.setEditor(editor);
 
     $scope.msb = mainSidebar;
+    $scope.csb = controlSidebar;
 
     $scope.consoleInput = '';
 

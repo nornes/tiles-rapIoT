@@ -171,3 +171,8 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 .control-sidebar-menu>.form-group {
     padding: 10px 15px;
 }
+@media screen and (min-width: 1320px) {
+    .content-wrapper.control-sidebar-open {
+        margin-right: 320px;
+    }
+}
