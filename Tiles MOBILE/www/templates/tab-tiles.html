@@ -29,12 +29,17 @@
                   <button class="button button-small full-width" style="float: right; margin-top: 5px;" ng-click="showSetGroupPopup(device)" ng-show="device.connected">Set Group</button>
                 </div>
                 </div>
-                <div class="list" ng-show="device.connected">
-                  <div class="item item-icon-right">Event
-                  <!--<span class="badge badge-stable" style="right: 16px;" ng-hide="device.buttonPressed">Released</span>-->
-                  <span class="badge badge-balanced" style="right: 16px;">{{device.lastEvent}}</span>
+                <div class="debug-controls" ng-show="device.connected">
+                  <div class="item" ng-click="toggleDebugControls(device)">
+                    <i class="icon" ng-class="device.showDebugControls ? 'ion-chevron-down' : 'ion-chevron-right'"></i>&nbsp;Debug Controls
                   </div>
-                  <ion-toggle ng-model="device.ledOn" ng-change="sendData(device)" toggle-class="toggle-calm">LED Light</ion-toggle>
+                  <div class="list" ng-show="device.showDebugControls">
+                    <div class="item item-icon-right">Event
+                    <!--<span class="badge badge-stable" style="right: 16px;" ng-hide="device.buttonPressed">Released</span>-->
+                    <span class="badge badge-balanced" style="right: 16px;">{{device.lastEvent}}</span>
+                    </div>
+                    <ion-toggle ng-model="device.ledOn" ng-change="sendData(device)" toggle-class="toggle-calm">LED Light</ion-toggle>
+                  </div>
                 </div>
               </ion-item>
             </ion-list>

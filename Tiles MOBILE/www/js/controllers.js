@@ -144,6 +144,10 @@ angular.module('tiles.controllers', [])
         return discoveredDevice.name != null && discoveredDevice.name.substring(0, 4) === 'TILE';
     };
 
+    $scope.toggleDebugControls = function(device) {
+        device.showDebugControls = !device.showDebugControls;
+    }
+
     $scope.doRefresh = function() {
         // Scan for devices if Bluetooth is enabled.
         // Otherwise, prompt the user to enable Bluetooth.
