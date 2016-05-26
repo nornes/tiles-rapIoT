@@ -3,9 +3,8 @@
 angular.module('tilesIde.controllers', [])
 
 .controller('ContentCtrl', ['$scope', 'userId', 'appRecipes', 'content', 'mainSidebar', 'controlSidebar', function($scope, userId, appRecipes, content, mainSidebar, controlSidebar){
-	var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/javascript");
+	var editor = ace.edit('editor');
+    editor.setTheme('ace/theme/monokai');
     editor.setShowPrintMargin(false);
     content.setEditor(editor);
 
@@ -15,8 +14,13 @@ angular.module('tilesIde.controllers', [])
     $scope.consoleInput = '';
 
 	$scope.saveAppRecipe = function(appRecipe){
-		appRecipe.code = content.editor.getValue();
-		appRecipes.save(userId, appRecipe);
+		appRecipe.code = editor.getValue();
+		appRecipes.save(userId, appRecipe, function() {
+			var undoManager = editor.getSession().getUndoManager();
+			undoManager.markClean();
+			appRecipe.isClean = undoManager.isClean();
+			$('#toast-saved').stop().fadeIn(400).delay(1000).fadeOut(800);
+		});
 	}
 
 	$scope.activateApp = function(appRecipe, activate){
@@ -37,6 +41,20 @@ angular.module('tilesIde.controllers', [])
 		addConsoleEntry('appConsole', input, 'user-input');
 		$scope.consoleInput = '';
 	}
+
+	editor.on('input', function() {
+		mainSidebar.selectedAppRecipe.isClean = editor.getSession().getUndoManager().isClean();
+		$scope.$apply();
+	});	
+
+	$(window).bind('keydown', function(event) {
+	    if (event.ctrlKey || event.metaKey) {
+	        if (String.fromCharCode(event.which).toLowerCase() === 's') {
+            	event.preventDefault();
+            	$scope.saveAppRecipe(mainSidebar.selectedAppRecipe);
+	        }
+	    }
+	});
 }])
 .controller('MainSidebarCtrl', ['$scope', 'userId', 'appRecipes', 'mainSidebar', 'content', 'controlSidebar', function($scope, userId, appRecipes, mainSidebar, content, controlSidebar){
 	$scope.appRecipes = appRecipes.appRecipes;
@@ -61,10 +79,17 @@ angular.module('tilesIde.controllers', [])
 
 	$scope.showAppRecipe = function(appRecipe){
 		if (appRecipe.selected) return;
+		if (mainSidebar.selectedAppRecipe && !mainSidebar.selectedAppRecipe.isClean) {
+			if (confirm('Any unsaved changes will be lost. Continue?') === false) {
+        		return;
+    		}
+		}
 		setAsSelected(appRecipe);
 		appRecipes.getCode(userId, appRecipe, function(res){
 			var code = res.data;
-			content.editor.setValue(code);
+			var editSession = ace.createEditSession(code, 'ace/mode/javascript');
+			content.editor.setSession(editSession);
+			appRecipe.isClean = true;
 		});
 	}
 }])

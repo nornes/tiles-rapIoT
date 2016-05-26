@@ -4,6 +4,7 @@
 }
 .editor-container {
     height: 540px;
+    position: relative;
 }
 #config-editor {
     width: 100%;
@@ -175,4 +176,18 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
     .content-wrapper.control-sidebar-open {
         margin-right: 320px;
     }
+}
+#toast-saved {
+    z-index: 10000;
+    width: 200px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    margin-left: -100px;
+    font-size: 16px;
+    padding: 10px;
+    text-align:center;
+    border-radius: 50px;
+    background-color: #53b32c;
+    color: #F0F0F0;
 }

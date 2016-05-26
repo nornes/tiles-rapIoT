@@ -18,11 +18,12 @@
 "></i>&nbsp;Edit configuration data</button>
 				<button type="button" ng-hide="msb.selectedAppRecipe.active" class="btn btn-active-green" ng-click="activateApp(msb.selectedAppRecipe, true)">Activate</button>
 				<button type="button" ng-show="msb.selectedAppRecipe.active"  class="btn btn-inactive-red" ng-click="activateApp(msb.selectedAppRecipe, false)">Deactivate</button>
-				<button type="button" class="btn btn-default" ng-click="saveAppRecipe(msb.selectedAppRecipe)"><i class="glyphicon glyphicon-floppy-disk
+				<button type="button" class="btn btn-default" ng-click="saveAppRecipe(msb.selectedAppRecipe)" ng-disabled="msb.selectedAppRecipe.isClean"><i class="glyphicon glyphicon-floppy-disk
 "></i>&nbsp;Save</button>
 			</div>
 		</div>
 		<div class="editor-container">
+			<div id="toast-saved" style="display:none"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;Saved!</div>
 			<div id="editor"></div>
 		</div>
 		<div class="panel panel-default">

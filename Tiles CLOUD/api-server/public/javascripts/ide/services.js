@@ -54,13 +54,13 @@ angular.module('tilesIde.services', [])
   		});
 	}
 
-	o.save = function(userId, appRecipe) {
+	o.save = function(userId, appRecipe, callback) {
 		var data = {
 			code: appRecipe.code,
 			group: appRecipe.group
 		}
 		return $http.put('/appRecipes/' + userId + '/' + appRecipe._id, JSON.stringify(data)).then(function(res){
-			console.log('Saved successfully! Data: ' + JSON.stringify(res.data));
+			if (callback) callback();
 		});
 	}
 
