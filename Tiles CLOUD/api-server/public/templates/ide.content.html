@@ -6,17 +6,31 @@
 		<span class="vam" style="font-size: 20px;">Select an app from the sidemenu.</span>
 	</div>
 	<div ng-show="msb.selectedAppRecipe">
+		<section class="content-header">
+      		<h1>{{msb.selectedAppRecipe.name}}<small>{{msb.selectedAppRecipe.active ? 'Active' : 'Inactive'}}</small></h1>
+    	</section>
 		<div class="editor-header-row">
-			<h3 id="editor-header-title" class="inline-header">{{msb.selectedAppRecipe.name}}</h3>
-			<div class="buttons-left">
-				<button type="button" ng-hide="msb.selectedAppRecipe.active" class="btn btn-active-green" ng-click="activateApp(msb.selectedAppRecipe, true)">Activate</button>
-				<button type="button" ng-show="msb.selectedAppRecipe.active"  class="btn btn-inactive-red" ng-click="activateApp(msb.selectedAppRecipe, false)">Deactivate</button>
-				<button type="button" class="btn btn-default" ng-click="saveAppRecipe(msb.selectedAppRecipe)" ng-disabled="msb.selectedAppRecipe.isClean"><i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;Save</button>
-				<button type="button" class="btn btn-default" ng-click="openConfigEditor(msb.selectedAppRecipe)"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit configuration data</button>
-				<button type="button" class="btn btn-default" ng-click="setGroup(msb.selectedAppRecipe)"><i class="glyphicon glyphicon-th"></i>&nbsp;Group:&nbsp;{{msb.selectedAppRecipe.group || 'global'}}</button>
+			<div class="button-group">
+				<button type="button" ng-hide="msb.selectedAppRecipe.active" class="btn btn-active-green" ng-click="activateApp(msb.selectedAppRecipe, true)">
+					<i class="fa fa-play-circle fa-lg" aria-hidden="true"></i><span class="btn-info-text">&nbsp;&nbsp;Activate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				</button>
+				<button type="button" ng-show="msb.selectedAppRecipe.active"  class="btn btn-inactive-red" ng-click="activateApp(msb.selectedAppRecipe, false)">
+					<i class="fa fa-stop-circle fa-lg" aria-hidden="true"></i><span class="btn-info-text">&nbsp;&nbsp;Deactivate</span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="saveAppRecipe(msb.selectedAppRecipe)" ng-disabled="msb.selectedAppRecipe.isClean">
+					<i class="glyphicon glyphicon-floppy-disk"></i><span class="btn-info-text">&nbsp;Save</span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="openConfigEditor(msb.selectedAppRecipe)">
+					<i class="glyphicon glyphicon-edit"></i><span class="btn-info-text">&nbsp;Edit configuration data</span>
+				</button>
+				<button type="button" class="btn btn-default" ng-click="setGroup(msb.selectedAppRecipe)">
+					<i class="glyphicon glyphicon-th"></i><span class="btn-info-text">&nbsp;Group:&nbsp;{{msb.selectedAppRecipe.group || 'global'}}</span>
+				</button>
 			</div>
-			<div class="buttons-right">
-				<button type="button" ng-click="showConfirmDeleteAppModal()" class="btn btn-inactive-red"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+			<div class="button-group">
+				<button type="button" ng-click="showConfirmDeleteAppModal()" class="btn btn-inactive-red">
+					<i class="fa fa-trash-o" aria-hidden="true"></i><span class="btn-info-text">&nbsp;Delete</span>
+				</button>
 			</div>
 		</div>
 		<div class="editor-container">

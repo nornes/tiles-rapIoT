@@ -44,6 +44,7 @@ angular.module('tilesIde.controllers', [])
 	  			showCancelButton: true,
 	  			closeOnConfirm: false,
 	  			showLoaderOnConfirm: true,
+	  			confirmButtonColor: '#3C8DBC',
 	  			animation: 'slide-from-top',
 	  			inputPlaceholder: 'Group Name',
 	  			inputValue: appRecipe.group
@@ -65,7 +66,8 @@ angular.module('tilesIde.controllers', [])
   						html: true,
 						title: 'Group changed!',
 	  					text: msg,
-	  					type: 'success'
+	  					type: 'success',
+	  					confirmButtonColor: '#3C8DBC'
   					});
   					$scope.$apply();
   				});

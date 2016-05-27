@@ -47,17 +47,17 @@ body.sidebar-collapse .sidebar-menu>li>a>span {
     width: 320px;
     right: -320px;
 }
-.editor-header-row>.buttons-left {
-    display: inline-block;
-    margin-top: 20px;
-    margin-bottom: 8px;
-    margin-left: 10px;
+.editor-header-row {
+    display: flex;
+    justify-content: space-between;
 }
-.editor-header-row>.buttons-right {
+.editor-header-row>.button-group {
     display: inline-block;
-    float: right;
     margin-top: 20px;
     margin-bottom: 8px;
+}
+.content-header {
+    padding: 0;
 }
 .sidebar-menu>li.sidemenu-info {
     text-align: center;
@@ -183,6 +183,11 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 @media screen and (min-width: 1320px) {
     .content-wrapper.control-sidebar-open {
         margin-right: 320px;
+    }
+}
+@media screen and (max-width: 680px) {
+    .btn-info-text {
+        display: none;
     }
 }
 #toast-saved {
