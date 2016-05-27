@@ -35,6 +35,44 @@ angular.module('tilesIde.controllers', [])
 		$('#configEditorModal').modal('show');
 	}
 
+	$scope.setGroup = function(appRecipe) {
+		swal({
+				html: true,
+				title: 'Set group',
+	  			text: 'Set target group for <b>' + appRecipe.name + '</b>. Leave the input field blank for targeting the global group.'  ,
+	  			type: 'input',
+	  			showCancelButton: true,
+	  			closeOnConfirm: false,
+	  			showLoaderOnConfirm: true,
+	  			animation: 'slide-from-top',
+	  			inputPlaceholder: 'Group Name',
+	  			inputValue: appRecipe.group
+  			}, 
+  			function(inputValue){   
+  				if (inputValue === false) return false;
+  				if (inputValue.indexOf(' ') >= 0) {
+  					swal.showInputError('Group name can not contain spaces.');
+    				return false;
+    			}
+  				appRecipe.group = inputValue;
+  				appRecipes.save(userId, appRecipe, function() {
+  					var group = (!inputValue || inputValue === '') ? 'global' : inputValue;
+  					var msg = 'Group for <b>' + appRecipe.name + '</b> set to <b>' + group + '</b>.';
+  					if (appRecipe.active) {
+  						msg += '<br><i>The app is currently active and needs to be restarted for the update to take effect.</i>';
+  					}
+  					swal({
+  						html: true,
+						title: 'Group changed!',
+	  					text: msg,
+	  					type: 'success'
+  					});
+  					$scope.$apply();
+  				});
+  			}
+		);
+	}
+
 	$scope.sendConsoleInput = function(appRecipe) {
 		var input = $scope.consoleInput + '\n';
 		sendConsoleInput(appRecipe._id, input);
@@ -89,6 +127,7 @@ angular.module('tilesIde.controllers', [])
 			var code = res.data;
 			var editSession = ace.createEditSession(code, 'ace/mode/javascript');
 			content.editor.setSession(editSession);
+			appRecipe.code = code;
 			appRecipe.isClean = true;
 		});
 	}

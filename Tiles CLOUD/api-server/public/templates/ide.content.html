@@ -8,18 +8,15 @@
 	<div ng-show="msb.selectedAppRecipe">
 		<div class="editor-header-row">
 			<h3 id="editor-header-title" class="inline-header">{{msb.selectedAppRecipe.name}}</h3>
-			<button type="button" ng-click="showConfirmDeleteAppModal()" class="btn btn-inactive-red btn-sm delete-btn"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> Delete</button>
-			<div class="float-right" style="margin-top: 12px;">
-				<div style="display: inline-flex; vertical-align: middle;">
-	      			<label for="group" style="margin-top: 6px;">Group:</label>&nbsp;
-	      			<input type="text" name="group" class="form-control" placeholder="Group" ng-model="msb.selectedAppRecipe.group">
-	    		</div>
-	    		<button type="button" class="btn btn-default" ng-click="openConfigEditor(msb.selectedAppRecipe)"><i class="glyphicon glyphicon-edit
-"></i>&nbsp;Edit configuration data</button>
+			<div class="buttons-left">
 				<button type="button" ng-hide="msb.selectedAppRecipe.active" class="btn btn-active-green" ng-click="activateApp(msb.selectedAppRecipe, true)">Activate</button>
 				<button type="button" ng-show="msb.selectedAppRecipe.active"  class="btn btn-inactive-red" ng-click="activateApp(msb.selectedAppRecipe, false)">Deactivate</button>
-				<button type="button" class="btn btn-default" ng-click="saveAppRecipe(msb.selectedAppRecipe)" ng-disabled="msb.selectedAppRecipe.isClean"><i class="glyphicon glyphicon-floppy-disk
-"></i>&nbsp;Save</button>
+				<button type="button" class="btn btn-default" ng-click="saveAppRecipe(msb.selectedAppRecipe)" ng-disabled="msb.selectedAppRecipe.isClean"><i class="glyphicon glyphicon-floppy-disk"></i>&nbsp;Save</button>
+				<button type="button" class="btn btn-default" ng-click="openConfigEditor(msb.selectedAppRecipe)"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit configuration data</button>
+				<button type="button" class="btn btn-default" ng-click="setGroup(msb.selectedAppRecipe)"><i class="glyphicon glyphicon-th"></i>&nbsp;Group:&nbsp;{{msb.selectedAppRecipe.group || 'global'}}</button>
+			</div>
+			<div class="buttons-right">
+				<button type="button" ng-click="showConfirmDeleteAppModal()" class="btn btn-inactive-red"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
 			</div>
 		</div>
 		<div class="editor-container">

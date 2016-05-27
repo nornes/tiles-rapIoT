@@ -47,9 +47,17 @@ body.sidebar-collapse .sidebar-menu>li>a>span {
     width: 320px;
     right: -320px;
 }
-.delete-btn {
+.editor-header-row>.buttons-left {
+    display: inline-block;
+    margin-top: 20px;
     margin-bottom: 8px;
     margin-left: 10px;
+}
+.editor-header-row>.buttons-right {
+    display: inline-block;
+    float: right;
+    margin-top: 20px;
+    margin-bottom: 8px;
 }
 .sidebar-menu>li.sidemenu-info {
     text-align: center;
