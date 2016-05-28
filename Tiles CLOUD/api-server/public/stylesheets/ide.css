@@ -3,7 +3,7 @@
     height: 100%;
 }
 .editor-container {
-    height: 540px;
+    height: 485px;
     position: relative;
 }
 #config-editor {
@@ -79,7 +79,7 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
 }
 .console {
     background-color: #222d32;
-    height: 200px;
+    height: 180px;
     color: #fff;
     font-family: monospace;
     font-size: 15px;
@@ -203,4 +203,13 @@ body.sidebar-collapse .sidebar-menu>li.sidemenu-info {
     border-radius: 50px;
     background-color: #53b32c;
     color: #F0F0F0;
+}
+#consolePanel form {
+    margin-bottom: 0;
+}
+#consolePanel {
+    margin-bottom: 0;
+}
+#consolePanel>.panel-body {
+    padding: 5px;
 }
