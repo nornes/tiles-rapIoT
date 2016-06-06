@@ -7,7 +7,7 @@ var debug = require("debug")("ascoltatori:trie");
 var Qlobber = require("qlobber").Qlobber;
 var ascoltatori = require('ascoltatori/lib/ascoltatori');
 
-var TilesApi = require('./tiles_api');
+var TilesApi = require('./tiles-api');
 
 var tag = '[TILES Ascoltatore]'; // Log tag
 

@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
 var AppRecipe = mongoose.model('AppRecipe');
-var appRunnerBridge = require('../lib/vm/apprunner-bridge');
+var appManager = require('../lib/vm/appmanager');
 var appRepository = require('../lib/appcode/repository');
 var templateBuilder = require('../lib/appcode/template-builder');
 
@@ -104,12 +104,12 @@ router.put('/:userId/:appId/active', function(req, res, next) {
         AppRecipe.findById(appId, function(err, appRecipe) {
             if (err) return next(err);
             if (active) {
-                appRunnerBridge.activateApp(appRecipe, function(err, appRecipe) {
+                appManager.activateApp(appRecipe, function(err, appRecipe) {
                     if (err) return next(err);
                     return res.json(appRecipe);
                 });
             } else {
-                appRunnerBridge.deactivateApp(appRecipe, function(err, appRecipe) {
+                appManager.deactivateApp(appRecipe, function(err, appRecipe) {
                     if (err) return next(err);
                     return res.json(appRecipe);
                 });

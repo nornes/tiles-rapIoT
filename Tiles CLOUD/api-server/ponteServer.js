@@ -1,6 +1,6 @@
 var ponte = require("ponte");
 
-var tilesAscoltatore = require("./lib/broker/tiles_ascoltatore");
+var tilesAscoltatore = require("./lib/broker/tiles-ascoltatore");
 
 var opts = {
   logger: {
@@ -28,12 +28,5 @@ var server = ponte(opts);
 server.on("updated", function(resource, buffer) {
   console.log("Resource Updated", resource, buffer);
 });
-
-// Stop the server after 1 minute
-/*setTimeout(function() {
-  server.close(function() {
-    console.log("server stopped");
-  });
-}, 60 * 1000);*/
 
 module.exports = server;

@@ -10,7 +10,7 @@ http.listen(wsPort, function() {
     console.log('WebSocket server listening on port: ' + wsPort );
 });
 
-var appRunner = {};
+var appManager = {};
 
 const PROCESS_MONITOR_INTERVAL = 5000; // milliseconds
 const MAX_TOTAL_CPU_USAGE = 90; // percentage
@@ -76,7 +76,7 @@ var _deactivateApp = function(appRecipe, kill, save, callback) {
     }
 }
 
-appRunner.activateApp = function(appRecipe, callback) {
+appManager.activateApp = function(appRecipe, callback) {
 	// Kill previous process if it's still running
     _deactivateApp(appRecipe, true, true);
 
@@ -110,8 +110,8 @@ appRunner.activateApp = function(appRecipe, callback) {
     appRecipe.save(callback);
 }
 
-appRunner.deactivateApp = function(appRecipe, callback) {
+appManager.deactivateApp = function(appRecipe, callback) {
 	_deactivateApp(appRecipe, true, true, callback);
 }
 
-module.exports = appRunner;
+module.exports = appManager;
