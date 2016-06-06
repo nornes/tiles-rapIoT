@@ -1,6 +1,6 @@
 var ponte = require("ponte");
 
-var tilesAscoltatore = require("./tiles_ascoltatore");
+var tilesAscoltatore = require("./lib/broker/tiles_ascoltatore");
 
 var opts = {
   logger: {
