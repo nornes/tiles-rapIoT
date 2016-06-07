@@ -1,6 +1,6 @@
 # TilesJS Library
 
-Tiles Client Library is an event-driven API for the Tiles project written in JavaScript for Node.js and the browser. It's built on top of [MQTT.js](https://github.com/mqttjs/MQTT.js) and Node.js' [EventEmitter](https://github.com/Gozala/events).
+Tiles Client Library is an event-driven API for the Tiles project written in JavaScript for Node.js and the browser. It's built on top of [MQTT.js](https://github.com/mqttjs/MQTT.js) and Node.js's [EventEmitter](https://github.com/Gozala/events).
 
 <a name="Installation"></a>
 ## Library Installation
@@ -27,16 +27,16 @@ Events and commands are characterized by *name* and *two optinal parameters* whi
 The list of events and commands currently implemented is available [HERE](https://docs.google.com/spreadsheets/d/1b0ByrMQosh1BtK5hjAW2eLOzJf7y3-SCpFSCwuzxlRg/edit?usp=sharing)
 
 <a name="Example"></a>
-## Hello World Example
+## Example
 
-This code showcasse how to connect to Tiles Cloud, receive an event (input primitive) from Tiles and send a command (output primitive) to one or more tiles. Whenever an event is received, the event will be printed to the console.
+This code showcases how to connect to Tiles Cloud, receive an event (input primitive) from Tiles and send a command (output primitive) to one or more tiles. Whenever an event is received, the event will be printed to the console.
 
-In this example first we connect to Tiles Cloud as `TestUser`. Then whenever the Tile with name `tileID` is tapped once it will start blinking in red. Whenever `tileID`is tapped twice it will turn the LED off.
+In this example, we first connect to Tiles Cloud as `TestUser`, in the namespaced group `demo`. Then, whenever a Tile is tapped once, it will start blinking in red. If the Tile is tapped twice, the LED will be turned off.
 
 ```js
 var TilesClient = require('tiles-client.js');
 
-var client = new TilesClient('TestUser').connect();
+var client = new TilesClient('TestUser', 'demo').connect();
 
 client.on('receive', function(tileId, event){
 	console.log('Event received from ' + tileId + ': ' + JSON.stringify(event));
@@ -54,25 +54,27 @@ client.on('receive', function(tileId, event){
 ### Create client
 Create a client by providing your username and connecting to the default Tiles Cloud server. The `group` parameter is optional and enables targeting a subgroup of your devices. If this parameter is omitted, the client is able to communicate with any Tiles device in the user's "global channel", i.e. Tiles without a specified group.
 ```javascript
-var tilesClient = new TilesClient([username], [group]).connect();
+var tilesClient = new TilesClient(username[, group]).connect();
 ```
 
-*OPTIONAL:* Create a client by providing your username and connecting to a custom Tiles Cloud server.
+(Optional) Create a client by connecting to a custom Tiles Cloud server:
 ```javascript
-var tilesClient = new TilesClient([username], [group], [server_address], [port]).connect();
+var tilesClient = new TilesClient(username[, group][, server_address][, port]).connect();
 ```
 
-### Send a command to one tile
-Send a command to a Tile with a command name and up to two optional parameters.
+### Send command
+Send a command to a Tile by specifying the Tile's ID, and a command name and properties.
+
+<small>This function requires minimum one property, i.e. a total of three required parameters. There are currently no imposed maximum limit for number of properties this function can handle, but all actuators currently supported by the Tiles devices can be controlled by the use of at most two properties.</small>
 ```javascript
-tilesClient.send([tileId], [commandName], [parameter1], [parameter2]);
+tilesClient.send(tileId, commandName, property1[, property2][, ...]);
 ```
 
 ### Events
 
 Add listeneres for events by registering callback methods.
 ```javascript
-tilesClient.on([event], [callback]);
+tilesClient.on(event, callback);
 ```
 
 #### Event `'connect'`
@@ -85,12 +87,11 @@ Emitted on successful (re)connection to the server.
 
 `function(tileId, event) {}`
 
-Emitted when a message sent from/to a Tile is received. (See Hello World example above)
+Emitted when a message sent from/to a Tile is received. (See [example](#Example) above)
 * `tileId` The ID of the Tile the message was sent to/from.
 * `event` An event object (Parsed JSON payload of the received packet)
-* `event.name` Name of the event received
-* `event.properties[0]` Parameter#1
-* `event.properties[1]` Parameter#2
+* `event.name` Name of the received event
+* `event.properties[n-1]` The n-th property of the event <small>(Currently, the Tiles devices emits events with at most two properties)</small>
 
 #### Event `'tileRegistered'`
 
@@ -108,7 +109,7 @@ Emitted when a Tile is unregistered/disconnected.
 
 <a name="GetTileByName"></a>
 ### Get Tile by name
-Get the MAC Address of a Tile by looking it up by name.
+Get the ID (MAC address) of a Tile by looking it up by name:
 ```javascript
 tilesClient.tiles['TILES1']
 ```

@@ -1,6 +1,6 @@
 # Tiles Toolkit 
 
-Tiles is a inventor toolbox to support the design and making of interactive objects for learning and play. Tiles allows non-experts to create complex and distributed physical interfaces. For more information [tilestoolkit.io](http://tilestoolkit.io)
+Tiles is an inventor toolbox to support the design and making of interactive objects for learning and play. Tiles allows non-experts to create complex and distributed physical interfaces. For more information visit [tilestoolkit.io](http://tilestoolkit.io)
 
 Tiles allows rapid development of technology-augmented everyday objects (the so-called Internet of Things).
 
@@ -18,18 +18,18 @@ Tiles is centered on the concept of
 
 ### Squares Modules
 
-In order to enable everyday objects to become interactive and support interaction primitives we developed *Squares* tiny computers that can be easily sticked anywhere. Square capture input primitives and produce output primitives. They can be recharged using a standard microUSB cable. ON/OFF switch is located on the left side.
+In order to enable everyday objects to become interactive and support interaction primitives we developed *Squares*, tiny computers that can be easily sticked anywhere. Square capture input primitives and produce output primitives. They can be recharged using a standard Micro-USB cable. The on/off switch is located on the left side.
 
 ![Squares modules](imgs/squares.png)
 
 In order to build applications that make use of interaction primitives captured/produced by square modules within your application we developed a set of software tools called TDT.
 
-### Tiles Development Tools (TDT) v.01
+### Tiles Development Tools (TDT) v0.1
 
 TDT provides a development environment to facilitate the development of software that make use of sequences of interaction events to implement specific application logic. TDT is composed by 
-- **Tiles Cloud** is a cloud infrastructure, real-time APIs and software libraries to enable development and integration of Tile-based interfaces with software applications
-- **Tiles Connect** a smartphone app for discovery and administration of quare modules 
-- **Tiles Libraries** to write tiles application within your favourite development environment.
+- **Tiles Cloud** is a cloud infrastructure, and contains real-time APIs and software libraries to enable development and integration of Tile-based interfaces with software applications.
+- **Tiles Connect** is a smartphone app for discovery and administration of square modules.
+- **Tiles Libraries** enable writeing Tiles application in your preferred programming language.
 
 ![alt text](imgs/TDT.png)
 
@@ -48,19 +48,19 @@ To setup TCON on your smartphone (Android or iPhone) follow [these instructions]
 
 #### Tiles Libraries (TL)
 
-Tiles libraries (TL)enable development of Tiles application. It provides functionalities to connect to TC, send output primitive commands to specific square modules as well as handling input primitives events from the modules.
+Tiles libraries (TL) enable development of Tiles applications. It provides functionalities to connect to TC, send output primitive commands to specific square modules as well as handling input primitives events from the modules.
 
-TL are provided for python(v00), C++(v00), Java(v00) and Javascript(v01)
+TL are provided for Python (v00), C++ (v00), Java (v00) and Javascript (v01)
 
 ## Build your first Tiles Application
 
 ![Tiles Development process](imgs/dev_process.png)
 
-This guides assumes you have installed the Tiles Connect App on your smartphone and you have one or more Square modules (Ask Simone simonem@ntnu.no about how to get them).
+This guide assumes you already have installed the Tiles Connect App on your smartphone and you have one or more Square modules. Ask Simone (simonem@ntnu.no) about how to get them.
 
 ### STEP 1
 
-Turn one or more squares on and attach them to objects
+Turn one or more squares on and attach them to objects.
 
 ### STEP 2 
 
@@ -75,6 +75,6 @@ Open the Tiles Connect app on your smartphone. This is how it looks like.
 
 ### STEP 3
 
-Write some code in your favourite language, refer to the readme files in the libraries pages (Tiles Client) for installation and use. 
+Write some code in your favourite language, refer to the README files in the libraries pages (Tiles Client) for installation and use. 
 
-We reccomend to write your code in javascript following [these instructions](https://github.com/simonem/tiles-dev-sw/tree/master/Tiles%20CLIENTS/js)
+We reccomend to write your code in JavaScript following [these instructions](https://github.com/simonem/tiles-dev-sw/tree/master/Tiles%20CLIENTS/js).
