@@ -6,7 +6,7 @@ var Webhook = mongoose.model('Webhook');
 
 var tilesApi = {};
 
-tilesApi.setDeviceState = function(tileId, userId, state, active, name, group){
+tilesApi.setDeviceState = function(tileId, userId, event, active, name, group){
 	if (tileId == null) {
 		console.log("Tile ID can't be undefined or null");
 		return;	
@@ -15,12 +15,12 @@ tilesApi.setDeviceState = function(tileId, userId, state, active, name, group){
 	var fieldsToSend = {}; // Only send fields that are defined and not null
 	fieldsToSend.tileId = tileId;
   	if (userId != null) fieldsToSend.userId = userId;
-  	if (state != null) {
+  	if (event != null) {
   		try {
-  			fieldsToSend.state = JSON.parse(state);
+  			fieldsToSend.event = JSON.parse(event);
 		} catch (e) {
 			console.log('JSON Parse Error: ' + e);
-			fieldsToSend.state = state;
+			fieldsToSend.event = event;
 		}
   	}
   	if (active != null) fieldsToSend.active = active;
@@ -54,7 +54,6 @@ tilesApi.setDeviceState = function(tileId, userId, state, active, name, group){
 }
 
 tilesApi.triggerMatchingWebhooks = function(username, deviceId, event){
-	console.log("Trigger matching webhooks called!")
 	Webhook.find({user: username, tile: deviceId}, function(err, docs) {
 		if (!err){ 
 	        console.log(docs);

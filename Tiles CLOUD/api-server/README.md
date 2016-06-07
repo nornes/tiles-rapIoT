@@ -27,15 +27,24 @@
 The REST API can be used to list the Tiles registered to a user, and also be used to send real-time commands to the Tiles. To receive real-time events from the Tiles devices to your server see the [Webhooks](#Webhooks) section.
 
 **Example command:**<br>
-Activating the LED light: `{"activation": "on"}`
+Blinking LED light (blue): `{"name": "led", "properties": ["blink","blue"]}`
 
 Method | Route | Description
 --- | --- | ---
 `GET` | /users/[userId]/tiles | List Tiles registered with this user
-`GET` | /evt/[userId]/[tileId] | Get the most recent event sent from the Tile
-`PUT` | /evt/[userId]/[tileId] | Simulate an event being sent from the Tile
-`GET` | /cmd/[userId]/[tileId] | Get the most recent command sent to the Tile
-`PUT` | /cmd/[userId]/[tileId] | Send a command to the Tile
+`GET` | /evt/[userId]/[group]/[tileId] | Get the most recent event sent from the Tile
+`PUT` | /evt/[userId]/[group]/[tileId] | Simulate an event being sent from the Tile
+`GET` | /cmd/[userId]/[group]/[tileId] | Get the most recent command sent to the Tile
+`PUT` | /cmd/[userId]/[group]/[tileId] | Send a command to the Tile
+
+<a name="WebIDE"></a>
+## Web IDE
+1. Open the login page: `[domain]:3000`
+2. Enter login credentials (currently only username is required)
+
+You will now be presented with a web-based IDE for creating and managing your apps.
+
+The administration page for your Tiles can be accessed by clicking your username in the upper-left corner.
 
 <a name="Webhooks"></a>
 ## Webhooks
@@ -61,7 +70,7 @@ The server also has a simple web interface for managing webhooks.
 
 Instructions for registering a webhook:
 
-1. Navigate to your Tile administration page: `[domain]:3000/#/users/[userId]`
+1. Navigate to your Tile administration page: `[domain]:3000/main/#/users/[userId]`
 2. Click on the ID of the Tile you want to register a webhook for.
 3. Enter the URL for callback in the input field under 'Register a new webhook'.
 4. Click 'Register'.
@@ -72,28 +81,31 @@ The body of the POST request will be a JSON message, and the request will theref
 - Tile event message:
   ```sh
   {
-  	"tileId":"[tileId]",
-  	"userId":"[userId]",
-  	"state":{
-    	"type":"[type]",
-        "event":"[event]"
-	}
+    "tileId": tileId,
+    "userId": userId,
+    "event": {
+      "name": name,
+        "properties": [property1, ..., propertyN]
+  }
   }
   ```
   
 - Tile connected/disconnected:
   ```sh
   {
-  	"tileId":"[tileId]",
-  	"userId":"[userId]",
-    "active":[active]
+    "tileId": tileId,
+    "userId": userId,
+    "active": true | false
   }
   ```
   
-Possible values:
+Data Types:
 
-Field | Type | Value
---- | --- | ---
-**active** | Boolean | true / false
-**state.type** | String | 'button_event'
-**state.event** | String | 'pressed' / 'released'
+Field | Type
+--- | ---
+**tileId** | String
+**userId** | String
+**active** | Boolean
+**event** | Object
+**event.name** | String
+**event.properties** | Array (of strings)
