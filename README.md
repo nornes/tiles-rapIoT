@@ -64,14 +64,15 @@ Turn one or more squares on and attach them to objects.
 
 ### STEP 2 
 
-Open the Tiles Connect app on your smartphone. This is how it looks like.
+Open the Tiles Connect app on your smartphone, and you will be presented with a screen allowing you to connect to the server.
 
-![Tiles Connect App](imgs/tiles_connect.png)
+![Tiles Connect App](imgs/tiles_connect_v02.png)
 
-1. Tap on “Click to connect to server” 
-2. Type in your Tiles username. If you don’t have one it will be automatically created. OPTIONAL: If you have a custom Tiles server type the address here, otherwise leave the default server.
-3. Connect to one or more square modules
-4. Leave the Tiles connect app open on your phone
+1. Type in your Tiles username. If you don’t have one, it will be automatically created.
+2. (Optional) If you have a custom Tiles server, specify the address and port, otherwise, leave the default values.
+3. Use pull-to-refresh or the 'Refresh'-button to refresh the list of nearby Bluetooth devices.
+4. Connect to a square module by clicking 'Connect'.
+5. If you did not connect to a server at startup, or for some other reason need to bring up the server connection screen again, click the button in the upper left corner.
 
 ### STEP 3
 
