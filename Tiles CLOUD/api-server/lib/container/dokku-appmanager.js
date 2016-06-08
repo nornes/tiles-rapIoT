@@ -57,4 +57,27 @@ var dokkuBridge = {
     }
 }
 
-module.exports = dokkuBridge;
+var dokkuManager = {
+    initApp: function(appRecipe, callback){
+        dokkuBridge.init(appRecipe._id, appRecipe.user)
+        if (callback) callback();
+    },
+    updateApp: function(appRecipe, callback){
+        dokkuBridge.commit(appRecipe._id, appRecipe.user)
+        if (callback) callback();
+    },
+    activateApp: function(appRecipe, callback){
+        dokkuBridge.deploy(appRecipe._id, appRecipe.user)
+        
+        appRecipe.active = true;
+        appRecipe.save(callback);
+    },
+    deactivateApp: function(appRecipe, callback){
+        dokkuBridge.destroy(appRecipe._id, appRecipe.user)
+        
+        appRecipe.active = false;
+        appRecipe.save(callback);
+    }
+}
+
+module.exports = dokkuManager;
