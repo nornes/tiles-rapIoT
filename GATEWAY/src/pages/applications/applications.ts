@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { VirtualTilesPage } from '../virtual-tiles/virtual-tiles';
@@ -29,10 +29,14 @@ export class ApplicationsPage {
               private mqttClient: MqttClient,
               private tilesApi: TilesApi,
               private storage: Storage,
-              private plt: Platform) {
+              private plt: Platform,
+              private alertCtrl: AlertController) {
 
     if (this.plt.is('android')) {
-      alert('Locations services must be activated.');
+      this.alertCtrl.create({
+        title: 'Location not enabled',
+        message: 'Location services must be enabled on your device.',
+       buttons: ['Dismiss']}).present();
     }
   }
   /**
