@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { VirtualTilesPage } from '../virtual-tiles/virtual-tiles';
@@ -28,7 +28,13 @@ export class ApplicationsPage {
               public modalCtrl: ModalController,
               private mqttClient: MqttClient,
               private tilesApi: TilesApi,
-              private storage: Storage) {}
+              private storage: Storage,
+              private plt: Platform) {
+
+    if (this.plt.is('android')) {
+      alert('Locations services must be activated.');
+    }
+  }
   /**
    * Called when the view is loaded to present login page if
    * the user is not logged in
