@@ -1,37 +1,14 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
     "declaration": false,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "lib": [
-      "es2016",
-      "dom",
-      "es2015"
-    ],
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "target": "es5",
-    "module": "commonjs"
-  },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/**/*.spec.ts",
-    "src/app/*.spec.ts",
-    "src/pages/**/*.spec.ts",
-    "src/providers/*.spec.ts",
-    "src/test.ts",
-    "src/polyfill.ts",
-    "src/mocks.ts",
-    "src/envoirment",
-    "src/envoirments",
-    "src/fixtures"
-  ],
-  "compileOnSave": false,
-  "atom": {
-    "rewriteTsconfig": false
+      "es2016"
+    ]
   }
 }
