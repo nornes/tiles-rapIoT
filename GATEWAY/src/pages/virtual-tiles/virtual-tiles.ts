@@ -101,6 +101,7 @@ export class VirtualTilesPage {
         {
           text: 'Pair',
           handler: data => {
+            alert(data);
             this.tilesApi.pairDeviceToVirualTile(data, virtualTile._id, this.activeApp._id);
 
             // Refreshes the lists of paired and unpaired virtual tiles
@@ -114,6 +115,13 @@ export class VirtualTilesPage {
         message: 'No physical tiles nearby.',
        buttons: ['Dismiss']}).present();
     }
+  }
+
+  unpairTile = (virtualTile: VirtualTile): void => {
+    this.tilesApi.pairDeviceToVirualTile(null, virtualTile._id, this.activeApp._id);
+
+    // Refreshes the lists of paired and unpaired virtual tiles
+    this.setVirtualTiles();
   }
 
 }
