@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { VirtualTilesPage } from '../virtual-tiles/virtual-tiles';
@@ -32,7 +32,17 @@ export class ApplicationsPage {
               private devicesService: DevicesService,
               private mqttClient: MqttClient,
               private tilesApi: TilesApi,
-              private storage: Storage) {}
+              private storage: Storage,
+              private plt: Platform,
+              private alertCtrl: AlertController) {
+
+    if (this.plt.is('android')) {
+      this.alertCtrl.create({
+        title: 'Location not enabled',
+        message: 'Location services must be enabled on your device.',
+       buttons: ['Dismiss']}).present();
+    }
+  }
   /**
    * Called when the view is loaded to present login page if
    * the user is not logged in
