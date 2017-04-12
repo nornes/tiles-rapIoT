@@ -23,14 +23,17 @@
     </ion-refresher-content>
   </ion-refresher>
 
-	<ion-title left style="padding-left: 0;">UNPAIRED TILES</ion-title>
+  <ion-title left style="padding-left: 0;">UNPAIRED TILES</ion-title>
   <ion-item class="devices" color="light" *ngFor="let tile of unpairedVirtualTiles">
     <div class="row row-center">
       <div id="devName" class="col col-75">
-        <b>{{tile.virtualName}}</b><br>
+        <div>
+          <b>Virtual tiles</b><br>
+          <span style="size: 14;">{{tile.virtualName}}</span>
+        </div>
       </div>
       <div class="col">
-        <button class="bttn" ion-button small color="positive" (click)="pairTilePopUp(tile)" >PAIR</button>
+        <button class="bttn" ion-button small color="positive" (click)="pairTilePopUp(tile)">Pair</button>
       </div>
     </div>
   </ion-item>
@@ -39,8 +42,15 @@
   <ion-item class="devices" color="light" *ngFor="let tile of pairedVirtualTiles">
     <div class="row row-center">
       <div id="devName" class="col col-75">
-        <b>Virtual tile: {{tile.virtualName}}</b><br>
-        <b>Physical tile: {{tile.tile._id}}</b>
+        <div style="float: left; top: 0;">
+          <b>Virtual tiles</b><br>
+          <span style="size: 14;">{{tile.virtualName}}</span>
+        </div>
+        <div style="float: right; top: 0;">
+          <b>Physical tiles</b><br>
+          <span style="size: 14;">{{tile.tile._id}}</span>
+        </div>
+        <button class="bttn" ion-button small color="positive" (click)="pairTilePopUp(tile)">Re-Pair</button>
       </div>
     </div>
   </ion-item>
