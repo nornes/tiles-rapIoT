@@ -8,7 +8,6 @@ import { LoginData, VirtualTile } from './utils.service';
 
 @Injectable()
 export class TilesApi {
-  apiPort: number = 3000;
   virtualTiles: VirtualTile[] = [];
   loginData: LoginData;
 
@@ -67,7 +66,7 @@ export class TilesApi {
    * Get all registered applications for all users
    */
   getAllApplications = (): Promise<any> => {
-    const url = `http://${this.loginData.host}:${this.apiPort}/applications`;
+    const url = `http://${this.loginData.host}:${this.loginData.port}/applications`;
     console.log(url);
     return this.http.get(url)
             .toPromise()
@@ -84,7 +83,7 @@ export class TilesApi {
    * @param {string} applicationId - The application ID
    */
   getApplicationDetails = (applicationId: string): Promise<any> => {
-    const url = `http://${this.loginData.host}:${this.apiPort}/applications/${applicationId}`;
+    const url = `http://${this.loginData.host}:${this.loginData.port}/applications/${applicationId}`;
     return this.http.get(url)
             .toPromise()
             .then(res => {
@@ -112,7 +111,7 @@ export class TilesApi {
    * @param {string} applicationId - The application the virtual tile is registered to
    */
   pairDeviceToVirualTile = (deviceId: string, virtualTileId: string, applicationId: string): Promise<Response> => {
-    const url = `http://${this.loginData.host}:${this.apiPort}/applications/${applicationId}/${virtualTileId}`;
+    const url = `http://${this.loginData.host}:${this.loginData.port}/applications/${applicationId}/${virtualTileId}`;
     const body = JSON.stringify({ tile: deviceId });
     const headerFields = new Headers({'Content-Type': 'application/json'});
     console.log('url: ' + url + ' body: ' + body);
