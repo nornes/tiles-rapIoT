@@ -32,15 +32,8 @@ export class ApplicationsPage {
               private mqttClient: MqttClient,
               private tilesApi: TilesApi,
               private storage: Storage,
-              private plt: Platform,
               private alertCtrl: AlertController) {
 
-    if (this.plt.is('android')) {
-      this.alertCtrl.create({
-        title: 'Location not enabled',
-        message: 'Location services must be enabled on your device.',
-       buttons: ['Dismiss']}).present();
-    }
   }
   /**
    * Called when the view is loaded to present login page if
