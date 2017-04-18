@@ -8,9 +8,9 @@ import { LoginData, VirtualTile } from './utils.service';
 
 @Injectable()
 export class TilesApi {
-  apiPort: number = 3000;
   virtualTiles: VirtualTile[] = [];
   loginData: LoginData;
+  apiPort: number = 3000;
 
   constructor(private http: Http,
               private storage: Storage) {
@@ -60,6 +60,23 @@ export class TilesApi {
    */
   getVirtualTiles = (): VirtualTile[] => {
     return this.virtualTiles;
+  }
+
+  getAllUsers = (userName: string, host: string, port: number): Promise<any> => {
+    const url = `http://${host}:${port}/users`;
+    return this.http.get(url)
+            .toPromise()
+            .then(res => {
+              for (let user of res.json()) {
+                if (user._id === userName) {
+                  return true;
+                }
+              }
+            })
+            .catch(err => {
+               return false;
+              // alert('failed getting applications with error: ' + err);
+            });
   }
 
   /**

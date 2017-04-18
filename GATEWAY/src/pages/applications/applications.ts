@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform, AlertController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { VirtualTilesPage } from '../virtual-tiles/virtual-tiles';
@@ -31,7 +31,10 @@ export class ApplicationsPage {
               private devicesService: DevicesService,
               private mqttClient: MqttClient,
               private tilesApi: TilesApi,
-              private storage: Storage) {}
+              private storage: Storage,
+              private alertCtrl: AlertController) {
+
+  }
   /**
    * Called when the view is loaded to present login page if
    * the user is not logged in
