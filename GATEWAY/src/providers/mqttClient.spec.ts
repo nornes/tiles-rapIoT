@@ -1,6 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { BackgroundFetch } from '@ionic-native/background-fetch';
 import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { TilesApi } from './tilesApi.service';
@@ -19,6 +20,7 @@ describe('mqttClient', () => {
         TilesApi,
         MqttClient,
         Events,
+        BackgroundFetch,
         {
           provide: Storage,
           useClass: StorageMock
@@ -49,6 +51,10 @@ describe('mqttClient', () => {
     expect(mqttClient).toBeTruthy;
   });
 
+  describe('sendConnectionData(mqttConnectionData: LoginData): void', () => {
+
+  });
+
   describe('getDeviceSpecificTopic(deviceId: string, isEvent: boolean): string', () => {
     it('should return a correct url adress for the specific device', () => {
       let testID: string = 'testEvent';
@@ -60,15 +66,6 @@ describe('mqttClient', () => {
       let testID: string = 'testEvent';
       let testEventBool: boolean = false;
       expect(mqttClient.getDeviceSpecificTopic(testID, testEventBool)).toEqual('tiles/cmd/TestUser/testEvent');
-    });
-  });
-
-  xdescribe('setMqttConnectionStatus(connected: boolean): void', () => {
-    it('should change connection based on the boolean argument given', () => {
-      mqttClient.setMqttConnectionStatus(false);
-      expect(mqttClient.connectedToBroker).toEqual(false);
-      mqttClient.setMqttConnectionStatus(true);
-      expect(mqttClient.connectedToBroker).toEqual(true);
     });
   });
 
@@ -94,6 +91,14 @@ describe('mqttClient', () => {
   });
 
   describe('endConnection(deviceId: string, event: any): void', () => {
+
+  });
+
+  describe('startBackgroundFetch(): void', () => {
+
+  });
+
+  describe('stopBackgroundFetch(): void', () => {
 
   });
 

@@ -4,9 +4,11 @@ import { ModalController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { VirtualTilesPage } from '../virtual-tiles/virtual-tiles';
 
+import { BleService } from '../../providers/ble.service';
+import { DevicesService } from '../../providers/devices.service';
+import { MqttClient } from '../../providers/mqttClient';
 import { TilesApi } from '../../providers/tilesApi.service';
 import { Application } from '../../providers/utils.service';
-import { MqttClient } from '../../providers/mqttClient';
 
 import { Storage } from '@ionic/storage';
 /*
@@ -21,11 +23,12 @@ import { Storage } from '@ionic/storage';
 })
 export class ApplicationsPage {
   applications: Application[];
-  public refreshed = true;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public modalCtrl: ModalController,
+              private bleService: BleService,
+              private devicesService: DevicesService,
               private mqttClient: MqttClient,
               private tilesApi: TilesApi,
               private storage: Storage,
@@ -43,13 +46,12 @@ export class ApplicationsPage {
    * Called when the view is loaded to present login page if
    * the user is not logged in
    */
-  ionViewDidLoad() {
+  ionViewDidLoad = (): void => {
     this.storage.get('loggedIn').then((val) => {
       if (val == null || val === false) {
         this.presentLoginModal();
       } else {
         this.storage.get('loginData').then((loginData) => {
-          console.log('login: ' + loginData);
           if (loginData == null ||  loginData === undefined) {
             this.presentLoginModal();
           } else {
@@ -66,10 +68,8 @@ export class ApplicationsPage {
    * Set the list of applications from the api
    */
   setApplications = (): void => {
-    this.tilesApi.getAllApplications().then( data => {
-      this.refreshed = false;
-      this.applications = data;
-    }).catch (err => console.log(err));
+    this.tilesApi.getAllApplications().then(data => this.applications = data)
+                                      .catch(err => console.log(err));
   }
 
   /**
@@ -77,7 +77,7 @@ export class ApplicationsPage {
    */
   refreshApplications = (refresher): void => {
     this.setApplications();
-    // Makes the refresher run for 2 secs
+    // Makes the refresher run for 1.25 sec
     setTimeout(() => {
       refresher.complete();
     }, 1250);
@@ -87,11 +87,9 @@ export class ApplicationsPage {
    *  Pushes the modal on the viewStack.
    */
   presentLoginModal() {
-    let modal = this.modalCtrl.create(LoginPage);
-    modal.onDidDismiss(data => {
-        this.setApplications();
-   });
-   modal.present();
+    const modal = this.modalCtrl.create(LoginPage);
+    modal.onDidDismiss(data => this.setApplications());
+    modal.present();
   }
 
   /**
@@ -101,7 +99,6 @@ export class ApplicationsPage {
   logout = () => {
     this.storage.set('loggedIn', false);
     this.applications = [];
-    this.refreshed = true;
     this.presentLoginModal();
   }
 

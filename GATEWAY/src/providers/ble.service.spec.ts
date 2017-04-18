@@ -1,19 +1,19 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Http, BaseRequestOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { Events } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { TilesApi } from './tilesApi.service';
-import { MqttClient } from './mqttClient';
+import { BackgroundFetch } from '@ionic-native/background-fetch';
+import { BLE } from '@ionic-native/ble';
+import { Events } from 'ionic-angular';
+import { Observable } from 'rxjs';
 import { BleService } from './ble.service';
 import { DevicesService }from './devices.service';
-import { UtilsService }from './utils.service';
 import { StorageMock } from '../mocks';
-import { BLE } from '@ionic-native/ble';
-import { Observable } from 'rxjs';
+import { MqttClient } from './mqttClient';
+import { TilesApi } from './tilesApi.service';
+import { UtilsService }from './utils.service';
 
 import * as bleReturnValue from '../fixtures/bleDevice.json';
-import * as virtualTile from '../fixtures/virtualTile.json';
 import * as testDevice from '../fixtures/tilesDevice.json';
 
 describe('bleService', () => {
@@ -24,6 +24,7 @@ describe('bleService', () => {
     TestBed.configureTestingModule({
       providers: [
         Events,
+        BackgroundFetch,
         {
           provide: Storage,
           useClass: StorageMock
@@ -59,36 +60,32 @@ describe('bleService', () => {
     expect(bleService).toBeTruthy;
   });
 
-  xdescribe('scanForDevices(virtualTiles: VirtualTile[]): void', () => {
-    it('should check if BLE is enabled, scan for BLE-devices and have the tilesApi convert and store them', () => {
-      spyOn(bleService, 'scanBLE').and.returnValue(Observable.of(bleReturnValue));
-      bleService.scanForDevices([virtualTile]);
-      expect(bleService['scanBLE']).toHaveBeenCalled;
-    });
+  describe('startBLEScanner(): void', () => {
+
   });
 
-  xdescribe('scanBLE(virtualTiles: VirtualTile[]): void', () => {
-    it('should scan for BLE-devices and have the tilesApi convert and store them', () => {
-      spyOn(BLE, 'scan').and.returnValue(Observable.of(bleReturnValue));
-      bleService.scanBLE([virtualTile]);
-      expect(BLE['scan']).toHaveBeenCalled;
-    });
+  describe('stopBLEScanner(): void', () => {
+
   });
 
-  xdescribe('connect(device: Device): void', () => {
-    it('should connect successfully to a device after being called with a Device argument', () => {
-      spyOn(BLE, 'connect').and.returnValue(Observable.of(bleReturnValue));
-      bleService.connect(testDevice);
-      expect(BLE['connect']).toHaveBeenCalled;
-    });
+  describe('scanForDevices(): void', () => {
+
   });
 
-  xdescribe('startDeviceNotification(device: Device): void', () => {
-    it('should get notifications of events from a deivce', () => {
-      spyOn(BLE, 'startNotification').and.returnValue(Observable.of(bleReturnValue));
-      bleService.startDeviceNotification(testDevice);
-      expect(BLE['startNotification']).toHaveBeenCalled;
-    });
+  describe('scanBLE(): void', () => {
+
+  });
+
+  describe('connect(device: Device): void', () => {
+
+  });
+
+  describe('locate(device: Device): void', () => {
+
+  });
+
+  describe('startDeviceNotification(device: Device): void', () => {
+
   });
 
   describe('disconnect(device: Device): void', () => {
@@ -108,7 +105,7 @@ describe('bleService', () => {
 
     it('should not be able to send data that is not of the type string', () => {
       spyOn(bleService, 'sendData').and.returnValue(Observable.of(bleReturnValue));
-      bleService.sendData(testDevice, 2345);
+      bleService.sendData(testDevice, '2345');
       expect(bleService['sendData']).not.toHaveBeenCalled;
     });
   });

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BackgroundFetch } from '@ionic-native/background-fetch';
 import { Events } from 'ionic-angular';
 import mqtt from 'mqtt';
 
@@ -13,17 +14,33 @@ export class MqttClient {
   private client;
   private mqttConnectionData: LoginData;
 
-  constructor(private events: Events,
+  constructor(private backgroundFetch: BackgroundFetch,
+              private events: Events,
               private tilesApi: TilesApi) {
     this.mqttConnectionData = this.tilesApi.getLoginData();
+    this.backgroundFetch.configure({ stopOnTerminate: false })
+        .then(() => {
+          if (this.mqttConnectionData.user !== undefined ||
+              this.mqttConnectionData.host !== undefined ||
+              this.mqttConnectionData.port !== undefined ) {
+            this.connect();
+          };
+          this.backgroundFetch.finish();
+        })
+        .catch(err => {
+          console.log('Error initializing background fetch', err);
+        });
   }
 
+  /**
+   * For testing purposes. Need the ability to set LoginData whitout being
+   * dependent on the TilesApi-class
+   * @param {LoginData} mqttConnectionData - the login credentials
+   */
   setConnectionData = (mqttConnectionData: LoginData = null): void => {
-    if (mqttConnectionData === null) {
-      this.mqttConnectionData = this.tilesApi.getLoginData();
-    } else {
-      this.mqttConnectionData = mqttConnectionData;
-    }
+      this.mqttConnectionData = mqttConnectionData === null
+                              ? this.tilesApi.getLoginData()
+                              : this.mqttConnectionData = mqttConnectionData;
   }
 
   /**
@@ -169,5 +186,22 @@ export class MqttClient {
     if (this.client) {
       this.client.end();
     }
+    this.stopBackgroundFetch();
+  }
+
+  /**
+   * Run a background update for IOS. This will run every 15 minutes at most and less when
+   * the phone thinks it is less likely to be used (at night, etc.). There is nothing to do to
+   * make it run more often as this is set by apple. (As of 22.03.2017)
+   */
+  startBackgroundFetch = () => {
+    this.backgroundFetch.start();
+  }
+
+  /**
+   * Stop background update for IOS
+   */
+  stopBackgroundFetch = () => {
+    this.backgroundFetch.stop();
   }
 }

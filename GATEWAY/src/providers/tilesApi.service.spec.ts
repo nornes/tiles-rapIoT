@@ -30,7 +30,6 @@ describe('tilesAPI', () => {
           provide: Storage,
           useClass: StorageMock
         },
-        Device,
         TilesApi,
       ],
     });
@@ -51,42 +50,26 @@ describe('tilesAPI', () => {
 
   describe('isTilesDevice(device: any): boolean', () => {
     it('should return true when given a valid device-input', () => {
-      let testDevice = {
-        'name' : 'TileTest'
-      };
+      const testDevice = new Device('xx', 'xx', 'TileTest', false);
       expect(tilesApi.isTilesDevice(testDevice)).toBeTruthy;
     });
 
     it('should return false when given a invalid device-input', () => {
-      let testDevice2 = {
-        'name' : 'NotATilehuehue'
-      };
+      const testDevice2 = new Device('xx', 'xx', 'NotATile', false);
       expect(tilesApi.isTilesDevice(testDevice2)).toBeFalsy;
     });
   });
 
-  xdescribe('setUsername(username: string): void', () => {
-    it('should set the username of the TilesApi to match input', () => {
-      let newname = 'Bobcat';
-      tilesApi.setUsername(newname);
-      expect(tilesApi.username).toEqual(newname);
-    });
+  describe('setLoginData(loginData: LoginData): void', () => {
+
   });
 
-  xdescribe('setHostAddress(hostAddress: string): void', () => {
-    it('should set the hostAddress of the TilesApi to match input', () => {
-      let testhost = '128.0.0.0';
-      tilesApi.setHostAddress(testhost);
-      expect(tilesApi.hostAddress).toEqual('128.0.0.0');
-    });
+  describe('getLoginData(): void', () => {
+
   });
 
-  xdescribe('setHostMqttPort(hostMqttPort: number): void', () => {
-    it('should set the hostMqttPort of the TilesApi to match input', () => {
-      let testmqqt: number = 8080;
-      tilesApi.setHostMqttPort(testmqqt);
-      expect(tilesApi.mqttPort).toEqual(8080);
-    });
+  describe('setVirtualTiles(appId: string): void', () => {
+
   });
 
   describe('getAllApplications(): Promise<any>', () => {
@@ -140,7 +123,7 @@ describe('tilesAPI', () => {
         });
 
         tilesApi.getApplicationTiles('test3').then(tiles => {
-          expect(tiles.length).toEqual(3);
+          expect(tiles.length).toEqual(2);
         });
 
     }));

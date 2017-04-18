@@ -24,7 +24,8 @@
   </ion-refresher>
 
   <ion-title left style="padding-left: 0;">UNPAIRED TILES</ion-title>
-  <ion-item class="devices" color="light" *ngFor="let tile of unpairedVirtualTiles">
+  <ion-item color="light"*ngFor="let tile of virtualTiles">
+   <ion-item class="devices" color="light"  *ngIf="tile.tile == null">
     <div class="row row-center">
       <div id="devName" class="col col-75">
         <div>
@@ -43,7 +44,8 @@
   </ion-item>
 
   <ion-title left style="padding-left: 0;">PAIRED TILES</ion-title>
-  <ion-item class="devices" color="light" *ngFor="let tile of pairedVirtualTiles">
+  <ion-item color="light" *ngFor="let tile of virtualTiles">
+    <ion-item  class="devices" color="light" *ngIf="tile.tile != null">
     <div class="row row-center">
       <div id="devName" class="col col-75">
         <div style="float: left; top: 0;">
@@ -54,8 +56,8 @@
           <b>Physical tiles</b><br>
           <span style="size: 14;">{{tile.tile._id}}</span>
         </div>
-        <button class="bttn" ion-button small color="positive" (click)="unpairTile(tile)">Unpair</button>
+        <button class="bttn" ion-button small color="positive" (click)="pairTilePopUp(tile)">Unpair</button>
       </div>
-    </div>
-  </ion-item>
+    </ion-item>
+  </div>
 </ion-content>

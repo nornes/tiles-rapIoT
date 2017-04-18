@@ -11,29 +11,16 @@ import { Device } from '../../providers/utils.service';
 })
 export class PhysicalTilesPage {
   devices: Device[];
-  serverConnectStatusMsg: string;
-  statusMsg: string;
-  public refreshed = true;
 
   constructor(public navCtrl: NavController,
               public alertCtrl: AlertController,
               private events: Events,
               private bleService: BleService,
               private devicesService: DevicesService) {
-    this.setDevices();
-    this.events.subscribe('offline', () => {
-      this.serverConnectStatusMsg = 'Client gone offline';
-    });
-    this.events.subscribe('updateDevices', () => {
-      this.setDevices();
-    });
-  }
-
-  /**
-   * Set the devices equal to the devices from devicesservice
-   */
-  setDevices = (): void => {
     this.devices = this.devicesService.getDevices();
+    this.events.subscribe('updateDevices', () => {
+      this.devices = this.devicesService.getDevices();
+    });
   }
 
   /**
@@ -46,11 +33,6 @@ export class PhysicalTilesPage {
     // Makes the refresher run for 2 secs
     setTimeout(() => {
       refresher.complete();
-      if (this.devices.length > 0) {
-        this.refreshed = false;
-      } else {
-        this.refreshed = true;
-      }
     }, 2000);
   }
 
