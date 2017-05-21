@@ -27,10 +27,10 @@ export class VirtualTilesPage {
               public events: Events,
               public navCtrl: NavController,
               public navParams: NavParams,
-              private bleService: BleService,
-              private devicesService: DevicesService,
-              private utils: UtilsService,
-              private tilesApi: TilesApi) {
+              public bleService: BleService,
+              public devicesService: DevicesService,
+              public utils: UtilsService,
+              public tilesApi: TilesApi) {
     this.events.subscribe('updateDevices', () => {
       this.devices = this.devicesService.getDevices();
       this.setVirtualTiles();
@@ -71,11 +71,18 @@ export class VirtualTilesPage {
         {
           text: 'Pair',
           handler: data => { // tslint:disable-line
-            this.tilesApi.pairDeviceToVirualTile(data, virtualTile._id)
+            this.tilesApi.pairDeviceToVirtualTile(data, virtualTile._id)
                                     .then(res => this.setVirtualTiles());
           },
-      }],
-    }).present();
+          {
+            text: 'Pair',
+            handler: data => {
+              this.tilesApi.pairDeviceToVirtualTile(data, virtualTile._id).then(
+                res => this.setVirtualTiles()
+              );
+            },
+        }],
+      }).present();
     } else {
       this.alertCtrl.create({
         buttons: ['Dismiss'],
@@ -90,7 +97,7 @@ export class VirtualTilesPage {
    * @param {VirtualTile} virtualTile - the target device
    */
   public unpairTile = (virtualTile: VirtualTile): void => {
-    this.tilesApi.pairDeviceToVirualTile(null, virtualTile._id)
+    this.tilesApi.pairDeviceToVirtualTile(null, virtualTile._id)
                            .then(res => this.setVirtualTiles());
   }
 
